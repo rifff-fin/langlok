@@ -1,8 +1,9 @@
 {
-  "$comment": "Vessel geometry in cm (1 unit = 1 cm), traced from the client's mockup photos (scripts/build-label-textures.py documents the calibration). Profiles are [radius, height] pairs from the base centre, up the outside wall, over the rim/cap and in to the top centre. TODO(client): replace with the supplier's dimension drawings.",
+  "$comment": "Vessel geometry in cm (1 unit = 1 cm), traced from the client's mockup photos (scripts/build-label-textures.py documents the calibration). Profiles are [radius, height] pairs from the base centre, up the outside wall, over the rim/cap and in to the top centre. `frame` is the box a vessel stands in on the page (vessel + contact shadow + margin): plates use its aspect ratio, the 3D fits its height, and the studio stills are rendered at exactly this framing. TODO(client): replace with the supplier's dimension drawings.",
   "can": {
     "radius": 3.2,
     "height": 18.1,
+    "frame": { "w": 10.5, "h": 21 },
     "label": { "y0": 0.99, "y1": 17.47 },
     "profile": [
       [0, 0.55],
@@ -45,6 +46,7 @@
   "bottle": {
     "radius": 3.8,
     "height": 26.55,
+    "frame": { "w": 12.5, "h": 29.5 },
     "label": { "y0": 0.85, "y1": 23.3 },
     "profile": [
       [0, 0.45],

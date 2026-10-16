@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Numbered placeholder frames for the hero film, so the player can be built before
-# the real footage exists. See docs/VERSA_Website_Master_Plan.md §6.6.
+# the real footage exists. See docs/LANGLOK_Website_Master_Plan.md §6.6.
 #
 #   bash scripts/make-placeholder-frames.sh
 #
@@ -43,7 +43,7 @@ make_set() { # name width height frames fontsize
     -f lavfi -i "color=c=0xE6EBEE:s=${w}x${h}:r=8" \
     -f lavfi -i "color=c=0x2F7FC1:s=${w}x6:r=8" \
     -filter_complex "[0]drawtext=${FONT_OPT}text='%{eif\:n+1\:d\:4}':fontsize=${fs}:fontcolor=0x16233F:x=(w-tw)/2:y=(h-th)/2,\
-drawtext=${FONT_OPT}text='VERSA hero placeholder · ${name}':fontsize=$((fs / 8)):fontcolor=0x5B6875:x=(w-tw)/2:y=h*0.78[bg];\
+drawtext=${FONT_OPT}text='LANGLOK hero placeholder · ${name}':fontsize=$((fs / 8)):fontcolor=0x5B6875:x=(w-tw)/2:y=h*0.78[bg];\
 [bg][1]overlay=x='-w+w*(n+1)/${n}':y=H-h:eval=frame" \
     -frames:v "$n" -c:v libwebp -quality 60 \
     -start_number 1 "$OUT/$name/%04d.webp"

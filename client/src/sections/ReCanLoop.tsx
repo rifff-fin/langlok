@@ -2,6 +2,7 @@ import { recan } from '../content/copy';
 import { Button } from '../components/ui/Button';
 import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
+import { Emph } from '../components/ui/Emph';
 
 /** Label positions around the loop, clockwise from the top. */
 const STEP_POSITIONS = [
@@ -26,7 +27,7 @@ export function ReCanLoop({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         <div className="mt-12 grid grid-cols-4 items-center gap-x-[var(--grid-gap)] gap-y-24 md:grid-cols-12">
           <div className="col-span-4 md:col-span-9 lg:col-span-5">
             <Heading id="recan-title" className="text-[length:var(--text-h2)]">
-              {recan.title}
+              <Emph text={recan.title} />
             </Heading>
             <p data-reveal="fade" className="mt-6 max-w-[42ch] text-slate">
               {recan.sub}

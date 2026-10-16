@@ -3,9 +3,13 @@ import { BackSide, Color, Float32BufferAttribute, SphereGeometry } from 'three';
 import { Environment, Lightformer } from '@react-three/drei';
 
 /**
- * Soft studio built from shapes, rendered once into the environment map (no HDRI download):
- * a light-grey dome that darkens towards the floor, two tall strip lights for the vertical
- * highlights premium cans show, a wide top light and a faint back fill for the rims.
+ * Product studio built from shapes, rendered once into the environment map (no HDRI
+ * download): a light-grey dome that darkens towards the floor, two tall strip lights for
+ * the vertical highlights premium cans show, a wide top light, a back light for the rims,
+ * and two dark flags at the sides. On a cylinder each column reflects the direction at
+ * twice its angle, so the flags (at 90 deg) print dark bands at 45 deg between the
+ * highlights and the rims: that contrast is what makes aluminium read as metal on a
+ * light page.
  */
 export function Lighting() {
   return (
@@ -13,30 +17,47 @@ export function Lighting() {
       <Dome />
       <Lightformer
         form="rect"
-        intensity={4.2}
+        intensity={4.4}
         position={[-4.5, 1.5, 5]}
-        scale={[2.4, 16, 1]}
+        scale={[2.2, 16, 1]}
         target={[0, 0, 0]}
       />
       <Lightformer
         form="rect"
-        intensity={3}
+        intensity={3.2}
         position={[5, 0.5, 4]}
-        scale={[1.2, 16, 1]}
+        scale={[1.1, 16, 1]}
         target={[0, 0, 0]}
       />
       <Lightformer
         form="rect"
-        intensity={1.8}
+        intensity={2}
         position={[0, 9, 1]}
         scale={[12, 4, 1]}
         target={[0, 0, 0]}
       />
       <Lightformer
         form="rect"
-        intensity={1}
+        intensity={1.4}
         position={[0, 1, -8]}
         scale={[16, 8, 1]}
+        target={[0, 0, 0]}
+      />
+      {/* flags: dark panels left and right of the product */}
+      <Lightformer
+        form="rect"
+        color="#46505f"
+        intensity={1}
+        position={[-7, 0.5, 0]}
+        scale={[3.5, 18, 1]}
+        target={[0, 0, 0]}
+      />
+      <Lightformer
+        form="rect"
+        color="#46505f"
+        intensity={1}
+        position={[7, 0.5, 0]}
+        scale={[3.5, 18, 1]}
         target={[0, 0, 0]}
       />
     </Environment>
@@ -48,8 +69,8 @@ function Dome() {
     const g = new SphereGeometry(40, 48, 24);
     const pos = g.getAttribute('position');
     const top = new Color('#ffffff');
-    const horizon = new Color('#e6e9ec');
-    const floor = new Color('#8e959c');
+    const horizon = new Color('#e1e5e9');
+    const floor = new Color('#7e868e');
     const c = new Color();
     const colors: number[] = [];
     for (let i = 0; i < pos.count; i++) {

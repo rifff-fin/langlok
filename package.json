@@ -1,8 +1,8 @@
 {
-  "name": "versa",
+  "name": "langlok",
   "private": true,
   "type": "module",
-  "description": "VERSA natural drinking water — website for Langlok Int. Company Ltd.",
+  "description": "LANGLOK natural drinking water — website for Langlok Int. Company Ltd.",
   "workspaces": [
     "client",
     "server"

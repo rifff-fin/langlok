@@ -1,18 +1,22 @@
+import { reducedQuery } from '../lib/motion';
 import { sceneStore, type AnchorId, type SpinId, type VesselId } from '../store/scene';
 import spec from './vesselSpec.json';
 
 /**
- * Where each vessel lives on the page. A station is a DOM anchor (a product plate in the
- * static layout); `fitCm` is how many centimetres the anchor's height represents, so the
- * vessel keeps its real proportions. Between consecutive stations a vessel either
- * `travel`s (glides from one to the next while the content scrolls past, staying at the
- * viewport's vertical centre) or `cut`s (switches while both are off-screen).
+ * Where each vessel lives on the page. A station is a DOM anchor (a vessel plate in the
+ * static layout) whose height represents the vessel's frame (`vesselSpec.json`), so the
+ * vessel keeps its real proportions and lands exactly on the still it replaces. Between
+ * consecutive stations a vessel either `travel`s (glides from one to the next while the
+ * content scrolls past, staying on the viewport's vertical centre line) or `cut`s
+ * (switches while unseen). A `dive` station holds the vessel while its move runs: in the
+ * hero the can tips its lid into the camera, and when the move ends the can is gone until
+ * the next station scrolls in.
  */
 interface Station {
   anchor: AnchorId;
-  fitCm: number;
-  xFrac?: number;
-  align?: 'center' | 'bottom';
+  /** Centimetres the anchor's height represents (default: the vessel's frame height). */
+  fitCm?: number;
+  dive?: SpinId;
 }
 
 /** `travel-wide` glides on wide screens only; on phones the vessel is too large to glide over text. */
@@ -27,22 +31,27 @@ interface Route {
 const ROUTES: Record<VesselId, Route> = {
   can: {
     stations: [
-      { anchor: 'hero-can', fitCm: 22 },
-      { anchor: 'products-can', fitCm: 22 },
-      { anchor: 'logo-pair', fitCm: 27.5, xFrac: 0.255, align: 'bottom' },
+      { anchor: 'stage-can' },
+      { anchor: 'hero-intro', dive: 'heroDive' },
+      { anchor: 'hero-can' },
+      { anchor: 'products-can' },
+      { anchor: 'logo-can' },
     ],
-    links: ['travel-wide', 'cut'],
+    links: ['cut', 'cut', 'travel-wide', 'cut'],
     spins: ['productsCan', 'logo'],
   },
   bottle: {
     stations: [
-      { anchor: 'products-bottle', fitCm: 28 },
-      { anchor: 'logo-pair', fitCm: 27.5, xFrac: 0.745, align: 'bottom' },
+      { anchor: 'stage-bottle' },
+      { anchor: 'products-bottle' },
+      { anchor: 'logo-bottle' },
     ],
-    links: ['travel'],
+    links: ['cut', 'travel'],
     spins: ['productsBottle', 'logo'],
   },
 };
+
+const VESSELS = Object.keys(ROUTES) as VesselId[];
 
 export interface VesselTarget {
   visible: boolean;
@@ -57,6 +66,10 @@ export interface VesselTarget {
   lean: number;
   /** YOUR LOGO HERE label wanted (second half of the logo spin). */
   logo: boolean;
+  /** Hero dive progress, 0..1 (0 at every other station). */
+  dive: number;
+  /** The station the vessel is at, arriving at or leaving. */
+  station: AnchorId | null;
 }
 
 const blank = (): VesselTarget => ({
@@ -67,28 +80,39 @@ const blank = (): VesselTarget => ({
   turns: 0,
   lean: 0,
   logo: false,
+  dive: 0,
+  station: null,
 });
 
 /** Written once per frame by `updateTargets`, read by the vessels in `useFrame`. */
 export const targets: Record<VesselId, VesselTarget> = { can: blank(), bottle: blank() };
 
-type Placed = { x: number; y: number; pxPerCm: number };
+/** Scene-wide state the vessels read alongside their targets. */
+export const stage = {
+  /** Full motion: idle drift, pointer tilt, glides and the dive. Reduced: still, in place, cuts. */
+  motion: true,
+  /** Studio stills (dev): no drift at all. */
+  still: false,
+  /** Pointer from the viewport centre, -1..1 (hover devices only). */
+  pointer: { x: 0, y: 0 },
+};
 
-function place(st: Station, r: DOMRect, heightCm: number): Placed {
-  const pxPerCm = r.height / st.fitCm;
-  const x = r.left + r.width * (st.xFrac ?? 0.5);
-  const y =
-    st.align === 'bottom'
-      ? r.bottom - r.height * 0.03 - (heightCm * pxPerCm) / 2
-      : r.top + r.height / 2;
-  return { x, y, pxPerCm };
-}
+const reduced = window.matchMedia(reducedQuery());
+
+type Placed = { x: number; y: number; pxPerCm: number };
+type Present = { i: number; st: Station; p: Placed; dive?: number };
 
 /** Each turn completes before its pin releases, then holds the front view for a moment. */
-const SPIN_END: Record<SpinId, number> = { productsCan: 0.85, productsBottle: 0.85, logo: 0.8 };
-const spinProgress = (p: number, id: SpinId) => Math.min(1, p / SPIN_END[id]);
+const SPIN_END: Partial<Record<SpinId, number>> = {
+  productsCan: 0.85,
+  productsBottle: 0.85,
+  logo: 0.8,
+};
+const spinProgress = (p: number, id: SpinId) => Math.min(1, p / (SPIN_END[id] ?? 1));
 
+const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 const smooth = (t: number) => t * t * (3 - 2 * t);
+export const smoothstep = (a: number, b: number, t: number) => smooth(clamp01((t - a) / (b - a)));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 /**
@@ -96,51 +120,81 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
  * vessel is on screen (the render loop sleeps otherwise).
  */
 export function updateTargets(vw: number, vh: number): boolean {
-  const { anchors, spins } = sceneStore.getState();
+  const { anchors, spins, still } = sceneStore.getState();
+  const motion = !reduced.matches && !still;
+  stage.motion = motion;
+  stage.still = still;
   const mid = vh / 2;
   let anyVisible = false;
 
-  for (const id of Object.keys(ROUTES) as VesselId[]) {
+  for (const id of VESSELS) {
     const route = ROUTES[id];
     const heightCm = spec[id].height;
     const t = targets[id];
 
-    const placed: (Placed | null)[] = route.stations.map((st) => {
+    const present: Present[] = [];
+    route.stations.forEach((st, i) => {
       const el = anchors[st.anchor];
-      return el ? place(st, el.getBoundingClientRect(), heightCm) : null;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const p = {
+        x: r.left + r.width / 2,
+        y: r.top + r.height / 2,
+        pxPerCm: r.height / (st.fitCm ?? spec[id].frame.h),
+      };
+      // the dive only runs with full motion; otherwise the station behaves like any other
+      const dive = motion && st.dive ? spins[st.dive]?.progress : undefined;
+      present.push({ i, st, p, dive });
     });
-    const present = placed
-      .map((p, i) => (p ? { p, i } : null))
-      .filter((v): v is { p: Placed; i: number } => v !== null);
-
     if (present.length === 0) {
       t.visible = false;
       continue;
     }
 
-    // Completed and in-progress travels each contribute up to one turn.
+    // A station is behind the viewer once it crosses the centre line (or its dive ends).
+    const passed = (s: Present) => (s.dive !== undefined ? s.dive >= 1 : s.p.y < mid);
+
     let travelTurns = 0;
     let lean = 0;
-    let at: Placed = present[present.length - 1].p;
+    let dive = 0;
+    let gone = false;
+    let at = present[present.length - 1].p;
+    let station: AnchorId = present[present.length - 1].st.anchor;
     for (let k = 0; k < present.length; k++) {
       const a = present[k];
       const b = present[k + 1];
-      const da = a.p.y - mid;
-      if (da >= 0) {
-        if (k === 0) at = a.p; // still arriving from below with its section
+      if (!passed(a)) {
+        // still arriving with its section (only reachable for the first station)
+        at = a.p;
+        station = a.st.anchor;
+        if (a.dive !== undefined) {
+          // the lid comes to the middle of the screen as it tips towards the camera
+          dive = a.dive;
+          const focus = smoothstep(0.1, 0.8, dive);
+          at = {
+            x: lerp(a.p.x, vw / 2, focus),
+            y: lerp(a.p.y, vh / 2, focus),
+            pxPerCm: a.p.pxPerCm,
+          };
+        }
         break;
       }
-      if (!b) break;
-      const db = b.p.y - mid;
+      if (!b) {
+        gone = a.dive !== undefined; // a finished dive leaves nothing behind
+        station = a.st.anchor;
+        break;
+      }
       const link = route.links[a.i];
       const travel =
-        b.i === a.i + 1 && (link === 'travel' || (link === 'travel-wide' && vw >= 768));
-      if (db < 0) {
+        motion && b.i === a.i + 1 && (link === 'travel' || (link === 'travel-wide' && vw >= 768));
+      if (passed(b)) {
         if (travel) travelTurns += 1;
-        continue; // both above the centre line: keep walking down the route
+        continue; // both behind: keep walking down the route
       }
-      // a is above the centre line, b below: in between these two stations
+      // a is behind the viewer, b ahead: in between these two stations
       if (travel) {
+        const da = a.p.y - mid;
+        const db = b.p.y - mid;
         let f = -da / (db - da);
         if (db < 4) f = 1; // snap so the turn completes exactly as b arrives
         const e = smooth(f);
@@ -149,10 +203,16 @@ export function updateTargets(vw: number, vh: number): boolean {
           y: lerp(a.p.y, b.p.y, f), // linear: stays on the centre line while content scrolls
           pxPerCm: lerp(a.p.pxPerCm, b.p.pxPerCm, e),
         };
+        station = f < 0.5 ? a.st.anchor : b.st.anchor;
         travelTurns += e;
         lean = Math.sin(Math.PI * f) * 0.09 * Math.sign(b.p.x - a.p.x || 1);
+      } else if (a.dive !== undefined) {
+        at = b.p; // after the dive the vessel waits, unseen, for the next station
+        station = b.st.anchor;
       } else {
-        at = Math.abs(da) < Math.abs(db) ? a.p : b.p;
+        const nearA = Math.abs(a.p.y - mid) < Math.abs(b.p.y - mid);
+        at = nearA ? a.p : b.p;
+        station = nearA ? a.st.anchor : b.st.anchor;
       }
       break;
     }
@@ -165,11 +225,16 @@ export function updateTargets(vw: number, vh: number): boolean {
     t.pxPerCm = at.pxPerCm;
     t.turns = turns;
     t.lean = lean;
+    t.dive = dive;
+    t.station = station;
     t.logo = spinProgress(spins.logo?.progress ?? 0, 'logo') > 0.5;
 
     const halfH = (heightCm / 2) * at.pxPerCm * 1.15;
     const halfW = spec[id].radius * at.pxPerCm * 2;
-    t.visible = at.y + halfH > 0 && at.y - halfH < vh && at.x + halfW > 0 && at.x - halfW < vw;
+    t.visible =
+      !gone &&
+      (dive > 0 ||
+        (at.y + halfH > 0 && at.y - halfH < vh && at.x + halfW > 0 && at.x - halfW < vw));
     anyVisible ||= t.visible;
   }
   return anyVisible;

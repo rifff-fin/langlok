@@ -87,7 +87,7 @@ export async function composeYourLogo(vessel: VesselId, base: LabelSet): Promise
   const fx = zx + (zw - fw) / 2;
   const fy = zy + (zh - fh) / 2;
   const unit = w / 2048;
-  const size = Math.round(fw * 0.13);
+  const size = Math.round(fw * 0.096); // tracked caps stay well inside the frame on the curve
 
   const paint = (ctx: CanvasRenderingContext2D, ink: string) => {
     ctx.save();

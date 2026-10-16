@@ -2,6 +2,7 @@ import type { ComponentType, SVGProps } from 'react';
 import { mission } from '../content/copy';
 import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
+import { Emph } from '../components/ui/Emph';
 import {
   DeliveryIcon,
   DesignIcon,
@@ -33,7 +34,7 @@ export function Mission() {
 
         <div className="mt-12 grid grid-cols-4 gap-x-[var(--grid-gap)] gap-y-10 md:grid-cols-12">
           <h2 id="mission-title" className="col-span-4 text-[length:var(--text-h2)] md:col-span-7">
-            {mission.statement}
+            <Emph text={mission.statement} />
           </h2>
           <div data-reveal="fade" className="col-span-4 space-y-6 text-slate md:col-span-5 md:pt-4">
             {mission.paragraphs.map((p) => (

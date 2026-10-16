@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Cut the graded hero master into WebP frame sequences + poster.
-# See docs/VERSA_Website_Master_Plan.md §6.5.
+# See docs/LANGLOK_Website_Master_Plan.md §6.5.
 #
 #   bash scripts/extract-frames.sh hero_master.mov [desktopFrames=160] [mobileFrames=100]
 #

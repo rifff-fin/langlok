@@ -36,22 +36,44 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* The page colour lives on html: body stays clear so fixed backdrops at a negative
+     z-index (the hero's studio light) can sit between the page and the 3D canvas. */
   body {
     margin: 0;
     min-height: 100svh;
-    background: var(--mist);
+    background: transparent;
     font-family: var(--ff-sans);
     font-size: var(--text-body);
     line-height: 1.6;
   }
 
+  /*
+   * Two voices: light geometric sans for the line, Bodoni Moda italic for its accent
+   * (copy marks it *like this*, rendered as <em> by components/ui/Emph.tsx).
+   */
   h1,
   h2,
-  h3 {
-    font-family: var(--ff-display);
-    font-weight: 500;
-    line-height: 1.02;
+  h3,
+  .headline {
+    font-family: var(--ff-sans);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
     text-wrap: balance;
+  }
+  h3 {
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  h1 em,
+  h2 em,
+  h3 em,
+  .headline em,
+  .accent {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
   }
 
   a {
@@ -102,37 +124,44 @@
 }
 
 /*
- * Unlayered on purpose: it must beat the plate's bg-paper/border utilities.
- * Live 3D vessels track [data-vessel-plate] boxes. Once WebGL is ready the stand-in photos
- * and their paper mounts fade out over them (the images keep their alt text for readers).
+ * Unlayered on purpose: it must beat utilities on the plates.
+ * Live 3D vessels track [data-vessel-plate] boxes. Once WebGL is ready the studio stills
+ * fade out under them (the images keep their alt text for readers).
  */
-[data-vessel-plate],
-[data-vessel-plate] figure {
-  transition:
-    border-color 0.6s var(--ease-water-out),
-    background-color 0.6s var(--ease-water-out);
-}
-[data-vessel-plate] img,
-[data-vessel-plate] [data-logo-slot] {
+[data-vessel-plate] img {
   transition: opacity 0.6s var(--ease-water-out);
 }
-html[data-webgl='ready'] [data-vessel-plate],
-html[data-webgl='ready'] [data-vessel-plate] figure {
-  border-color: transparent;
-  background-color: transparent;
-}
-html[data-webgl='ready'] [data-vessel-plate] img,
-html[data-webgl='ready'] [data-vessel-plate] [data-logo-slot] {
+html[data-webgl='ready'] [data-vessel-plate] img {
   opacity: 0;
 }
 
+/* Dev studio (/dev/studio): transparent page, nothing but the vessel, for the stills. */
+html[data-studio],
+html[data-studio] body {
+  background: transparent;
+}
+html[data-studio] header,
+html[data-studio] footer,
+html[data-studio] [data-motion-toggle] {
+  display: none;
+}
+
+/* Reduced motion: the OS setting, unless the visitor switched motion on (lib/motion.ts). */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  html:not([data-motion='full']) *,
+  html:not([data-motion='full']) *::before,
+  html:not([data-motion='full']) *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+html[data-motion='reduced'] *,
+html[data-motion='reduced'] *::before,
+html[data-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }

@@ -1,10 +1,11 @@
-# VERSA — langlok.com
+# LANGLOK — langlok.com
 
-Website for **VERSA** natural drinking water (500 ml can · 990 ml aluminium bottle) by
+Website for **LANGLOK** natural drinking water (500 ml can · 990 ml aluminium bottle) by
 Langlok Int. Company Ltd., Panchagarh, Bangladesh.
 
+- **Current stage: [docs/STATUS.md](docs/STATUS.md)** (updated after every piece of work)
 - Brief and rules: [CLAUDE.md](CLAUDE.md)
-- Full spec: [docs/VERSA_Website_Master_Plan.md](docs/VERSA_Website_Master_Plan.md)
+- Full spec: [docs/LANGLOK_Website_Master_Plan.md](docs/LANGLOK_Website_Master_Plan.md)
 - Phase prompts and AI video prompts: [docs/PROMPTS_for_Claude_Code.md](docs/PROMPTS_for_Claude_Code.md)
 - Client's original text: [docs/client/](docs/client/)
 
@@ -35,23 +36,33 @@ python scripts/build-label-textures.py           # 3D label textures from the mo
 The Vite dev server proxies `/api` to the API on port 4000. Copy `server/.env.example`
 to `server/.env` to override defaults.
 
+## Seeing the 3D
+
+The home page opens on the live 3D can and dives into its opening as you scroll. If your
+operating system asks for reduced motion (on Windows: *Settings → Accessibility → Visual
+effects → Animation effects* off), the site shows a calmer version: no pins, glides or
+dive. Use the **Motion** switch in the bottom-right corner to choose either way.
+
 ## Dev routes
 
-- `/` — home: the full scroll experience (3D vessels from Phase 3)
+- `/` — home: the full scroll experience
 - `/custom-branding`, `/recan`, `/story`, `/contact` — inner pages
 - `/dev` — Lenis + ScrollTrigger pin test (dev builds only)
+- `/dev/studio?vessel=can|bottle&label=brand|yourlogo` — one vessel on a transparent page,
+  for rendering the studio stills in `client/public/img/stills/` (dev builds only)
 
 ## Layout
 
 ```
 client/   Vite + React 19 + TS, Tailwind v4, three / R3F, GSAP, Lenis
   public/frames/hero/{desktop,mobile}/NNNN.webp, poster.jpg
-  public/img/mockups/   client product photos (temporary stand-ins)
+  public/img/mockups/   client product photos (label texture source)
+  public/img/stills/    studio stills of the 3D vessels (no-WebGL fallback, first paint)
   public/textures/      3D label colour + ORM maps (generated)
   src/app/ components/ content/ hooks/ lib/ pages/ sections/ store/ styles/ three/
 server/   Express 5 + TS (Mongo, uploads, email arrive in Phase 6)
 scripts/  hero frame tools, label texture builder
-docs/     master plan, prompts, client text
+docs/     status, master plan, prompts, client text
 ```
 
 `main product info/` is the client's original handoff folder; it is git-ignored and its

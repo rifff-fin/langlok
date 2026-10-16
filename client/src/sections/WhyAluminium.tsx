@@ -1,6 +1,7 @@
 import { whyAluminium } from '../content/copy';
 import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
+import { Emph } from '../components/ui/Emph';
 
 /** 09 Why aluminium. Footnotes render only once a card has a real source. */
 export function WhyAluminium() {
@@ -11,7 +12,7 @@ export function WhyAluminium() {
       <Container>
         <ChapterHead n={whyAluminium.chapter} label={whyAluminium.eyebrow} />
         <h2 id="why-title" className="mt-12 max-w-[18ch] text-[length:var(--text-h2)]">
-          {whyAluminium.title}
+          <Emph text={whyAluminium.title} />
         </h2>
 
         <ul data-reveal="stagger" className="mt-16 grid gap-[var(--grid-gap)] md:grid-cols-3">

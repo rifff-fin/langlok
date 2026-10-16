@@ -1,16 +1,19 @@
-# VERSA — Website Master Plan
+# LANGLOK — Website Master Plan
 
-**Client:** Langlok Int. Company Ltd. (Panchagarh, Bangladesh) · **Brand:** VERSA natural drinking water
-**Products:** VERSA Can 500 ml · VERSA Aluminium Bottle 990 ml
+**Client:** Langlok Int. Company Ltd. (Panchagarh, Bangladesh) · **Brand:** LANGLOK natural drinking water
+**Products:** LANGLOK Can 500 ml · LANGLOK Aluminium Bottle 990 ml
 **Stack:** MERN (MongoDB, Express, React, Node) + React Three Fiber + GSAP + Lenis
-**Prepared:** 16 October 2026
+**Prepared:** 16 October 2026 · **Updated:** 17 October 2026 (brand renamed to LANGLOK; Morpho reference, §2.5)
+
+> **Brand name.** The site brand is **LANGLOK** (decided 17 Oct 2026; it was "VERSA" in the first draft of this plan). The client's label artwork still prints the earlier **VERSA** wordmark, so the 3D labels (built from those photos) show VERSA until LANGLOK label files arrive. See §1.3. Current progress lives in [`STATUS.md`](STATUS.md).
 
 ---
 
 ## 0. TL;DR
 
 - **Creative direction — "Monsoon Light."** A bright, misty, editorial site built on aluminium silver, mist white, navy ink and rain blue. It is the opposite of the usual black-background 3D site. The Chatak (pied cuckoo) that drinks only rain is the thread through the whole experience.
-- **Hero = scroll-scrubbed film.** Nature → rain → earth → filtration → canning → one can rising out of mist. Generate it with an AI video tool, edit it into one continuous shot, export it as an **image sequence** (WebP frames) and draw those frames to a `<canvas>` as the user scrolls (GSAP ScrollTrigger). The first screen is "fogged glass": the cursor (or finger) wipes condensation away to reveal the monsoon.
+- **Opening = the can itself (Morpho reference, §2.5).** The first screen is the live 3D can, large and centred between the headline and a serif aside. Scrolling tips its lid towards the camera, the tab clicks open, and the camera dives through the opening into the film.
+- **Hero = scroll-scrubbed film.** Nature → rain → earth → filtration → canning → one can rising out of mist. Generate it with an AI video tool, edit it into one continuous shot, export it as an **image sequence** (WebP frames) and draw those frames to a `<canvas>` as the user scrolls (GSAP ScrollTrigger). The film begins where the dive ends: pale monsoon sky seen through the can's opening. (The fogged-glass idea moves to the start of the film, or is dropped; decide in Phase 2.)
 - **Products = real-time 3D, not video.** The can and bottle are built in code with `LatheGeometry` (both are surfaces of revolution), so the label is a texture we fully control. That makes the "spin → **YOUR LOGO HERE**" reveal and a live **upload-your-logo configurator** easy and lightweight.
 - **The handoff.** The film's last frame shows a plain can in the exact pose of the 3D can, then crossfades to the live 3D model. AI video never has to render the logo (AI garbles text); the real label only ever appears in 3D.
 - **Backend.** Express + MongoDB handles custom-branding inquiries with logo uploads, ReCan partner sign-ups, newsletter and a simple admin list.
@@ -34,7 +37,7 @@ You never block the build: code against placeholder frames, then drop the real f
 
 | Asset | Notes for the build |
 |---|---|
-| **Can front (500 ml)** | Brushed aluminium with condensation droplets. Illustrated pied cuckoo head, beak open, catching a single water drop. Wordmark **VERSA** in a classical serif with a crossbar-less "Λ" A. Blue water-wave swash. Lines: *SAY NO PLASTIC / SAVE THE WORLD*, *NATURAL DRINKING WATER*, *pH 7.0*, *500 ML*. |
+| **Can front (500 ml)** | Brushed aluminium with condensation droplets. Illustrated pied cuckoo head, beak open, catching a single water drop. Wordmark **VERSA** (the earlier brand name; the site brand is now LANGLOK) in a classical serif with a crossbar-less "Λ" A. Blue water-wave swash. Lines: *SAY NO PLASTIC / SAVE THE WORLD*, *NATURAL DRINKING WATER*, *pH 7.0*, *500 ML*. |
 | **Can back** | Condensed Didone headline (*RECYCLABLE ALTERNATIVE*), tracked caps sans (*CANS ARE AN INFINITELY… / TO PLASTIC BOTTLES*), microplastics paragraph, *This CAN makes a difference.*, `www.langlok.com`, barcode, QR, social icons, *Manufactured in Panchagarh, Bangladesh by Langlok Int. Company Ltd*. |
 | **Bottle front / back (990 ml)** | Same art system on a screw-cap aluminium bottle. |
 | **Logo/theme image** | Full pied cuckoo perched on an acacia-like branch, forest bokeh, warm golden light. A **different** VERSA wordmark: swash V and A with two navy wave strokes underneath. |
@@ -67,7 +70,8 @@ These matter because they end up in large type on the site.
 8. **Bottle copy.** The bottle back says "CANS ARE…" and "VERSA can means…". Fine as wordplay, but a bottle-specific line may read better.
 9. **Social icons.** Twitter bird → X. Supply real social URLs and the QR code destination.
 10. **ReCan details.** How collection works, who pays whom, any real figures (cans collected, revenue shared). We will not invent numbers; counters stay hidden until real data exists.
-11. **Site identity.** "VERSA" as the site brand, with "by Langlok" in the footer? Confirm domain (`langlok.com` appears on the label).
+11. **Site identity.** ✅ Answered 17 Oct 2026: the site brand is **LANGLOK** (not VERSA), domain `langlok.com`.
+12. **LANGLOK label artwork.** The can and bottle artwork, and the forest logo image, still print **VERSA**. Is the product being renamed on the pack too? If so we need the LANGLOK label files and logo SVG; until then the 3D labels show the VERSA print (built from the photos) and the header shows a neutral LANGLOK text placeholder.
 
 ---
 
@@ -75,13 +79,13 @@ These matter because they end up in large type on the site.
 
 ### 2.1 The idea in one line
 
-> *Drink only what the sky gives.* The Chatak waits for pure rain; VERSA waits for nothing less than pure water, sealed in a vessel that never becomes plastic waste.
+> *Drink only what the sky gives.* The Chatak waits for pure rain; LANGLOK waits for nothing less than pure water, sealed in a vessel that never becomes plastic waste.
 
 Every section answers to that idea: the sky (source), the wait (purity), the vessel (aluminium), the return (ReCan: every can comes home, just as the rain returns).
 
 ### 2.2 How it avoids looking like "every other 3D site"
 
-| Common 3D site | VERSA |
+| Common 3D site | LANGLOK |
 |---|---|
 | Black background, neon gradients | Mist-white, aluminium and rain blue; light as the default, never dark mode first |
 | Floating blobs and glassmorphism cards | Editorial magazine grid with 1 px aluminium hairlines and numbered chapters (01 Sky · 02 Earth · 03 Vessel…) |
@@ -94,7 +98,7 @@ Every section answers to that idea: the sky (source), the wait (purity), the ves
 1. **Fogged glass hero.** The first screen is covered in white condensation. Moving the cursor (or dragging a finger) wipes a clear trail revealing the monsoon scene; the fog slowly returns. Built with a cheap 2D canvas mask, no WebGL needed.
 2. **Sky-to-seal scroll film.** One continuous camera descent, scrubbed by scroll.
 3. **The catch.** A single drop falls from the top of the page into the can's opening during the handoff (echoes the label art of the bird catching a drop).
-4. **The spin and the swap.** The can spins once with scroll; while its front faces away, the VERSA label is swapped for **YOUR LOGO HERE**, so it comes round already changed. v2 upgrade: a "rain-wash" shader where water runs down the can and dissolves one label into the other.
+4. **The spin and the swap.** The can spins once with scroll; while its front faces away, the LANGLOK label is swapped for **YOUR LOGO HERE**, so it comes round already changed. v2 upgrade: a "rain-wash" shader where water runs down the can and dissolves one label into the other.
 5. **Rain that listens.** In the Chatak story, rain density and streak length follow scroll velocity.
 6. **Water-level transitions.** Some section changes fill the viewport from the bottom up, like water rising in a glass (CSS `clip-path`).
 
@@ -105,6 +109,20 @@ Every section answers to that idea: the sky (source), the wait (purity), the ves
 - No auto-playing sound (an optional rain-ambience toggle, off by default, is fine).
 - No text rendered inside WebGL; all copy is real DOM text.
 - No AI-generated version of the logo or bird; always use the client's artwork.
+
+### 2.5 Reference: morphowater.com (added 17 Oct 2026)
+
+The client pointed at **MORPHO** (natural spring water in cans, Costa Rica) as the feel to aim for. What it does, and what we take:
+
+| MORPHO does | LANGLOK takes it as |
+|---|---|
+| The first screen *is* the product: a large, centred, real-time 3D can, headline left ("A world within."), italic serif line right ("Pure possibility.") | **Taken.** Opening screen = the live 3D can, centred; headline left, serif aside right. |
+| Two-voice headlines: light geometric sans plus an italic serif accent ("More life. *Less hurry.*") | **Taken.** h1/h2 set in light Jost with the accent in Bodoni Moda italic; copy marks the accent `*like this*`. |
+| Scroll tips the can until you look down at the lid ("A small click. A world opens."), the opening shows video, the camera dives through it into full-bleed video chapters | **Taken, as our bridge into the film.** The tab clicks, the opening shows pale sky, the camera dives in and "Sky to Seal" plays. |
+| Studio-lit can with crisp highlights and dark reflection bands | **Taken.** Environment with strip lights *and* dark flags, so aluminium reads as metal on a light page. |
+| Chapter rail on the left ("01 / 07", vertical label); small "01 —— THE CAN" marker | **Later** (Phase 5 polish). |
+| Product line-up with big italic names (Still / Sparkling) | **Taken** in the product panels ("*500 ml*" in large italic). |
+| Dark navy page, glass navigation, sound toggle, chat widget | **Not taken.** Light backgrounds stay (Monsoon Light); no autoplay audio. A small *Motion* switch takes the corner instead (§9.3). |
 
 ---
 
@@ -183,7 +201,9 @@ SCROLL ▼
 ┌──────────────────────────────────────────────────────────────────────────┐
 │ 00 PRELOADER     drop falls, fills a thin line; first frames + 3D load   │
 ├──────────────────────────────────────────────────────────────────────────┤
-│ 01 HERO (pinned ~500vh)  fogged glass → scroll film "Sky to Seal"         │
+│ 01 HERO (~600vh track)  the can → the dive → scroll film "Sky to Seal"    │
+│    INTRO      live 3D can, centred; headline left, serif aside right      │
+│    DIVE ~90vh lid tips to camera, tab clicks, opening shows sky, dive in  │
 │    A  0–15%   monsoon clouds over Tetulia tea gardens                     │
 │    B 15–35%   rain begins; a Chatak silhouette rises into it              │
 │    C 35–55%   drops sink through soil and stone (macro, clear)            │
@@ -212,7 +232,7 @@ SCROLL ▼
 ├──────────────────────────────────────────────────────────────────────────┤
 │ 10 WHO WE SERVE  hotels · food franchises · events · venues               │
 ├──────────────────────────────────────────────────────────────────────────┤
-│ 11 CTA + FOOTER  "Bring VERSA to your venue." Langlok, Panchagarh         │
+│ 11 CTA + FOOTER  "Bring LANGLOK to your venue." Langlok, Panchagarh         │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -220,21 +240,23 @@ SCROLL ▼
 
 **00 Preloader.** A single drop falls from the top centre and becomes a thin horizontal progress line. Waits for: poster frame, first ~20 hero frames, fonts, and the 3D scene's essentials (lazy-load the rest). Minimum display 600 ms, maximum ~3 s, then reveals regardless.
 
-**01 Hero — "Sky to Seal".**
-- Layer stack (bottom → top): frame canvas → optional WebGL rain overlay (beats A–B only) → fog canvas (first screen only) → DOM text beats → scroll hint.
-- Pinned with ScrollTrigger, `scrub: 0.5` for a little inertia, ~500 vh of scroll.
+**01 Hero — the can, the dive, then "Sky to Seal".** *(Intro and dive built 17 Oct 2026; film in Phase 2.)*
+- **Intro (first screen).** The live 3D can stands centred on a soft studio light (a fixed backdrop *behind* the canvas), rises in with a turn on first load, breathes (slow sway and float) and turns a little towards the pointer. Headline left: **Drink only what *the sky gives.*** with the sub *Every drop of LANGLOK begins as monsoon rain over the north of Bangladesh.*; aside right: ***A vessel for the rain.*** with *Aluminium can · 500 ml / Aluminium bottle · 990 ml*.
+- **Dive (first ~90 vh, the opening screen holds).** The intro copy lifts away; the can tips its lid towards the camera and grows while the lid comes to the centre; the tab lifts with a click and the opening appears showing pale sky; caption **One small click. *The sky opens.*** The camera ends inside the opening and the sky stage (the film) fades up over it.
+- **Film.** Layer stack (bottom → top): frame canvas → optional WebGL rain overlay (beats A–B only) → DOM text beats → scroll hint. ~500 vh of scroll, `scrub: 0.5`. Its first frame should match the dive's end: pale monsoon sky seen through a round opening.
 - Copy beats (original lines; client can edit in `content/copy.ts`):
-  - A: **Drink only what the sky gives.** *Every drop of VERSA begins as monsoon rain over the north of Bangladesh.*
-  - B: **The rain returns.** *Like the Chatak, we wait for it.*
-  - C: **Filtered by earth and time.**
-  - D: **Purified with care.** *Natural drinking water, pH 7.0.*
-  - E: **Sealed in aluminium. Never plastic.**
-  - F: **Meet VERSA.**
+  - A: **Drink only what the sky gives.** (now the intro headline)
+  - B: **The rain *returns.*** *Like the Chatak, we wait for it.*
+  - C: **Filtered by *earth and time.***
+  - D: **Purified *with care.*** *Natural drinking water, pH 7.0.*
+  - E: **Sealed in aluminium. *Never plastic.***
+  - F: **Meet LANGLOK.**
 - Mouse parallax: the frame canvas scales 1.04 and shifts ±12 px with pointer (desktop only).
+- Reduced motion: no hold and no dive; the opening screen scrolls away and the sky crossfades in.
 
-**02 Handoff.** At hero progress 0.97–1.0 the frame canvas fades out while the WebGL can fades in at the identical position, scale and angle. The can in the final frame is plain (no readable label) and seen slightly from the side, so any small mismatch reads as natural. A drop falls into the opening; a tiny ripple ring on contact.
+**02 Handoff.** *(Built: beat F's plate is where the 3D can comes back; the sky stage fades to the mist page and the can stands there, then glides to the products.)* At hero progress 0.97–1.0 the frame canvas fades out while the WebGL can fades in at the identical position, scale and angle. The can in the final frame is plain (no readable label) and seen slightly from the side, so any small mismatch reads as natural. A drop falls into the opening; a tiny ripple ring on contact.
 
-**03 Products.**
+**03 Products.** *(Built in Phase 3: each vessel stands ~70% of the viewport tall, name in light sans, volume in large italic serif; phones and reduced motion turn the vessel as the panel passes instead of pinning.)*
 - Can: pinned; rotation Y 0 → 2π over the pin; callouts slide in from the hairline grid: *500 ml*, *Natural drinking water*, *pH 7.0*, *Infinitely recyclable aluminium*.
 - Bottle: camera dollies right, can steps to the left third, bottle rises in and spins; callouts: *990 ml*, *Resealable aluminium bottle*, *Refill, reuse, repeat*.
 - Idle: a slow ±6° sway and droplets sliding on the label (normal-map offset animation).
@@ -263,7 +285,7 @@ Title treatment: **চাতক** in Noto Serif Bengali beside *Chatak* in Bodon
 
 **10 Who we serve.** Four tall cards (hotels, food franchises, events, venues) with photography, subtle 3D tilt on hover, and a mocked-up branded can per category (rendered from the same 3D scene with placeholder logos).
 
-**11 CTA + footer.** **Bring VERSA to your venue.** Primary: *Request samples*; secondary: *Talk to us*. Footer: logo, short mission line, links, social, *Manufactured in Panchagarh, Bangladesh by Langlok Int. Company Ltd.*
+**11 CTA + footer.** **Bring LANGLOK to your venue.** Primary: *Request samples*; secondary: *Talk to us*. Footer: logo, short mission line, links, social, *Manufactured in Panchagarh, Bangladesh by Langlok Int. Company Ltd.*
 
 ---
 
@@ -323,20 +345,20 @@ Key rules:
 ### 5.3 Folder structure
 
 ```
-versa/
+langlok/
 ├─ CLAUDE.md                     # project brief Claude Code loads every session
 ├─ docs/
-│  ├─ VERSA_Website_Master_Plan.md
+│  ├─ LANGLOK_Website_Master_Plan.md
 │  └─ PROMPTS_for_Claude_Code.md
 ├─ client/
 │  ├─ public/
 │  │  ├─ frames/hero/desktop/0001.webp …   # 16:9 sequence
 │  │  ├─ frames/hero/mobile/0001.webp …    # 9:16 sequence
-│  │  ├─ textures/  label-can-versa.png, label-can-yourlogo.png,
-│  │  │             label-bottle-versa.png, label-bottle-yourlogo.png,
+│  │  ├─ textures/  label-can.webp, label-can-orm.webp (+ -1024),
+│  │  │             label-bottle.webp, label-bottle-orm.webp (+ -1024),
 │  │  │             droplets-normal.webp, brushed-alu-roughness.webp
 │  │  ├─ hdri/studio-soft.hdr (or use drei Lightformers only)
-│  │  └─ img/  bird-layers/, fallbacks/, og-image.jpg
+│  │  └─ img/  stills/ (studio stills of the 3D vessels), bird-layers/, og-image.jpg
 │  └─ src/
 │     ├─ app/          App.tsx, routes.tsx, providers (Lenis, Helmet)
 │     ├─ sections/     Preloader, Hero, Handoff, Products, YourLogo,
@@ -479,6 +501,7 @@ Both vessels are surfaces of revolution: a 2D outline rotated around the vertica
 
 - Units: **1 unit = 1 cm** (real scale makes lighting and camera intuitive).
 - Typical 500 ml can is about **6.6 cm Ø × 16.8 cm**; confirm with the supplier (the photo looks slimmer). The 990 ml bottle has no standard size: use the spec sheet.
+- *(As built, Phase 3: profiles traced from the photos live in `three/vesselSpec.json`; the label is mapped on the lathe body itself, v by height and clamped to bare silver, because the print runs onto the neck taper where a straight band can't follow. Each vessel also has a `frame`, the box it stands in on the page.)*
 - Build each vessel from three meshes:
   1. **Body** — `LatheGeometry(profilePoints, 128)`, brushed aluminium material.
   2. **Label band** — open `CylinderGeometry(r × 1.002, r × 1.002, labelHeight, 128, 1, true)` over the straight section, transparent label material. Set `thetaStart: Math.PI` so the centre of the label canvas faces the camera and the seam sits at the back.
@@ -511,13 +534,15 @@ export function canProfile({ r = 3.3, h = 16.8, neckR = 2.75 } = {}) {
 - **Label ink:** `MeshPhysicalMaterial` — `metalness: 0.15`, `roughness: 0.45`, `transparent: true`, map = label texture (ink on transparent so silver shows through, like real printed aluminium).
 - **Condensation:** a tiling **droplets normal map** on both body and label (CC0 sources: ambientCG, Poly Haven), slowly offset downward on idle so drops seem to slide.
 - **Lighting:** drei `<Environment>` built from `<Lightformer>`s (two tall soft strips + one top light) rather than a busy HDRI; this gives the clean vertical highlight streaks seen on premium can renders. Add `<ContactShadows>` on a paper-coloured floor.
+- *(As built: plus a back light for the rims and two **dark flags** at the sides. A cylinder's column at angle φ reflects the direction at 2φ, so flags at 90° print dark bands at 45° between the highlights and the rims; that contrast is what makes aluminium read as metal on a light page. The contact shadow is a soft texture behind the base.)*
 - **Colour management:** sRGB textures, ACES or AgX tone mapping; check that `--mist` behind the canvas and the canvas background match exactly (transparent canvas recommended).
 
 ### 7.4 Label textures
 
 - Ask the designer for flat label art at the **exact wrap ratio**: width = circumference (2πr), height = label height. For r = 3.3 cm and a 14 cm band, that is ~20.7 × 14 cm (ratio ≈ 1.48).
 - Export **4096 px wide** (desktop) and **2048 px** (mobile) PNGs with transparency, then compress to **KTX2** for production (`gltf-transform` / `toktx`).
-- Four textures: `label-can-versa`, `label-can-yourlogo`, `label-bottle-versa`, `label-bottle-yourlogo`. The "your logo" version keeps the whole VERSA layout but replaces the bird + wordmark zone with a tasteful dashed placeholder and the words **YOUR LOGO HERE**.
+- Four textures: brand + YOUR LOGO HERE for each vessel. The "your logo" version keeps the whole layout but replaces the bird + wordmark zone with a tasteful dashed placeholder and the words **YOUR LOGO HERE**.
+- *(As built: until flat files arrive, `scripts/build-label-textures.py` builds the colour + ORM maps (`label-{can,bottle}[-orm][-1024].webp`) from the mockup photos, and `labels.ts` composes the YOUR LOGO HERE variant at runtime. The photos print the old VERSA wordmark.)*
 - Front art is centred at u = 0.5 of the canvas; the back copy sits around u = 0 / 1 (the seam).
 
 ### 7.5 Scroll spin and the logo swap
@@ -537,7 +562,7 @@ if (labelMat.map !== (showCustom ? texCustom : texVersa)) {
 
 Pre-create both textures once and swap the reference; never re-upload textures every frame.
 
-**v2 "rain-wash" swap:** a small `onBeforeCompile` (or custom shader material) that mixes the two label textures with a threshold driven by `progress`, a vertical gradient and a noise texture with drip-shaped streaks, so the VERSA print appears to wash downward and reveal the new logo.
+**v2 "rain-wash" swap:** a small `onBeforeCompile` (or custom shader material) that mixes the two label textures with a threshold driven by `progress`, a vertical gradient and a noise texture with drip-shaped streaks, so the LANGLOK print appears to wash downward and reveal the new logo.
 
 ### 7.6 Live logo configurator
 
@@ -618,12 +643,13 @@ Pre-create both textures once and swap the reference; never re-upload textures e
 
 - **High:** full experience.
 - **Medium:** DPR 1.25, 64 segments, no rain overlay in the hero.
-- **Low / no WebGL:** product sections use the static mockup photos with CSS rotation hints; configurator shows a 2D flat label preview.
+- **Low / no WebGL:** every vessel plate shows a **studio still** rendered from the same 3D scene (`/dev/studio`, `public/img/stills/`), so the whole can and bottle always show, never a cropped photo; configurator shows a 2D flat label preview.
 
 ### 9.3 Accessibility
 
 - All text in the DOM; canvases `aria-hidden="true"` with a text alternative nearby.
-- `prefers-reduced-motion`: Lenis off, film replaced with 3 crossfading stills, no auto-spin, no rain, instant reveals.
+- `prefers-reduced-motion`: Lenis off, film replaced with 3 crossfading stills, no auto-spin, no rain, instant reveals. The live 3D vessels still show (no pins, glides, drift or dive; they turn in place as their section passes), so nobody gets a cropped photo instead of the product.
+- **Motion switch** (bottom corner, *Motion On/Off*): starts from the OS setting and lets visitors choose either way, remembered per browser (`lib/motion.ts`). Many Windows PCs report reduced motion because *Settings → Accessibility → Visual effects → Animation effects* is off; the switch lets those visitors opt in.
 - Visible focus states; configurator fully keyboard-operable (arrow keys rotate, +/- scale logo).
 - Contrast: body text uses `--ink`/`--slate`; `--rain` only for large text/graphics; links use `--rain-deep`.
 - Skip link to main content; story section readable as plain text.
@@ -638,19 +664,19 @@ Pre-create both textures once and swap the reference; never re-upload textures e
 
 ## 10. Build phases
 
-Rough effort for one developer working with Claude Code.
+Rough effort for one developer working with Claude Code. Live progress: [`STATUS.md`](STATUS.md).
 
-| Phase | Deliverable | Effort | Done when |
-|---|---|---|---|
-| **0 Setup** | Monorepo, Vite + React + TS, deps, tokens, fonts, GSAP + Lenis wiring, `CLAUDE.md` | 0.5–1 day | Dev server runs; a test ScrollTrigger pins with Lenis |
-| **1 Skeleton** | All sections as static, responsive layouts with real copy from `copy.ts` | 2 days | Whole page readable on mobile and desktop without any animation |
-| **2 Hero** | Preloader, frame player on placeholders, text beats, fog glass | 2 days | Scrubs smoothly both directions; LCP poster in place |
-| **3 3D products** | Procedural can + bottle, materials, lighting, label textures, scroll spin, handoff | 3–4 days | Spin is smooth; labels look printed, not pasted |
-| **4 Logo swap + configurator** | Hidden-side swap, upload, live texture, preview capture | 3 days | A PNG/SVG logo appears correctly on both vessels |
-| **5 Story + Mission + ReCan** | Chatak chapters, rain particles, stages strip, ReCan loop | 3 days | Each section works with reduced motion too |
-| **6 Backend** | Express API, Mongo models, uploads, email, admin list | 2–3 days | An inquiry with logo arrives by email and in admin |
-| **7 Real assets + polish** | Real frames, client label files, KTX2, performance pass, a11y, SEO, fallbacks | 3 days | Budgets met on a mid-range Android and an iPhone |
-| **8 Launch** | Deploy, domain, analytics, monitoring | 1 day | Live |
+| Phase | Deliverable | Effort | Done when | Status (17 Oct 2026) |
+|---|---|---|---|---|
+| **0 Setup** | Monorepo, Vite + React + TS, deps, tokens, fonts, GSAP + Lenis wiring, `CLAUDE.md` | 0.5–1 day | Dev server runs; a test ScrollTrigger pins with Lenis | ✅ Done |
+| **1 Skeleton** | All sections as static, responsive layouts with real copy from `copy.ts` | 2 days | Whole page readable on mobile and desktop without any animation | ✅ Done |
+| **2 Hero** | Preloader, frame player on placeholders, text beats, fog glass | 2 days | Scrubs smoothly both directions; LCP poster in place | ⏭ Next: film behind the dive |
+| **3 3D products** | Procedural can + bottle, materials, lighting, label textures, scroll spin, handoff | 3–4 days | Spin is smooth; labels look printed, not pasted | ✅ Done, plus the Morpho-style opening, dive, stills and Motion switch |
+| **4 Logo swap + configurator** | Hidden-side swap, upload, live texture, preview capture | 3 days | A PNG/SVG logo appears correctly on both vessels | ◐ Swap done; configurator to do |
+| **5 Story + Mission + ReCan** | Chatak chapters, rain particles, stages strip, ReCan loop | 3 days | Each section works with reduced motion too | ◐ Reveals only |
+| **6 Backend** | Express API, Mongo models, uploads, email, admin list | 2–3 days | An inquiry with logo arrives by email and in admin | ◯ Health check only |
+| **7 Real assets + polish** | Real frames, client label files, KTX2, performance pass, a11y, SEO, fallbacks | 3 days | Budgets met on a mid-range Android and an iPhone | ◯ |
+| **8 Launch** | Deploy, domain, analytics, monitoring | 1 day | Live | ◯ |
 
 ---
 
@@ -670,7 +696,7 @@ Rough effort for one developer working with Claude Code.
 - [ ] "YOUR LOGO HERE" label variants
 - [ ] Droplet normal map + brushed roughness map (CC0)
 - [ ] OG image, favicon set
-- [ ] Static fallback images of can and bottle
+- [x] Static fallback images of can and bottle (studio stills, `public/img/stills/`)
 
 ---
 
@@ -684,7 +710,7 @@ Rough effort for one developer working with Claude Code.
 - Awwwards Elements: *Bunta Beer* 3D can scroll animation, *More Nutrition* 3D product animation
 
 **Category references (canned / aluminium water)**
-- Liquid Death (brand attitude in canned water), smartwater cans (Coca-Cola, premium can design), CanO Water (UK), DrinkMore Water (custom-branded canned water for offices and events — the closest B2B model to VERSA), Vincentka × CANPACK slim can (Sept 2026)
+- Liquid Death (brand attitude in canned water), smartwater cans (Coca-Cola, premium can design), CanO Water (UK), DrinkMore Water (custom-branded canned water for offices and events — the closest B2B model to LANGLOK), Vincentka × CANPACK slim can (Sept 2026)
 
 **GitHub**
 - `pmndrs/react-three-fiber`, `pmndrs/drei`, `pmndrs/examples` (up-to-date R3F v9 / drei v10 demos)

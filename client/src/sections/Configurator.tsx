@@ -5,6 +5,7 @@ import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
 import { SlottedVessel } from '../components/SlottedVessel';
 import { LOGO_SLOTS } from '../components/logoSlots';
+import { Emph } from '../components/ui/Emph';
 
 const SWATCHES = {
   silver: 'var(--aluminium)',
@@ -34,7 +35,7 @@ export function Configurator({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
         <div className="mt-12 grid grid-cols-4 gap-x-[var(--grid-gap)] gap-y-12 md:grid-cols-12">
           <div className="col-span-4 md:col-span-6 lg:col-span-7">
             <Heading id={`${id}-title`} className="text-[length:var(--text-h2)]">
-              {configurator.title}
+              <Emph text={configurator.title} />
             </Heading>
             <p data-reveal="fade" className="mt-6 max-w-[44ch] text-slate">
               {configurator.intro}

@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 import { nav } from '../content/copy';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { MotionSwitch } from '../components/MotionSwitch';
 import { SceneHost } from '../components/SceneHost';
 import { useReveals } from '../hooks/useReveals';
 import { ScrollTrigger } from '../lib/gsap';
@@ -38,6 +39,7 @@ export function RootLayout() {
         <Outlet />
       </main>
       <Footer />
+      <MotionSwitch />
       {/* Key by pathname: every fresh document load shares location.key "default". */}
       <ScrollRestoration getKey={(location) => location.pathname} />
     </>

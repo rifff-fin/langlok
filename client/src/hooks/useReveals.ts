@@ -1,5 +1,6 @@
 import type { RefObject } from 'react';
 import { gsap, SplitText, useGSAP } from '../lib/gsap';
+import { motionQuery } from '../lib/motion';
 
 /**
  * Editorial scroll reveals for a page, set up from markup alone:
@@ -15,7 +16,7 @@ export function useReveals(scope: RefObject<HTMLElement | null>, key: string) {
     () => {
       const root = scope.current;
       if (!root) return;
-      gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.matchMedia().add(motionQuery(), () => {
         const lines = (el: HTMLElement, onLoad: boolean) =>
           SplitText.create(el, {
             type: 'lines',

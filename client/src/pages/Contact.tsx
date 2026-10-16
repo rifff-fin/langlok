@@ -3,6 +3,7 @@ import { PageMeta } from '../components/PageMeta';
 import { InquiryForm } from '../components/InquiryForm';
 import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
+import { Emph } from '../components/ui/Emph';
 
 export function Contact() {
   return (
@@ -12,7 +13,9 @@ export function Contact() {
         <ChapterHead n="—" label={contact.eyebrow} />
         <div className="mt-12 grid grid-cols-4 gap-x-[var(--grid-gap)] gap-y-16 md:grid-cols-12">
           <div className="col-span-4 md:col-span-5">
-            <h1 className="text-[length:var(--text-h2)]">{contact.title}</h1>
+            <h1 className="text-[length:var(--text-h2)]">
+              <Emph text={contact.title} />
+            </h1>
             <p className="mt-6 max-w-[40ch] text-slate">{contact.intro}</p>
 
             <address className="mt-12 border-t border-aluminium pt-6 not-italic">

@@ -1,19 +1,22 @@
 /**
- * All marketing copy for the VERSA site lives here. Components never hard-code text.
- * Sources: docs/VERSA_Website_Master_Plan.md §4.3, docs/client/mission.txt,
+ * All marketing copy for the LANGLOK site lives here. Components never hard-code text.
+ * Sources: docs/LANGLOK_Website_Master_Plan.md §4.3, docs/client/mission.txt,
  * docs/client/story-behind-the-logo.txt, and the can/bottle labels.
+ *
+ * Headlines mark their accent with asterisks: 'Drink only what *the sky gives.*' sets the
+ * plain part in light Jost and the accent in Bodoni Moda italic (components/ui/Emph.tsx).
  *
  * Rules: no invented statistics; no absolute health claims in new copy.
  * Anything awaiting client confirmation is marked TODO(client).
  */
 
 export const site = {
-  brand: 'VERSA',
+  brand: 'LANGLOK',
   company: 'Langlok Int. Company Ltd.',
-  domain: 'langlok.com', // TODO(client): confirm VERSA is the site brand and langlok.com the domain
+  domain: 'langlok.com',
   tagline: 'Drink only what the sky gives.',
   description:
-    'VERSA natural drinking water in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues.',
+    'LANGLOK natural drinking water in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues.',
   manufactured: 'Manufactured in Panchagarh, Bangladesh by Langlok Int. Company Ltd.',
   location: 'Panchagarh, Bangladesh',
 } as const;
@@ -31,64 +34,81 @@ export const nav = {
   primaryLabel: 'Main',
   menuOpen: 'Menu',
   menuClose: 'Close',
-  homeLabel: 'VERSA home',
+  homeLabel: 'LANGLOK home',
+} as const;
+
+/** The Motion switch (bottom corner): overrides the OS reduced-motion setting. */
+export const motionSwitch = {
+  label: 'Motion',
+  on: 'On',
+  off: 'Off',
+  title: 'Turn scroll animation on or off',
 } as const;
 
 /** Per-route <title> and meta description. */
 export const meta = {
   home: {
-    title: 'VERSA — Drink only what the sky gives.',
+    title: 'LANGLOK — Drink only what the sky gives.',
     description:
-      'VERSA natural drinking water in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues. Made in Panchagarh, Bangladesh.',
+      'LANGLOK natural drinking water in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues. Made in Panchagarh, Bangladesh.',
   },
   customBranding: {
-    title: 'Custom-branded water — VERSA',
+    title: 'Custom-branded water — LANGLOK',
     description:
-      'Put your logo on VERSA cans and bottles. Custom-branded aluminium water for hotels, franchises, events and venues.',
+      'Put your logo on LANGLOK cans and bottles. Custom-branded aluminium water for hotels, franchises, events and venues.',
   },
   recan: {
-    title: 'ReCan programme — VERSA',
+    title: 'ReCan programme — LANGLOK',
     description:
       'Every can comes home. The closed-loop ReCan programme collects, recycles and returns value to our partners.',
   },
   story: {
-    title: 'Chatak, the story behind the logo — VERSA',
+    title: 'Chatak, the story behind the logo — LANGLOK',
     description:
-      'The pied cuckoo that drinks only what the sky gives — the story behind the VERSA logo.',
+      'The pied cuckoo that drinks only what the sky gives — the story behind the LANGLOK label.',
   },
   contact: {
-    title: 'Contact — VERSA',
-    description: 'Request samples or talk to the VERSA team at Langlok Int. Company Ltd.',
+    title: 'Contact — LANGLOK',
+    description: 'Request samples or talk to the LANGLOK team at Langlok Int. Company Ltd.',
   },
-  notFound: { title: 'Page not found — VERSA', description: '' },
+  notFound: { title: 'Page not found — LANGLOK', description: '' },
 } as const;
 
 export const preloader = {
-  label: 'Loading VERSA',
+  label: 'Loading LANGLOK',
 } as const;
 
-/** 01 Hero — "Sky to Seal". Beats are positioned as fractions of the pinned scroll. */
+/**
+ * 01 Hero. The first screen is the can itself (intro); scrolling tips its lid towards the
+ * camera and dives through the opening into "Sky to Seal", the scroll film, whose beats
+ * are positioned as fractions of the hero's scroll.
+ */
 export const hero = {
+  intro: {
+    eyebrow: 'Natural drinking water · Panchagarh',
+    title: 'Drink only what *the sky gives.*',
+    sub: 'Every drop of LANGLOK begins as monsoon rain over the north of Bangladesh.',
+    aside: '*A vessel for the rain.*',
+    asideLines: ['Aluminium can · 500 ml', 'Aluminium bottle · 990 ml'],
+    canAlt: 'The LANGLOK 500 ml aluminium can',
+  },
+  dive: {
+    eyebrow: '01 · The click',
+    title: 'One small click. *The sky opens.*',
+  },
   fogHint: 'Wipe the glass',
   scrollHint: 'Scroll',
   filmAlt:
     'Film: monsoon clouds over the tea gardens of Tetulia, rain falling through earth and stone, a bright filtration hall, and a silver can rising out of mist.',
   beats: [
-    {
-      id: 'A',
-      at: 0.0,
-      title: 'Drink only what the sky gives.',
-      sub: 'Every drop of VERSA begins as monsoon rain over the north of Bangladesh.',
-    },
-    { id: 'B', at: 0.15, title: 'The rain returns.', sub: 'Like the Chatak, we wait for it.' },
-    { id: 'C', at: 0.35, title: 'Filtered by earth and time.', sub: null },
-    { id: 'D', at: 0.55, title: 'Purified with care.', sub: 'Natural drinking water, pH 7.0.' },
-    { id: 'E', at: 0.75, title: 'Sealed in aluminium. Never plastic.', sub: null },
-    { id: 'F', at: 0.9, title: 'Meet VERSA.', sub: null },
+    { id: 'B', at: 0.3, title: 'The rain *returns.*', sub: 'Like the Chatak, we wait for it.' },
+    { id: 'C', at: 0.45, title: 'Filtered by *earth and time.*', sub: null },
+    { id: 'D', at: 0.6, title: 'Purified *with care.*', sub: 'Natural drinking water, pH 7.0.' },
+    { id: 'E', at: 0.75, title: 'Sealed in aluminium. *Never plastic.*', sub: null },
+    { id: 'F', at: 0.9, title: 'Meet LANGLOK.', sub: null },
   ],
   /** Chapter label shown above each beat (editorial numbering). */
   beatLabels: {
-    A: '01 · Sky',
     B: '01 · Rain',
     C: '01 · Earth',
     D: '01 · Purify',
@@ -101,19 +121,19 @@ export const hero = {
 export const products = {
   chapter: '03',
   eyebrow: 'The vessels',
-  title: 'Two vessels. Never plastic.',
+  title: 'Two vessels. *Never plastic.*',
   specLabel: 'Specification',
   can: {
-    name: 'VERSA Can',
+    name: 'LANGLOK Can',
     volume: '500 ml',
     callouts: ['500 ml', 'Natural drinking water', 'pH 7.0', 'Infinitely recyclable aluminium'],
-    imageAlt: 'VERSA 500 ml aluminium can with the Chatak catching a raindrop',
+    imageAlt: 'The LANGLOK 500 ml aluminium can, with the Chatak catching a raindrop',
   },
   bottle: {
-    name: 'VERSA Aluminium Bottle',
+    name: 'LANGLOK Aluminium Bottle',
     volume: '990 ml',
     callouts: ['990 ml', 'Resealable aluminium bottle', 'Refill, reuse, repeat'],
-    imageAlt: 'VERSA 990 ml resealable aluminium bottle',
+    imageAlt: 'The LANGLOK 990 ml resealable aluminium bottle',
   },
   labelLines: {
     front: ['Say no plastic', 'Save the world'],
@@ -126,20 +146,22 @@ export const products = {
 export const yourLogo = {
   chapter: '04',
   eyebrow: 'Custom branding',
-  title: 'Your name, on our water.',
+  title: 'Your name, *on our water.*',
   sub: 'Custom-branded cans and bottles for hotels, franchises, events and venues.',
   cta: { label: 'Try it with your logo →', href: '/custom-branding' },
   placeholder: 'YOUR LOGO HERE',
+  canAlt: 'A LANGLOK can with a YOUR LOGO HERE label',
+  bottleAlt: 'A LANGLOK bottle with a YOUR LOGO HERE label',
 } as const;
 
 /** 05 Configurator */
 export const configurator = {
   chapter: '05',
   eyebrow: 'Configurator',
-  title: 'See it on the can.',
+  title: 'See it *on the can.*',
   intro:
-    'Upload your logo and see it on a VERSA can or bottle. When it looks right, request a quote — we’ll prepare print-ready artwork with you.',
-  previewAlt: 'Preview of a VERSA can with your logo',
+    'Upload your logo and see it on a LANGLOK can or bottle. When it looks right, request a quote — we’ll prepare print-ready artwork with you.',
+  previewAlt: 'Preview of a LANGLOK can with your logo',
   brandNameLabel: 'Brand name',
   brandNamePlaceholder: 'Your brand',
   customHexLabel: 'Custom colour (hex)',
@@ -220,9 +242,9 @@ export const story = {
 export const mission = {
   chapter: '07',
   eyebrow: 'Our mission',
-  statement: 'Premium shouldn’t cost the planet.',
+  statement: 'Premium shouldn’t *cost the planet.*',
   paragraphs: [
-    'At VERSA, we believe hydration should be both premium and sustainable. Founded by a team passionate about innovation and the planet, we’ve redefined what it means to drink responsibly. VERSA provides custom-branded canned water and reusable aluminium bottles for hotels, food franchises, events, and venues worldwide. Each product is designed to replace single-use plastic and deliver a cleaner, smarter, and more stylish drinking experience.',
+    'At LANGLOK, we believe hydration should be both premium and sustainable. Founded by a team passionate about innovation and the planet, we’ve redefined what it means to drink responsibly. LANGLOK provides custom-branded canned water and reusable aluminium bottles for hotels, food franchises, events, and venues worldwide. Each product is designed to replace single-use plastic and deliver a cleaner, smarter, and more stylish drinking experience.',
     'We manage every stage — from design and production to delivery, storage, and recycling — so our partners can focus on what they do best.',
   ],
   stages: [
@@ -243,7 +265,7 @@ export const mission = {
 export const recan = {
   chapter: '08',
   eyebrow: 'ReCan programme',
-  title: 'Every can comes home.',
+  title: 'Every can *comes home.*',
   sub: 'Through our closed-loop ReCan programme, every can is collected, recycled, and reborn — turning the cost of waste management into a new revenue stream for our partners.',
   steps: ['Serve', 'Collect', 'Recycle', 'Reborn'],
   loopLabel: 'The ReCan loop: serve, collect, recycle, reborn, and back to serve.',
@@ -262,7 +284,7 @@ export const recan = {
 export const whyAluminium = {
   chapter: '09',
   eyebrow: 'Why aluminium',
-  title: 'A vessel that never becomes plastic waste.',
+  title: 'A vessel that never becomes *plastic waste.*',
   cards: [
     {
       title: 'Infinitely recyclable',
@@ -286,7 +308,7 @@ export const whyAluminium = {
 export const whoWeServe = {
   chapter: '10',
   eyebrow: 'Who we serve',
-  title: 'Made for places that host people.',
+  title: 'Made for places that *host people.*',
   segments: [
     { id: 'hotel', title: 'Hotels', line: 'In-room water that carries your name.' },
     { id: 'franchise', title: 'Food franchises', line: 'A branded can on every tray.' },
@@ -297,7 +319,7 @@ export const whoWeServe = {
 
 /** 11 CTA + footer */
 export const cta = {
-  title: 'Bring VERSA to your venue.',
+  title: 'Bring LANGLOK *to your venue.*',
   primary: { label: 'Request samples', href: '/contact' },
   secondary: { label: 'Talk to us', href: '/contact' },
 } as const;
@@ -318,7 +340,7 @@ export const footer = {
 /** /contact page */
 export const contact = {
   eyebrow: 'Contact',
-  title: 'Talk to us.',
+  title: 'Talk *to us.*',
   intro:
     'Tell us about your hotel, franchise, event or venue. We’ll reply with samples, pricing and a branding proposal.',
   addressHeading: 'Langlok Int. Company Ltd.',
@@ -361,13 +383,14 @@ export const inquiryForm = {
 
 export const notFound = {
   eyebrow: '404',
-  title: 'This drop went astray.',
+  title: 'This drop *went astray.*',
   body: 'The page you were looking for isn’t here.',
-  back: { label: 'Back to VERSA', href: '/' },
+  back: { label: 'Back to LANGLOK', href: '/' },
 } as const;
 
 /**
- * The client's original label and story text, kept verbatim for reference.
+ * The client's original label and story text, kept verbatim for reference (the label
+ * artwork still prints the earlier VERSA name).
  * Do not use `labelBack` on the site as-is: it contains absolute health claims
  * ("leaches nothing", "zero microplastics") that need the lining confirmed first.
  */
@@ -379,7 +402,7 @@ export const clientOriginal = {
     signoff: 'This CAN makes a difference.',
   },
   missionRecan:
-    'Through our closed-loop ReCan programme, every can is collected, recycled, and reborn, benefitting clients financially by transforming waste into value and turning the cost of waste management into a new revenue stream. VERSA makes sustainability seamless, empowering businesses to showcase their values and reduce plastic waste without compromising luxury, convenience, or brand identity.',
+    'Through our closed-loop ReCan programme, every can is collected, recycled, and reborn, benefitting clients financially by transforming waste into value and turning the cost of waste management into a new revenue stream. LANGLOK makes sustainability seamless, empowering businesses to showcase their values and reduce plastic waste without compromising luxury, convenience, or brand identity.',
 } as const;
 
 /** /dev route — Phase 0 pin test */

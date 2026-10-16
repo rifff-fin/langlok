@@ -3,7 +3,7 @@ import { Canvas, advance, useThree } from '@react-three/fiber';
 import { PerformanceMonitor } from '@react-three/drei';
 import { NeutralToneMapping } from 'three';
 import { gsap } from '../lib/gsap';
-import { updateTargets } from './stations';
+import { stage, updateTargets } from './stations';
 import { Lighting } from './Lighting';
 import { Bottle, Can } from './Vessels';
 
@@ -22,7 +22,8 @@ export default function Scene() {
       aria-hidden="true"
       frameloop="never"
       dpr={[1, dpr]}
-      camera={{ fov: 20, near: 100, far: 600, position: [0, 0, 300] }}
+      // near/far leave room for the hero dive, where the lid comes most of the way to the lens
+      camera={{ fov: 20, near: 40, far: 900, position: [0, 0, 300] }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}
       onCreated={({ gl }) => {
@@ -51,15 +52,25 @@ function Driver() {
       if (visible || wasVisible) advance(time);
       wasVisible = visible;
     };
+    // the canvas ignores pointer events (the DOM is on top), so listen on the window
+    const point = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return;
+      stage.pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+      stage.pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
     gsap.ticker.add(tick);
-    return () => gsap.ticker.remove(tick);
+    window.addEventListener('pointermove', point, { passive: true });
+    return () => {
+      gsap.ticker.remove(tick);
+      window.removeEventListener('pointermove', point);
+    };
   }, []);
   return null;
 }
 
 /**
  * Mounted once textures and models exist: compile shaders up front, then flag the page so
- * CSS fades the stand-in product photos out over the live vessels.
+ * CSS fades the stand-in stills out under the live vessels.
  */
 function Ready() {
   const { gl, scene, camera } = useThree();

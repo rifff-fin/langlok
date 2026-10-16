@@ -1,4 +1,6 @@
-# VERSA — Prompts for Claude Code (VS Code) and AI video
+# LANGLOK — Prompts for Claude Code (VS Code) and AI video
+
+> Updated 17 Oct 2026: the brand is **LANGLOK** (it was VERSA in the first draft; the label artwork still prints VERSA). The opening now follows the **morphowater.com** reference (master plan §2.5). Progress: [`STATUS.md`](STATUS.md). Phases 0, 1 and 3 are done; Phase 2 (the film) is next.
 
 Three parts:
 - **Part A** — how to set up the repo so Claude Code always has the context
@@ -9,10 +11,10 @@ Three parts:
 
 ## Part A — Setup (once)
 
-1. Create the project folder `versa/` and open it in VS Code.
+1. Create the project folder `langlok/` and open it in VS Code.
 2. Put **`CLAUDE.md` in the root**. Claude Code loads it automatically at the start of every session, so the brand rules, stack and architecture rules are always in context.
-3. Create `versa/docs/` and put **`VERSA_Website_Master_Plan.md`** and this file in it.
-4. Put the client assets in `versa/client/public/img/` (can/bottle photos, logo image, bird art when you get it) and the two text files in `versa/docs/client/`.
+3. Create `langlok/docs/` and put **`LANGLOK_Website_Master_Plan.md`** and this file in it.
+4. Put the client assets in `langlok/client/public/img/` (can/bottle photos, logo image, bird art when you get it) and the two text files in `langlok/docs/client/`.
 5. Work **one phase at a time**. Start each phase in plan mode (or ask "plan first, don't edit yet"), read the plan, then let it build. Check the result in the browser before moving on.
 6. Commit after every phase (`git init` in phase 0) so you can roll back.
 
@@ -28,9 +30,9 @@ Tips that save time:
 ### B0. Master prompt (paste first, in a new session)
 
 ```text
-You are building the website for VERSA, a premium natural drinking water sold in
+You are building the website for LANGLOK, a premium natural drinking water sold in
 aluminium cans (500 ml) and aluminium bottles (990 ml) by Langlok Int. Company Ltd.
-of Panchagarh, Bangladesh. Read CLAUDE.md and docs/VERSA_Website_Master_Plan.md
+of Panchagarh, Bangladesh. Read CLAUDE.md and docs/LANGLOK_Website_Master_Plan.md
 fully before doing anything.
 
 THE FEELING
@@ -47,13 +49,15 @@ never becomes plastic waste, and every can coming home through ReCan. Every sect
 should answer to that idea: Sky → Earth → Vessel → Your brand → Return.
 
 THE EXPERIENCE
-1. A fogged-glass first screen the visitor wipes clear with the cursor or a finger.
+1. The first screen is the live 3D can, large and centred (the Morpho reference). Scroll
+   tips its lid to the camera, the tab clicks open and the camera dives into the opening.
 2. "Sky to Seal": a scroll-scrubbed film (canvas image sequence) from monsoon clouds,
    through rain, earth and a bright filtration hall, to one silver can rising from mist.
+   It starts where the dive ends: pale sky seen through the can's opening.
 3. The film hands off seamlessly to a live 3D can (React Three Fiber) that spins with
    scroll, followed by the 990 ml bottle.
 4. Both vessels spin again and come round showing "YOUR LOGO HERE": any hotel,
-   franchise, event or venue can have VERSA under its own brand.
+   franchise, event or venue can have LANGLOK under its own brand.
 5. A live configurator where a visitor uploads their logo and sees it on the can and
    bottle, then requests a quote.
 6. The Chatak story told in five scroll chapters, rain that follows scroll speed.
@@ -76,7 +80,7 @@ you see, then propose the Phase 0 plan. Do not write code yet.
 ### B1. Phase 0 — Setup
 
 ```text
-Phase 0: project setup. Follow docs/VERSA_Website_Master_Plan.md §5.
+Phase 0: project setup. Follow docs/LANGLOK_Website_Master_Plan.md §5.
 
 1. Create an npm workspaces monorepo: client/ (Vite + React 19 + TypeScript) and
    server/ (Express 5 + TypeScript), root scripts dev/build/lint/typecheck, running
@@ -121,10 +125,14 @@ Check 390×844, 768×1024, 1440×900. Show me screenshots of the hero, products 
 story sections at 390 and 1440.
 ```
 
-### B3. Phase 2 — Hero: preloader, fog glass, scroll film
+### B3. Phase 2 — Hero: preloader, scroll film (next)
 
 ```text
-Phase 2: the hero. Follow master plan §4.3 (00–02) and §6.7.
+Phase 2: the hero film. Follow master plan §4.3 (00–02) and §6.7.
+Already built (Phase 3): the opening screen with the live 3D can and the dive into its
+opening (Hero.tsx, the `heroDive` move). The film's sky stage takes over as the dive ends,
+so mount the frame canvas in [data-hero-stage] and make its first frame the pale sky the
+opening shows. The fog glass is optional now: drop it, or use it on the film's first beat.
 
 1. Preloader: a drop falls and becomes a thin progress line; waits for poster, first
    ~20 frames and fonts; min 600 ms, max 3 s.
@@ -145,7 +153,11 @@ Done when: scrubbing forwards and backwards is smooth with placeholder frames, f
 numbers never jump backwards while scrolling down, and Lighthouse LCP is under 2.5s.
 ```
 
-### B4. Phase 3 — 3D can and bottle
+### B4. Phase 3 — 3D can and bottle (done)
+
+Built on branch `phase-3-3d-products`; see CLAUDE.md "3D vessels" for how it works as built
+(profiles from the photos, label on the lathe body, station router, studio stills, Motion
+switch). The prompt below is kept for reference.
 
 ```text
 Phase 3: the products in 3D. Follow master plan §7.1–7.5 and §7.7.
@@ -162,7 +174,7 @@ Phase 3: the products in 3D. Follow master plan §7.1–7.5 and §7.7.
    roughness 0.45, transparent). Droplet normal map on both, slowly sliding on idle.
 5. Lighting.tsx: drei Environment built from Lightformers (two tall soft strips, one
    top), ContactShadows on a paper-coloured floor. No real-time shadows.
-6. labelTexture.ts: load the four label PNGs (use generated placeholders with the VERSA
+6. labelTexture.ts: load the four label PNGs (use generated placeholders with the LANGLOK
    layout until client files arrive), sRGB, anisotropy, created once.
 7. Products section: ScrollTrigger writes progress to the store; the can spins 0→2π
    with maath easing.damp; callouts animate in; then the camera eases and the bottle
@@ -330,5 +342,5 @@ Tool notes (October 2026): Google Veo 3.1 (via Flow) for the most realistic resu
 ### C6. Note for the label designer
 
 Ask for two label variants per vessel at the exact wrap size (width = circumference, height = printable band), PNG with transparent background at 4096 px wide:
-- **VERSA** (the current artwork, flat and unwrapped)
+- **LANGLOK** (flat and unwrapped; the current artwork prints the old VERSA wordmark, so it needs the new name)
 - **YOUR LOGO HERE** (same layout; the bird + wordmark zone replaced by a refined dashed frame and the words YOUR LOGO HERE in the brand typography)

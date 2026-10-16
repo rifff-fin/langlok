@@ -6,6 +6,7 @@ import {
   LatheGeometry,
   Path,
   Shape,
+  ShapeGeometry,
   SRGBColorSpace,
   Vector2,
 } from 'three';
@@ -124,6 +125,61 @@ export function pullTab() {
   });
   geo.rotateX(-Math.PI / 2);
   return geo;
+}
+
+const OPENING = { w: 0.8, l: 1.46 }; // half-width and length, cm
+
+/**
+ * The can's opening, lying flat on the lid: a teardrop whose narrow end starts at the
+ * origin (under the tab's nose) and widens towards the rim along +z. `grow` scales it
+ * about its middle (the rolled lip around the hole). UVs span the shape's box, 0..1.
+ */
+export function openingShape(grow = 1) {
+  const { w, l } = OPENING;
+  const s = new Shape();
+  // drawn in XY with y negative, so rotating onto the lid (-90 deg about x) runs it along +z
+  s.moveTo(0, 0);
+  s.bezierCurveTo(0.42 * w, -0.03 * l, w, -0.26 * l, w, -0.59 * l);
+  s.bezierCurveTo(w, -0.86 * l, 0.55 * w, -l, 0, -l);
+  s.bezierCurveTo(-0.55 * w, -l, -w, -0.86 * l, -w, -0.59 * l);
+  s.bezierCurveTo(-w, -0.26 * l, -0.42 * w, -0.03 * l, 0, 0);
+  const geo = new ShapeGeometry(s, 24);
+  const pos = geo.getAttribute('position');
+  const uv = geo.getAttribute('uv') as BufferAttribute;
+  for (let i = 0; i < uv.count; i++) {
+    uv.setXY(i, (pos.getX(i) + w) / (2 * w), (pos.getY(i) + l) / l);
+  }
+  geo.translate(0, l * 0.55, 0);
+  geo.scale(grow, grow, 1);
+  geo.translate(0, -l * 0.55, 0);
+  geo.rotateX(-Math.PI / 2);
+  return geo;
+}
+
+/**
+ * The pale monsoon sky seen through the opening (the hero's sky stage colours), darker at
+ * the rim like light falling into a hole, so it reads as depth rather than a sticker.
+ */
+export function skyTexture() {
+  const n = 128;
+  const c = document.createElement('canvas');
+  c.width = c.height = n;
+  const ctx = c.getContext('2d')!;
+  const sky = ctx.createLinearGradient(0, 0, 0, n);
+  sky.addColorStop(0, '#d6e6f2'); // v = 1 (canvas top): the narrow end, by the tab
+  sky.addColorStop(0.6, '#f4f7f9');
+  sky.addColorStop(1, '#e6edf2');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, n, n);
+  const rim = ctx.createRadialGradient(n / 2, n * 0.58, n * 0.12, n / 2, n * 0.58, n * 0.62);
+  rim.addColorStop(0, 'rgba(70, 95, 120, 0)');
+  rim.addColorStop(0.62, 'rgba(70, 95, 120, 0.08)');
+  rim.addColorStop(1, 'rgba(40, 58, 80, 0.62)');
+  ctx.fillStyle = rim;
+  ctx.fillRect(0, 0, n, n);
+  const tex = new CanvasTexture(c);
+  tex.colorSpace = SRGBColorSpace;
+  return tex;
 }
 
 /** Soft elliptical contact shadow, drawn once to a small canvas. */

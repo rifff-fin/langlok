@@ -7,6 +7,7 @@ import { Story } from '../pages/Story';
 import { Contact } from '../pages/Contact';
 import { NotFound } from '../pages/NotFound';
 import { DevPin } from '../pages/DevPin';
+import { DevStudio } from '../pages/DevStudio';
 
 // Phase 6 adds /admin.
 export const router = createBrowserRouter([
@@ -18,7 +19,12 @@ export const router = createBrowserRouter([
       { path: '/recan', element: <ReCan /> },
       { path: '/story', element: <Story /> },
       { path: '/contact', element: <Contact /> },
-      ...(import.meta.env.DEV ? [{ path: '/dev', element: <DevPin /> }] : []),
+      ...(import.meta.env.DEV
+        ? [
+            { path: '/dev', element: <DevPin /> },
+            { path: '/dev/studio', element: <DevStudio /> },
+          ]
+        : []),
       { path: '*', element: <NotFound /> },
     ],
   },

@@ -12,9 +12,9 @@ app.use(cors({ origin: CLIENT_ORIGIN }));
 app.use(express.json({ limit: '100kb' }));
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, service: 'versa-api', time: new Date().toISOString() });
+  res.json({ ok: true, service: 'langlok-api', time: new Date().toISOString() });
 });
 
 app.listen(PORT, () => {
-  console.log(`VERSA API listening on http://localhost:${PORT}`);
+  console.log(`LANGLOK API listening on http://localhost:${PORT}`);
 });

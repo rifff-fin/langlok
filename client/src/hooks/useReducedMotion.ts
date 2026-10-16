@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
+import { reducedQuery } from '../lib/motion';
 
-const QUERY = '(prefers-reduced-motion: reduce)';
+const QUERY = reducedQuery();
 
 function subscribe(onChange: () => void) {
   const mql = window.matchMedia(QUERY);
@@ -12,7 +13,7 @@ function getSnapshot() {
   return window.matchMedia(QUERY).matches;
 }
 
-/** True when the visitor asked the OS for reduced motion. Updates live. */
+/** True when motion is reduced (OS setting, or the visitor's Motion switch). Updates live. */
 export function useReducedMotion() {
   return useSyncExternalStore(subscribe, getSnapshot, () => false);
 }

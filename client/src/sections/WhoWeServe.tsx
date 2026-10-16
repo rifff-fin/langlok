@@ -2,6 +2,7 @@ import { useId } from 'react';
 import { whoWeServe } from '../content/copy';
 import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
+import { Emph } from '../components/ui/Emph';
 
 /** Tint per segment; photography arrives with the client assets. TODO(client): photos. */
 const TINTS: Record<(typeof whoWeServe.segments)[number]['id'], string> = {
@@ -24,7 +25,7 @@ export function WhoWeServe() {
       <Container>
         <ChapterHead n={whoWeServe.chapter} label={whoWeServe.eyebrow} />
         <h2 id="serve-title" className="mt-12 max-w-[16ch] text-[length:var(--text-h2)]">
-          {whoWeServe.title}
+          <Emph text={whoWeServe.title} />
         </h2>
 
         <ul
