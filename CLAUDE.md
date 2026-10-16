@@ -79,5 +79,8 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 
 - Before a phase: read the matching section of the master plan and propose a short plan; wait for approval if it changes architecture.
 - After changes: run `npm run typecheck` and `npm run lint`, then check the page in the browser at 390 × 844 and 1440 × 900, and with reduced motion enabled.
-- Keep components small; one section per file in `client/src/sections/`; 3D in `client/src/three/`.
+- Keep components small; one section per file in `client/src/sections/`; 3D in `client/src/three/`. Pages in `client/src/pages/` compose sections; shared pieces in `client/src/components/` (`ui/` for primitives: Container, Eyebrow, Hairline, ChapterHead, Button).
+- The hero is a tall track (`(HERO_SCROLL_VH + 100)svh`) with a CSS-sticky full-viewport stage (`[data-hero-stage]`). Its height is already final, so drive it with a ScrollTrigger on the track (progress only, no `pin`). Other pinned sections are `min-h-svh` panels; their pin spacing gets added later.
+- The static Phase 1 layouts double as the reduced-motion and no-WebGL versions. Enhance them; don't replace them.
+- Until the client sends the master SVG, `components/Logo.tsx` is a neutral text placeholder (`data-placeholder="logo"`). The mockup photos are stand-ins: `ProductPlate`, plus `SlottedVessel` + `logoSlots.ts` for the "YOUR LOGO HERE" slot.
 - When unsure about copy or a brand fact, leave a `// TODO(client):` comment instead of guessing.

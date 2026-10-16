@@ -28,6 +28,39 @@ export const nav = {
     { label: 'Contact', href: '/contact' },
   ],
   cta: { label: 'Request samples', href: '/contact' },
+  primaryLabel: 'Main',
+  menuOpen: 'Menu',
+  menuClose: 'Close',
+  homeLabel: 'VERSA home',
+} as const;
+
+/** Per-route <title> and meta description. */
+export const meta = {
+  home: {
+    title: 'VERSA — Drink only what the sky gives.',
+    description:
+      'VERSA natural drinking water in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues. Made in Panchagarh, Bangladesh.',
+  },
+  customBranding: {
+    title: 'Custom-branded water — VERSA',
+    description:
+      'Put your logo on VERSA cans and bottles. Custom-branded aluminium water for hotels, franchises, events and venues.',
+  },
+  recan: {
+    title: 'ReCan programme — VERSA',
+    description:
+      'Every can comes home. The closed-loop ReCan programme collects, recycles and returns value to our partners.',
+  },
+  story: {
+    title: 'Chatak, the story behind the logo — VERSA',
+    description:
+      'The pied cuckoo that drinks only what the sky gives — the story behind the VERSA logo.',
+  },
+  contact: {
+    title: 'Contact — VERSA',
+    description: 'Request samples or talk to the VERSA team at Langlok Int. Company Ltd.',
+  },
+  notFound: { title: 'Page not found — VERSA', description: '' },
 } as const;
 
 export const preloader = {
@@ -53,12 +86,23 @@ export const hero = {
     { id: 'E', at: 0.75, title: 'Sealed in aluminium. Never plastic.', sub: null },
     { id: 'F', at: 0.9, title: 'Meet VERSA.', sub: null },
   ],
+  /** Chapter label shown above each beat (editorial numbering). */
+  beatLabels: {
+    A: '01 · Sky',
+    B: '01 · Rain',
+    C: '01 · Earth',
+    D: '01 · Purify',
+    E: '01 · Seal',
+    F: '01 · Vessel',
+  },
 } as const;
 
 /** 03 Products */
 export const products = {
   chapter: '03',
   eyebrow: 'The vessels',
+  title: 'Two vessels. Never plastic.',
+  specLabel: 'Specification',
   can: {
     name: 'VERSA Can',
     volume: '500 ml',
@@ -93,6 +137,12 @@ export const configurator = {
   chapter: '05',
   eyebrow: 'Configurator',
   title: 'See it on the can.',
+  intro:
+    'Upload your logo and see it on a VERSA can or bottle. When it looks right, request a quote — we’ll prepare print-ready artwork with you.',
+  previewAlt: 'Preview of a VERSA can with your logo',
+  brandNameLabel: 'Brand name',
+  brandNamePlaceholder: 'Your brand',
+  customHexLabel: 'Custom colour (hex)',
   upload: {
     label: 'Upload your logo',
     hint: 'PNG, SVG or JPG, up to 5 MB',
@@ -123,7 +173,10 @@ export const story = {
   eyebrow: 'The story behind the logo',
   titleBengali: 'চাতক',
   title: 'Chatak',
-  species: 'Pied cuckoo · Clamator jacobinus',
+  species: { common: 'Pied cuckoo', latin: 'Clamator jacobinus' },
+  readMore: { label: 'Read the story →', href: '/story' },
+  birdAlt: 'The Chatak, a black-and-white crested pied cuckoo, perched on an acacia branch',
+  catchAlt: 'The Chatak with its beak open, catching a single raindrop',
   chapters: [
     {
       id: 1,
@@ -193,6 +246,9 @@ export const recan = {
   title: 'Every can comes home.',
   sub: 'Through our closed-loop ReCan programme, every can is collected, recycled, and reborn — turning the cost of waste management into a new revenue stream for our partners.',
   steps: ['Serve', 'Collect', 'Recycle', 'Reborn'],
+  loopLabel: 'The ReCan loop: serve, collect, recycle, reborn, and back to serve.',
+  pageIntro:
+    'We manage collection and recycling for our partners, so the cans you serve come back as value instead of waste.',
   cta: { label: 'Become a ReCan partner', href: '/recan' },
   // TODO(client): how collection works, who pays whom, real figures. Counters stay hidden
   // until /api/stats returns non-zero values.
@@ -248,6 +304,8 @@ export const cta = {
 
 export const footer = {
   missionLine: 'Premium natural drinking water in aluminium, made to replace single-use plastic.',
+  exploreHeading: 'Explore',
+  followHeading: 'Follow',
   // TODO(client): real social URLs (Twitter icon on the label should become X)
   social: [
     { label: 'Facebook', href: '#' },
@@ -255,6 +313,57 @@ export const footer = {
     { label: 'Instagram', href: '#' },
   ],
   legal: `© ${new Date().getFullYear()} Langlok Int. Company Ltd.`,
+} as const;
+
+/** /contact page */
+export const contact = {
+  eyebrow: 'Contact',
+  title: 'Talk to us.',
+  intro:
+    'Tell us about your hotel, franchise, event or venue. We’ll reply with samples, pricing and a branding proposal.',
+  addressHeading: 'Langlok Int. Company Ltd.',
+  address: ['Panchagarh', 'Bangladesh'], // TODO(client): full street address, phone, sales email
+  emailLabel: 'Email',
+  email: null as string | null, // TODO(client): sales email
+} as const;
+
+/**
+ * Inquiry form (contact, samples, branding, ReCan). Static in Phase 1;
+ * zod schema + API wiring in Phases 4 and 6 (fields match master plan §8.2).
+ */
+export const inquiryForm = {
+  heading: 'Send an inquiry',
+  fields: {
+    name: 'Name',
+    company: 'Company',
+    email: 'Email',
+    phone: 'Phone (optional)',
+    country: 'Country',
+    businessType: 'Business type',
+    product: 'Product',
+    quantityEstimate: 'Estimated quantity (optional)',
+    quantityPlaceholder: 'e.g. 5,000–20,000 per month',
+    message: 'Message (optional)',
+    consent: 'I agree to be contacted about this inquiry.',
+  },
+  businessTypes: {
+    hotel: 'Hotel',
+    franchise: 'Food franchise',
+    event: 'Event',
+    venue: 'Venue',
+    other: 'Other',
+  },
+  products: { can500: 'Can 500 ml', bottle990: 'Bottle 990 ml', both: 'Both' },
+  submit: 'Send inquiry',
+  pendingNote: 'The form goes live soon. Until then, please contact us directly.', // TODO(client): remove in Phase 6
+  recanHeading: 'Become a ReCan partner',
+} as const;
+
+export const notFound = {
+  eyebrow: '404',
+  title: 'This drop went astray.',
+  body: 'The page you were looking for isn’t here.',
+  back: { label: 'Back to VERSA', href: '/' },
 } as const;
 
 /**

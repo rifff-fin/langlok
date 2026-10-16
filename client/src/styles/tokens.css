@@ -39,6 +39,9 @@
   /* layout */
   --page-max: 1440px;
   --gutter: clamp(20px, 5vw, 96px);
+  --grid-gap: clamp(16px, 2vw, 32px);
+  --section-y: clamp(96px, 14vw, 200px); /* vertical rhythm between chapters */
+  --header-h: 72px;
   --hairline: 1px solid var(--aluminium);
 
   /* motion — liquid, no bounce */
