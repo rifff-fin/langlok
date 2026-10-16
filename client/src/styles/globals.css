@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './fonts.css';
+@import 'lenis/dist/lenis.css';
+
+/* Expose the tokens to Tailwind utilities (bg-mist, text-ink, font-display, …). */
+@theme inline {
+  --color-mist: var(--mist);
+  --color-cloud: var(--cloud);
+  --color-paper: var(--paper);
+  --color-aluminium: var(--aluminium);
+  --color-ink: var(--ink);
+  --color-slate: var(--slate);
+  --color-rain: var(--rain);
+  --color-rain-deep: var(--rain-deep);
+  --color-rain-light: var(--rain-light);
+  --color-leaf: var(--leaf);
+  --color-sun: var(--sun);
+  --color-monsoon: var(--monsoon);
+
+  --font-display: var(--ff-display);
+  --font-sans: var(--ff-sans);
+  --font-bengali: var(--ff-bengali);
+
+  --ease-liquid: var(--ease-water-out);
+  --ease-liquid-expo: var(--ease-water-expo);
+  --ease-liquid-sine: var(--ease-water-sine);
+}
+
+@layer base {
+  html {
+    background: var(--mist);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background: var(--mist);
+    font-family: var(--ff-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--rain-deep);
+    text-underline-offset: 0.2em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--rain-deep);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--rain-light);
+    color: var(--ink);
+  }
+
+  canvas {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

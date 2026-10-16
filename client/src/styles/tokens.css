@@ -1,0 +1,50 @@
+/*
+ * VERSA design tokens — "Monsoon Light".
+ * Source of truth for colour, type and spacing. See docs/VERSA_Website_Master_Plan.md §3.
+ * Rules: --mist ≈ 70% of every screen; --rain only in small doses (large text/graphics);
+ * --rain-deep for links and small accent text; --sun and --monsoon only in the Chatak story.
+ */
+:root {
+  /* surfaces */
+  --mist: #f3f5f6; /* page background */
+  --cloud: #e6ebee; /* secondary surface, cards */
+  --paper: #fbfcfc; /* raised surface */
+  --aluminium: #c7cdd2; /* hairlines, borders, chrome */
+
+  /* text */
+  --ink: #16233f; /* headlines, body (logo navy) */
+  --slate: #5b6875; /* secondary text */
+
+  /* accents */
+  --rain: #2f7fc1; /* large text/graphics only */
+  --rain-deep: #1f64a0; /* links, small accent text */
+  --rain-light: #8fc3ea; /* highlights, droplets */
+  --leaf: #6e8b5e; /* nature accent, sparing */
+  --sun: #e9b872; /* story only */
+  --monsoon: #6c6a86; /* story only */
+
+  /* type families */
+  --ff-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --ff-sans: 'Jost', 'Futura', 'Century Gothic', system-ui, sans-serif;
+  --ff-bengali: 'Noto Serif Bengali', 'Noto Sans Bengali', serif;
+
+  /* fluid type scale (390px → 1440px viewport) */
+  --text-display: clamp(4rem, 2.51rem + 6.1vw, 10rem); /* 64–160px */
+  --text-h2: clamp(2.5rem, 1.83rem + 2.74vw, 5.5rem); /* 40–88px */
+  --text-h3: clamp(1.5rem, 1.2rem + 1.22vw, 2.5rem); /* 24–40px */
+  --text-body: clamp(1.0625rem, 1.016rem + 0.19vw, 1.1875rem); /* 17–19px */
+  --text-eyebrow: clamp(0.75rem, 0.727rem + 0.1vw, 0.8125rem); /* 12–13px */
+  --tracking-eyebrow: 0.24em;
+
+  /* layout */
+  --page-max: 1440px;
+  --gutter: clamp(20px, 5vw, 96px);
+  --hairline: 1px solid var(--aluminium);
+
+  /* motion — liquid, no bounce */
+  --ease-water-out: cubic-bezier(0.33, 1, 0.68, 1); /* ≈ power2.out */
+  --ease-water-expo: cubic-bezier(0.16, 1, 0.3, 1); /* ≈ expo.out */
+  --ease-water-sine: cubic-bezier(0.37, 0, 0.63, 1); /* ≈ sine.inOut */
+  --dur-ui: 250ms;
+  --dur-reveal: 900ms;
+}

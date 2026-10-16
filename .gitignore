@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+
+# Raw client handoff folder (copied into docs/ and client/public/img/)
+main product info/
+
+# Video masters are large; only the extracted frames are committed
+*.mov
+*.mp4

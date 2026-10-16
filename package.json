@@ -1,0 +1,33 @@
+{
+  "name": "versa",
+  "private": true,
+  "type": "module",
+  "description": "VERSA natural drinking water — website for Langlok Int. Company Ltd.",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n client,server -c blue,gray \"npm run dev -w client\" \"npm run dev -w server\"",
+    "build": "npm run build -w server && npm run build -w client",
+    "lint": "eslint .",
+    "typecheck": "npm run typecheck -w client && npm run typecheck -w server",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.6",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

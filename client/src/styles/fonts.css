@@ -1,0 +1,24 @@
+/*
+ * Fonts load from Google Fonts via <link> in index.html (preconnect + display=swap),
+ * which starts the download earlier than an @import here would.
+ * Families: Bodoni Moda (display), Jost (UI/body), Noto Serif Bengali (Bengali accents).
+ * This file holds the font-related helpers only.
+ */
+.font-display {
+  font-family: var(--ff-display);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.font-bengali {
+  font-family: var(--ff-bengali);
+}
+
+.eyebrow {
+  font-family: var(--ff-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+}
