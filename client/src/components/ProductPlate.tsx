@@ -1,6 +1,10 @@
+import type { AnchorId } from '../store/scene';
+import { useVesselAnchor } from '../hooks/useVesselAnchor';
+
 /**
  * A client product photo presented as an editorial plate (paper mount + hairline).
- * Temporary stand-in for the live 3D vessels; also the no-WebGL fallback later.
+ * With an `anchor`, the live 3D vessel tracks this box and the photo fades out once WebGL
+ * is ready; it stays as the reduced-motion / no-WebGL version and keeps its alt text.
  */
 export function ProductPlate({
   src,
@@ -9,6 +13,7 @@ export function ProductPlate({
   height,
   className = '',
   priority = false,
+  anchor,
 }: {
   src: string;
   alt: string;
@@ -16,9 +21,13 @@ export function ProductPlate({
   height: number;
   className?: string;
   priority?: boolean;
+  anchor?: AnchorId;
 }) {
+  const ref = useVesselAnchor(anchor);
   return (
     <figure
+      ref={ref}
+      data-vessel-plate={anchor ? '' : undefined}
       className={`m-0 border border-aluminium bg-paper p-[clamp(12px,2vw,28px)] ${className}`}
     >
       <img
@@ -28,7 +37,12 @@ export function ProductPlate({
         height={height}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
-        className="mx-auto max-h-[72svh] w-auto object-contain"
+        // sized before load (no layout shift; the 3D vessel tracks this box)
+        style={{
+          aspectRatio: `${width} / ${height}`,
+          width: `min(100%, calc(72svh * ${width / height}))`,
+        }}
+        className="mx-auto block h-auto"
       />
     </figure>
   );

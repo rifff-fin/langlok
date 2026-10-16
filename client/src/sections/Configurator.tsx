@@ -36,7 +36,9 @@ export function Configurator({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
             <Heading id={`${id}-title`} className="text-[length:var(--text-h2)]">
               {configurator.title}
             </Heading>
-            <p className="mt-6 max-w-[44ch] text-slate">{configurator.intro}</p>
+            <p data-reveal="fade" className="mt-6 max-w-[44ch] text-slate">
+              {configurator.intro}
+            </p>
 
             <div className="mt-10 bg-cloud p-[clamp(16px,3vw,48px)]">
               <div className="mx-auto max-w-[340px]">
@@ -53,6 +55,7 @@ export function Configurator({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
           </div>
 
           <form
+            data-reveal="fade"
             className="col-span-4 space-y-9 md:col-span-6 lg:col-span-5"
             onSubmit={(e) => e.preventDefault()}
             aria-labelledby={`${id}-title`}

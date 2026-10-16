@@ -1,7 +1,9 @@
+import { useRef } from 'react';
 import { hero, products } from '../content/copy';
 import { Container } from '../components/ui/Container';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { ProductPlate } from '../components/ProductPlate';
+import { gsap, useGSAP } from '../lib/gsap';
 
 /** Scroll distance of the film, in viewport heights (master plan §4.2: ~500vh). */
 export const HERO_SCROLL_VH = 500;
@@ -11,17 +13,41 @@ export const HERO_SCROLL_VH = 500;
  * Phase 1: static layout at its final height. A sticky full-viewport stage (CSS sky for
  * now) with the six text beats placed along the track at their scroll fractions.
  * Phase 2 mounts the frame canvas, poster, fog glass and GSAP beat reveals in the stage.
+ * Beat F's plate is the 3D can's first anchor: as F scrolls in, the sky stage fades to the
+ * mist page and the live can rises in its place, then glides on to the products.
  */
 export function Hero() {
   const [first, ...rest] = hero.beats;
+  const section = useRef<HTMLElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.to(stage.current, {
+          autoAlpha: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '[data-beat="F"]',
+            start: 'top bottom',
+            end: 'top 40%',
+            scrub: true,
+          },
+        });
+      });
+    },
+    { scope: section },
+  );
 
   return (
     <section
+      ref={section}
       aria-labelledby="hero-title"
       className="relative"
       style={{ height: `${HERO_SCROLL_VH + 100}svh` }}
     >
       <div
+        ref={stage}
         data-hero-stage
         aria-hidden="true"
         className="sticky top-0 h-svh overflow-hidden"
@@ -40,6 +66,7 @@ export function Hero() {
             <Eyebrow className="text-slate">{hero.beatLabels[first.id]}</Eyebrow>
             <h1
               id="hero-title"
+              data-reveal="intro"
               className="mt-6 max-w-[12ch] text-[length:var(--text-display)] leading-[0.95] text-ink"
             >
               {first.title}
@@ -61,6 +88,7 @@ export function Hero() {
           return (
             <div
               key={beat.id}
+              data-beat={beat.id}
               className="absolute inset-x-0"
               style={{ top: `calc(${beat.at * HERO_SCROLL_VH}svh + 40svh)` }}
             >
@@ -70,15 +98,19 @@ export function Hero() {
                 >
                   <Eyebrow className="text-slate">{hero.beatLabels[beat.id]}</Eyebrow>
                   <h2 className="mt-5 text-[length:var(--text-h2)] text-ink">{beat.title}</h2>
-                  {beat.sub && <p className="mt-5 max-w-[34ch] text-slate">{beat.sub}</p>}
+                  {beat.sub && (
+                    <p data-reveal="fade" className="mt-5 max-w-[34ch] text-slate">
+                      {beat.sub}
+                    </p>
+                  )}
                 </div>
                 {isLast && (
-                  // Stand-in for the 3D handoff can (Phase 3).
                   <ProductPlate
                     src="/img/mockups/can-front.jpeg"
                     alt={products.can.imageAlt}
                     width={579}
                     height={1024}
+                    anchor="hero-can"
                     className="md:col-span-5 md:col-start-8"
                   />
                 )}

@@ -13,6 +13,7 @@ Langlok Int. Company Ltd., Panchagarh, Bangladesh.
 - Node.js 22+ (developed on Node 26), npm 10+
 - ffmpeg on `PATH` (frame scripts)
 - Git Bash or any POSIX shell for `scripts/*.sh` on Windows
+- Python 3.10+ with Pillow, numpy and scipy (only to rebuild the 3D label textures)
 
 ## Commands
 
@@ -28,6 +29,7 @@ npm run format
 
 bash scripts/make-placeholder-frames.sh          # placeholder hero frames + poster
 bash scripts/extract-frames.sh hero_master.mov   # real hero frames from the graded master
+python scripts/build-label-textures.py           # 3D label textures from the mockup photos
 ```
 
 The Vite dev server proxies `/api` to the API on port 4000. Copy `server/.env.example`
@@ -35,7 +37,8 @@ to `server/.env` to override defaults.
 
 ## Dev routes
 
-- `/` — home (Phase 0: holding page)
+- `/` — home: the full scroll experience (3D vessels from Phase 3)
+- `/custom-branding`, `/recan`, `/story`, `/contact` — inner pages
 - `/dev` — Lenis + ScrollTrigger pin test (dev builds only)
 
 ## Layout
@@ -44,9 +47,10 @@ to `server/.env` to override defaults.
 client/   Vite + React 19 + TS, Tailwind v4, three / R3F, GSAP, Lenis
   public/frames/hero/{desktop,mobile}/NNNN.webp, poster.jpg
   public/img/mockups/   client product photos (temporary stand-ins)
-  src/app/ content/ hooks/ lib/ pages/ styles/   (sections/ and three/ arrive in Phases 1 and 3)
+  public/textures/      3D label colour + ORM maps (generated)
+  src/app/ components/ content/ hooks/ lib/ pages/ sections/ store/ styles/ three/
 server/   Express 5 + TS (Mongo, uploads, email arrive in Phase 6)
-scripts/  frame tools
+scripts/  hero frame tools, label texture builder
 docs/     master plan, prompts, client text
 ```
 

@@ -36,6 +36,7 @@ export function SlottedVessel({
         />
         <div
           aria-hidden="true"
+          data-logo-slot
           className="absolute flex items-center justify-center border border-dashed border-ink/45 bg-[#e9ebec] p-2 text-center"
           style={slot}
         >

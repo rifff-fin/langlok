@@ -15,7 +15,7 @@ export function CallToAction() {
         <h2 id="cta-title" className="mt-8 max-w-[14ch] text-[length:var(--text-h2)]">
           {cta.title}
         </h2>
-        <div className="mt-12 flex flex-wrap justify-center gap-4">
+        <div data-reveal="fade" className="mt-12 flex flex-wrap justify-center gap-4">
           <Button href={cta.primary.href}>{cta.primary.label}</Button>
           <Button href={cta.secondary.href} variant="secondary">
             {cta.secondary.label}

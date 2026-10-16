@@ -7,7 +7,7 @@ import { Hairline } from './ui/Hairline';
 
 export function Footer() {
   return (
-    <footer className="bg-cloud pt-20 pb-10">
+    <footer className="relative z-[1] bg-cloud pt-20 pb-10">
       <Container>
         <div className="grid grid-cols-4 gap-x-[var(--grid-gap)] gap-y-12 md:grid-cols-12">
           <div className="col-span-4 md:col-span-5">

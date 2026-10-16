@@ -23,9 +23,9 @@ export function ChapterHead({
 }) {
   const color = tone === 'paper' ? 'text-paper' : 'text-slate';
   return (
-    <div className={className}>
+    <div className={className} data-chapter-head>
       <Hairline className={tone === 'paper' ? 'border-paper/40' : ''} />
-      <div className={`flex items-baseline gap-4 pt-4 ${color}`}>
+      <div className={`flex items-baseline gap-4 pt-4 ${color}`} data-chapter-label>
         <ChapterNumber n={n} />
         <span className="h-px w-8 translate-y-[-0.3em] bg-current opacity-50" aria-hidden="true" />
         <p className="eyebrow">{label}</p>

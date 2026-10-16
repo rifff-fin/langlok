@@ -114,14 +114,21 @@ export function ChatakStory({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
                   {ch.heading}
                 </Sub>
                 {ch.body.map((para) => (
-                  <p key={para} className={`mt-6 max-w-[42ch] text-lg leading-relaxed ${muted}`}>
+                  <p
+                    key={para}
+                    data-reveal="fade"
+                    className={`mt-6 max-w-[42ch] text-lg leading-relaxed ${muted}`}
+                  >
                     {para}
                   </p>
                 ))}
               </div>
 
               {crop && (
-                <figure className="relative col-span-4 m-0 aspect-[4/5] overflow-hidden md:col-span-5 md:col-start-8">
+                <figure
+                  data-reveal="fade"
+                  className="relative col-span-4 m-0 aspect-[4/5] overflow-hidden md:col-span-5 md:col-start-8"
+                >
                   <img
                     src={crop.src}
                     alt={crop.alt}

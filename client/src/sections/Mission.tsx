@@ -35,7 +35,7 @@ export function Mission() {
           <h2 id="mission-title" className="col-span-4 text-[length:var(--text-h2)] md:col-span-7">
             {mission.statement}
           </h2>
-          <div className="col-span-4 space-y-6 text-slate md:col-span-5 md:pt-4">
+          <div data-reveal="fade" className="col-span-4 space-y-6 text-slate md:col-span-5 md:pt-4">
             {mission.paragraphs.map((p) => (
               <p key={p}>{p}</p>
             ))}
@@ -44,7 +44,10 @@ export function Mission() {
       </Container>
 
       <Container className="mt-20">
-        <ol className="-mx-[var(--gutter)] flex snap-x snap-mandatory gap-[var(--grid-gap)] overflow-x-auto px-[var(--gutter)] pb-4 md:mx-0 md:grid md:grid-cols-5 md:overflow-visible md:px-0">
+        <ol
+          data-reveal="stagger"
+          className="-mx-[var(--gutter)] flex snap-x snap-mandatory gap-[var(--grid-gap)] overflow-x-auto px-[var(--gutter)] pb-4 md:mx-0 md:grid md:grid-cols-5 md:overflow-visible md:px-0"
+        >
           {mission.stages.map((stage, i) => {
             const Icon = ICONS[stage.id];
             return (
@@ -63,7 +66,10 @@ export function Mission() {
           })}
         </ol>
 
-        <p className="mt-16 font-display text-[length:var(--text-h3)] italic text-ink">
+        <p
+          data-reveal="fade"
+          className="mt-16 font-display text-[length:var(--text-h3)] italic text-ink"
+        >
           {mission.closing}
         </p>
       </Container>

@@ -14,7 +14,7 @@ export function WhyAluminium() {
           {whyAluminium.title}
         </h2>
 
-        <ul className="mt-16 grid gap-[var(--grid-gap)] md:grid-cols-3">
+        <ul data-reveal="stagger" className="mt-16 grid gap-[var(--grid-gap)] md:grid-cols-3">
           {whyAluminium.cards.map((card, i) => (
             <li key={card.title} className="flex flex-col bg-paper p-8 md:min-h-[22rem]">
               <span className="font-display text-[length:var(--text-h2)] leading-none text-rain">

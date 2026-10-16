@@ -28,7 +28,9 @@ export function ReCanLoop({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
             <Heading id="recan-title" className="text-[length:var(--text-h2)]">
               {recan.title}
             </Heading>
-            <p className="mt-6 max-w-[42ch] text-slate">{recan.sub}</p>
+            <p data-reveal="fade" className="mt-6 max-w-[42ch] text-slate">
+              {recan.sub}
+            </p>
             <Button href={recan.cta.href} variant="secondary" className="mt-10">
               {recan.cta.label}
             </Button>
@@ -36,7 +38,7 @@ export function ReCanLoop({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
 
           {/* Side labels need room: stacked below lg, side by side from lg up. */}
           <div className="col-span-4 flex justify-center md:col-span-12 lg:col-span-6 lg:col-start-7">
-            <div className="relative aspect-square w-[min(46vw,360px)]">
+            <div data-reveal="fade" className="relative aspect-square w-[min(46vw,360px)]">
               <svg
                 viewBox="0 0 200 200"
                 className="absolute inset-0 h-full w-full overflow-visible"

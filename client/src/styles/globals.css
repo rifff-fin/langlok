@@ -101,6 +101,31 @@
   }
 }
 
+/*
+ * Unlayered on purpose: it must beat the plate's bg-paper/border utilities.
+ * Live 3D vessels track [data-vessel-plate] boxes. Once WebGL is ready the stand-in photos
+ * and their paper mounts fade out over them (the images keep their alt text for readers).
+ */
+[data-vessel-plate],
+[data-vessel-plate] figure {
+  transition:
+    border-color 0.6s var(--ease-water-out),
+    background-color 0.6s var(--ease-water-out);
+}
+[data-vessel-plate] img,
+[data-vessel-plate] [data-logo-slot] {
+  transition: opacity 0.6s var(--ease-water-out);
+}
+html[data-webgl='ready'] [data-vessel-plate],
+html[data-webgl='ready'] [data-vessel-plate] figure {
+  border-color: transparent;
+  background-color: transparent;
+}
+html[data-webgl='ready'] [data-vessel-plate] img,
+html[data-webgl='ready'] [data-vessel-plate] [data-logo-slot] {
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
