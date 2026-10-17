@@ -1,0 +1,27 @@
+# Netlify: the site is the client app (static). The API (Phase 6) will be hosted separately.
+[build]
+  command = "npm run build -w client"
+  publish = "client/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# One-page app: every route (/story, /contact, …) is served by index.html. Real files
+# (assets, textures, film layers, the logo) are served first. Also in client/public/_redirects,
+# for a site whose base directory is set to client/.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Hashed build files never change: cache them for a year.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

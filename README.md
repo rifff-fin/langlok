@@ -34,6 +34,8 @@ python scripts/build-label-textures.py           # 3D label textures from the mo
 python scripts/build-film-layers.py              # the hero film's generated layers (seeded)
 ```
 
+Deploys on **Netlify** from `main`: `netlify.toml` builds the client only (`npm run build -w client`, publish `client/dist`, Node 22) and serves every route from `index.html` (`client/public/_redirects` does the same for a site whose base directory is `client/`). The API (Phase 6) will be hosted separately.
+
 The Vite dev server proxies `/api` to the API on port 4000. Copy `server/.env.example`
 to `server/.env` to override defaults.
 

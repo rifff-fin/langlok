@@ -27,6 +27,7 @@ Phase prompts: `docs/PROMPTS_for_Claude_Code.md`.
 - `npm run dev` (root) — runs client and server together
 - `npm run dev -w client` / `npm run dev -w server`
 - `npm run build`, `npm run lint`, `npm run typecheck`
+- Deploy: Netlify builds `main` (`netlify.toml`: `npm run build -w client`, publish `client/dist`, SPA fallback to `index.html`). A new route needs nothing more; a new top-level public folder is served as is.
 - `bash scripts/make-placeholder-frames.sh` — numbered placeholder hero frames
 - `bash scripts/extract-frames.sh <master.mov>` — real hero frames (desktop + mobile + poster)
 - `/dev` route (dev builds only) — Lenis + ScrollTrigger pin test

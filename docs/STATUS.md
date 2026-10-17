@@ -1,6 +1,6 @@
 # LANGLOK website — current status
 
-**Updated:** 17 Oct 2026 · **Branch:** `phase-3-3d-products` (not merged into `main` yet)
+**Updated:** 17 Oct 2026 · **Branch:** `main` (deployed on Netlify; work continues on `phase-3-3d-products` and is fast-forwarded into `main`)
 **Stage:** Phases 0 to 4 done (the hero film is drawn live; the preloader is in). **Next: Phase 5, starting with the Chatak story section.**
 
 > Keep this file current: update it at the end of every piece of work (what changed, what's next, what's blocked).
@@ -79,6 +79,7 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **17 Oct 2026, night**: **deployed on Netlify** (by the user). `netlify.toml` builds the client only (`npm run build -w client`, publish `client/dist`, Node 22), serves every route from `index.html` (also `client/public/_redirects`) and caches hashed assets for a year. `main` fast-forwarded to all the work so far.
 - **17 Oct 2026, late night**: **the new LANGLOK logo** (our logo pack, Chatak direction; the client approves it) replaces the text placeholder: the mark + LANGLOK in the header, the full lockup with "INT. COMPANY LTD." in the footer, and the app icon as the favicon and phone home-screen icon. SVG sources kept in `docs/client/logo-pack/`.
 - **17 Oct 2026, late night**: **the Chatak story** (start of Phase 5):
   - The client's bird photo and the can-photo crop are gone; both pictures are now drawn live with the film's pieces (`film/vignette.ts`), so the story looks like the film.
