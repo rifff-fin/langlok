@@ -15,9 +15,178 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Jost:wght@300..600&family=Noto+Serif+Bengali:wght@400..700&display=swap"
     />
+    <!--
+      00 Preloader (home page only), painted with the first frame, before any script loads:
+      a drop falls from the top centre, lands with a ripple and spreads into a thin line.
+      lib/preloader.ts fills the line as the fonts, the can and the 3D load, then the line
+      runs across the screen and the mist parts along it to show the opening screen.
+    -->
+    <style>
+      html.preloading {
+        overflow: hidden;
+      }
+      #preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        /* if the app never starts, don't hide the page for ever */
+        animation: pl-away 0.5s ease 10s forwards;
+      }
+      #preloader .pl-half {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 50.5%;
+        background: #f3f5f6;
+      }
+      #preloader .pl-top {
+        top: 0;
+      }
+      #preloader .pl-bottom {
+        bottom: 0;
+      }
+      #preloader .pl-drop {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 16px;
+        height: 22px;
+        margin: -22px 0 0 -8px;
+        transform-origin: 50% 100%;
+        animation:
+          pl-fall 0.46s cubic-bezier(0.55, 0, 0.9, 0.45) 0.08s both,
+          pl-hit 0.24s ease-out 0.54s forwards; /* not backwards: the fall owns the drop till then */
+      }
+      #preloader .pl-ring {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 120px;
+        height: 16px;
+        margin: -8px 0 0 -60px;
+        border: 1px solid rgba(47, 127, 193, 0.55);
+        border-radius: 50%;
+        opacity: 0;
+        animation: pl-ring 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.54s forwards;
+      }
+      #preloader .pl-line {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: min(36vw, 440px);
+        height: 1px;
+        margin: 0 0 0 calc(min(36vw, 440px) / -2);
+        background: rgba(22, 35, 63, 0.12);
+        animation: pl-line 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.56s both;
+      }
+      #preloader .pl-fill {
+        position: absolute;
+        inset: 0;
+        background: #2f7fc1;
+        transform: scaleX(var(--p, 0.06));
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes pl-fall {
+        from {
+          transform: translateY(-56vh) scale(0.9, 1.25);
+        }
+        to {
+          transform: translateY(0) scale(0.9, 1.25);
+        }
+      }
+      @keyframes pl-hit {
+        from {
+          transform: scale(1.5, 0.45);
+          opacity: 1;
+        }
+        to {
+          transform: scale(2.4, 0);
+          opacity: 0;
+        }
+      }
+      @keyframes pl-ring {
+        from {
+          transform: scale(0.08);
+          opacity: 0.9;
+        }
+        to {
+          transform: scale(1.7);
+          opacity: 0;
+        }
+      }
+      @keyframes pl-line {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      @keyframes pl-away {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+      /* reduced motion (the OS, or the site's Motion switch): just the line, then a fade */
+      @media (prefers-reduced-motion: reduce) {
+        html:not([data-motion='full']) #preloader .pl-drop,
+        html:not([data-motion='full']) #preloader .pl-ring {
+          display: none;
+        }
+        html:not([data-motion='full']) #preloader .pl-line {
+          animation: none;
+        }
+      }
+      html[data-motion='reduced'] #preloader .pl-drop,
+      html[data-motion='reduced'] #preloader .pl-ring {
+        display: none;
+      }
+      html[data-motion='reduced'] #preloader .pl-line {
+        animation: none;
+      }
+    </style>
   </head>
   <body>
+    <div id="preloader" aria-hidden="true">
+      <div class="pl-half pl-top"></div>
+      <div class="pl-half pl-bottom"></div>
+      <div class="pl-ring"></div>
+      <div class="pl-line"><div class="pl-fill"></div></div>
+      <svg class="pl-drop" viewBox="0 0 16 22">
+        <defs>
+          <radialGradient id="pl-water" cx="35%" cy="64%" r="72%">
+            <stop offset="0" stop-color="#f2f8fd" />
+            <stop offset="0.45" stop-color="#8fc3ea" />
+            <stop offset="1" stop-color="#2f7fc1" />
+          </radialGradient>
+        </defs>
+        <path
+          d="M8 0C8 0 1.6 9 1.6 14.2a6.4 6.4 0 0 0 12.8 0C14.4 9 8 0 8 0Z"
+          fill="url(#pl-water)"
+        />
+        <ellipse cx="5.6" cy="14.6" rx="1.3" ry="1.8" fill="#fff" opacity="0.9" />
+      </svg>
+    </div>
     <div id="root"></div>
+    <script>
+      // Before first paint: the visitor's motion choice (lib/motion.ts reads the same key),
+      // and the preloader on the home page only, with the page held still beneath it.
+      (function () {
+        var html = document.documentElement;
+        var pre = document.getElementById('preloader');
+        try {
+          var motion = localStorage.getItem('langlok:motion');
+          if (motion === 'full' || motion === 'reduced') html.dataset.motion = motion;
+        } catch (e) {}
+        if (location.pathname !== '/') {
+          pre.remove();
+          return;
+        }
+        html.classList.add('preloading');
+        document.getElementById('root').inert = true;
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

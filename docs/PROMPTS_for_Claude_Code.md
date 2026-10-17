@@ -131,7 +131,9 @@ Built on 17 Oct 2026, differently from the original plan: there is no video. The
 live in a 2D canvas (`client/src/film/`). The world comes from generated layers
 (`scripts/build-film-layers.py`). The Chatak is an animated silhouette drawn in code
 (`film/chatak.ts`), referenced from the client's two bird pictures, as the client asked: no
-photos in the film. See master plan §4.3 for the scenes and captions. Still to do here:
+photos in the film. See master plan §4.3 for the scenes and captions. The preloader below was
+built on 17 Oct 2026 too (`index.html` + `lib/preloader.ts`); it waits for the live 3D can rather
+than the film's layers, which aren't on the first screen and load at idle after it.
 
 ```text
 Phase 2 remainder: the preloader. A drop falls and becomes a thin progress line; it waits

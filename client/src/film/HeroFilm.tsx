@@ -1,6 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import { gsap, type ScrollTrigger } from '../lib/gsap';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { whenRevealed } from '../lib/preloader';
 import { Film, loadLayers } from './film';
 
 /**
@@ -74,14 +75,18 @@ export default function HeroFilm({ trigger }: { trigger: RefObject<ScrollTrigger
         })
         .catch(() => undefined); // layers missing: the CSS sky stays
     };
+    // after the preloader (which waits for the can, not for these), when the browser is idle
     let cancel = () => {};
-    if ('requestIdleCallback' in window) {
-      const id = requestIdleCallback(start, { timeout: 2500 });
-      cancel = () => cancelIdleCallback(id);
-    } else {
-      const id = setTimeout(start, 1500);
-      cancel = () => clearTimeout(id);
-    }
+    whenRevealed(() => {
+      if (!alive) return;
+      if ('requestIdleCallback' in window) {
+        const id = requestIdleCallback(start, { timeout: 2500 });
+        cancel = () => cancelIdleCallback(id);
+      } else {
+        const id = setTimeout(start, 1500);
+        cancel = () => clearTimeout(id);
+      }
+    });
 
     return () => {
       alive = false;

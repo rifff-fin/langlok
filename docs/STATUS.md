@@ -1,12 +1,13 @@
 # LANGLOK website — current status
 
 **Updated:** 17 Oct 2026 · **Branch:** `phase-3-3d-products` (not merged into `main` yet)
-**Stage:** Phases 0, 1, 3 and 4 done; the hero film is built (drawn live, no footage needed). **Next: the preloader, then Phase 5 (story, ReCan, polish).**
+**Stage:** Phases 0 to 4 done (the hero film is drawn live; the preloader is in). **Next: Phase 5, starting with the Chatak story section.**
 
 > Keep this file current: update it at the end of every piece of work (what changed, what's next, what's blocked).
 
 ## What you see now (home page, top to bottom)
 
+0. **Preloader** (first load of the home page): a raindrop falls, ripples and becomes a thin line that fills as the page gets ready; then the mist parts along the line and the can rises into place.
 1. **Opening screen**: the live 3D can, large and centred, headline left, serif aside right (the morphowater.com idea). It rises in with a turn, breathes and turns slightly towards the mouse.
 2. **The dive** (first scroll): the can tips its lid to the camera, the tab clicks (a small knock and a puff of cold vapour), the opening shows sky ("One small click. *The sky opens.*") and the camera dives in.
 3. **The living film**, drawn live in the page, one caption at a time:
@@ -40,11 +41,10 @@
 
 ## Next
 
-1. **Preloader** (rest of Phase 2): a drop that becomes a thin progress line while fonts, the can and the film's layers load.
-2. **Phase 5 polish**: Chatak story section, ReCan loop drawing, chapter rail ("01 / 07").
-3. **Phase 6 backend**: the quote form starts sending (POST /api/inquiries with the logo and the preview); until then its button stays off.
-4. Then real assets and performance (7), launch (8).
-5. Optional, any time: real AI-generated footage of the same story can replace the drawn film (prompts in `docs/PROMPTS_for_Claude_Code.md`, Part C); the "rain-wash" label swap (plan §7.5 v2).
+1. **Phase 5 polish**: Chatak story section, ReCan loop drawing, chapter rail ("01 / 07").
+2. **Phase 6 backend**: the quote form starts sending (POST /api/inquiries with the logo and the preview); until then its button stays off.
+3. Then real assets and performance (7), launch (8).
+4. Optional, any time: real AI-generated footage of the same story can replace the drawn film (prompts in `docs/PROMPTS_for_Claude_Code.md`, Part C); the "rain-wash" label swap (plan §7.5 v2).
 
 ## Waiting on the client
 
@@ -76,6 +76,7 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **17 Oct 2026, late**: **the preloader** (Phase 2 done): the drop, the ripple and the line are in `index.html` (they show before any script); the line fills for the fonts, the can and the live 3D, then the mist parts and the can rises in. Home page only; 1–3 s.
 - **17 Oct 2026, night**:
   - **Phase 4, the configurator**: your logo or brand name on the live 3D can and bottle, colours, size and position, drag to turn, PNG preview, and the quote form with the design attached. Edits re-upload only the logo zone of the label; logo and zone canvases stay in main memory, which keeps slider drags at full frame rate.
   - Inner pages are lazy routes now (the form's validation loads with them), so the home page stays within its JS budget.

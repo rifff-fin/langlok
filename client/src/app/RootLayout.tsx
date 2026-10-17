@@ -7,6 +7,7 @@ import { MotionSwitch } from '../components/MotionSwitch';
 import { SceneHost } from '../components/SceneHost';
 import { useReveals } from '../hooks/useReveals';
 import { ScrollTrigger } from '../lib/gsap';
+import { runPreloader } from '../lib/preloader';
 
 export function RootLayout() {
   const { hash, pathname } = useLocation();
@@ -22,6 +23,11 @@ export function RootLayout() {
   // Web fonts reflow text after first paint; re-measure every trigger once they land.
   useEffect(() => {
     document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }, []);
+
+  // The home page's preloader (index.html) fills and lifts once the first screen is ready.
+  useEffect(() => {
+    void runPreloader();
   }, []);
 
   return (

@@ -1,12 +1,13 @@
 import type { RefObject } from 'react';
 import { gsap, SplitText, useGSAP } from '../lib/gsap';
 import { motionQuery } from '../lib/motion';
+import { isRevealed, whenRevealed } from '../lib/preloader';
 
 /**
  * Editorial scroll reveals for a page, set up from markup alone:
  *   h2, [data-reveal="lines"]   lines rise out of a mask (SplitText, re-split on resize);
  *                               h2[data-reveal="off"] is animated by its section instead
- *   [data-reveal="intro"]       same, on load (hero headline)
+ *   [data-reveal="intro"]       same, on load (hero headline; after the preloader lifts)
  *   [data-chapter-head]         hairline draws left to right, number and label follow
  *   [data-reveal="fade"]        fades up
  *   [data-reveal="stagger"]     its children fade up in turn
@@ -23,15 +24,20 @@ export function useReveals(scope: RefObject<HTMLElement | null>, key: string) {
             type: 'lines',
             mask: 'lines',
             autoSplit: true,
-            onSplit: (self) =>
-              gsap.from(self.lines, {
+            onSplit: (self) => {
+              const rise = gsap.from(self.lines, {
                 yPercent: 105,
                 duration: onLoad ? 1.2 : 1,
                 delay: onLoad ? 0.15 : 0,
                 ease: 'expo.out',
                 stagger: 0.09,
+                paused: onLoad && !isRevealed(),
                 scrollTrigger: onLoad ? undefined : { trigger: el, start: 'top 88%', once: true },
-              }),
+              });
+              // the opening headline rises as the preloader lifts, not behind it
+              if (onLoad) whenRevealed(() => rise.play());
+              return rise;
+            },
           });
 
         root

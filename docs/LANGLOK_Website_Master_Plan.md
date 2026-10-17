@@ -238,7 +238,7 @@ SCROLL ▼
 
 ### 4.3 Section specs
 
-**00 Preloader.** A single drop falls from the top centre and becomes a thin horizontal progress line. Waits for: poster frame, first ~20 hero frames, fonts, and the 3D scene's essentials (lazy-load the rest). Minimum display 600 ms, maximum ~3 s, then reveals regardless.
+**00 Preloader.** *(Built 17 Oct 2026, home page only.)* A single drop falls from the top centre, lands with a ripple and spreads into a thin horizontal progress line; it is static HTML and CSS in `index.html`, so it shows with the first frame. `lib/preloader.ts` fills the line as the fonts, the can's still and the live 3D can get ready (the film's layers load after, at idle), then the line runs across the screen and the mist parts along it: the opening screen appears from its middle while the can rises into place and the headline lifts in (both held until then). At least 1 s, at most 3 s from navigation start. The page beneath renders all along (first paint) but can't scroll or take focus. Reduced motion: no drop, the line fills, then a fade.
 
 **01 Hero — the can, the dive, then the living film.** *(Built 17 Oct 2026.)*
 - **Intro (first screen).** The live 3D can stands centred on a soft studio light (a fixed backdrop *behind* the canvas), rises in with a turn on first load, breathes (slow sway and float) and turns a little towards the pointer. Headline left: **Drink only what *the sky gives.*** with the sub *Every drop of LANGLOK begins as monsoon rain over the north of Bangladesh.*; aside right: ***A vessel for the rain.*** with *Aluminium can · 500 ml / Aluminium bottle · 990 ml*.
@@ -678,7 +678,7 @@ Rough effort for one developer working with Claude Code. Live progress: [`STATUS
 |---|---|---|---|---|
 | **0 Setup** | Monorepo, Vite + React + TS, deps, tokens, fonts, GSAP + Lenis wiring, `CLAUDE.md` | 0.5–1 day | Dev server runs; a test ScrollTrigger pins with Lenis | ✅ Done |
 | **1 Skeleton** | All sections as static, responsive layouts with real copy from `copy.ts` | 2 days | Whole page readable on mobile and desktop without any animation | ✅ Done |
-| **2 Hero** | Preloader, frame player on placeholders, text beats, fog glass | 2 days | Scrubs smoothly both directions; LCP poster in place | ◐ The living film is built (drawn, not filmed); preloader to do |
+| **2 Hero** | Preloader, frame player on placeholders, text beats, fog glass | 2 days | Scrubs smoothly both directions; LCP poster in place | ✅ The living film (drawn, not filmed) and the preloader, 17 Oct 2026 |
 | **3 3D products** | Procedural can + bottle, materials, lighting, label textures, scroll spin, handoff | 3–4 days | Spin is smooth; labels look printed, not pasted | ✅ Done, plus the Morpho-style opening, dive, stills and Motion switch |
 | **4 Logo swap + configurator** | Hidden-side swap, upload, live texture, preview capture | 3 days | A PNG/SVG logo appears correctly on both vessels | ✅ Built 17 Oct 2026 (sending the quote waits for Phase 6) |
 | **5 Story + Mission + ReCan** | Chatak chapters, rain particles, stages strip, ReCan loop | 3 days | Each section works with reduced motion too | ◐ Reveals only |

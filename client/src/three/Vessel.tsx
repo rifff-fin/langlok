@@ -8,6 +8,7 @@ import {
   type MeshPhysicalMaterial,
   type PerspectiveCamera,
 } from 'three';
+import { isRevealed } from '../lib/preloader';
 import { configView } from '../store/configurator';
 import type { VesselId } from '../store/scene';
 import { smoothstep, stage, targets } from './stations';
@@ -129,8 +130,9 @@ export function Vessel({
     const grow = 1 + DIVE_GROW * Math.pow(smoothstep(0.18, 1, d), 1.5);
     const focus = smoothstep(0.1, 0.85, d);
 
-    // first sight on the opening screen: rise into place and turn to face the viewer
-    easing.damp(m, 'rise', 0, 0.55, delta);
+    // first sight on the opening screen: rise into place and turn to face the viewer (held
+    // under the home page's preloader, so it plays as the preloader lifts)
+    easing.damp(m, 'rise', isRevealed() ? 0 : m.rise, 0.55, delta);
     if (appearing && !entered.current) {
       entered.current = true;
       if (motion && t.station === 'hero-intro') m.rise = 1;

@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { ReactLenis, useLenis } from 'lenis/react';
 import { gsap, ScrollTrigger } from './gsap';
+import { isRevealed, whenRevealed } from './preloader';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 
 /**
@@ -18,6 +19,11 @@ function LenisGsapBridge() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
     ScrollTrigger.refresh();
+    // the page stays put under the preloader
+    if (!isRevealed()) {
+      lenis.stop();
+      whenRevealed(() => lenis.start());
+    }
 
     return () => {
       lenis.off('scroll', ScrollTrigger.update);
