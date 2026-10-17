@@ -54,7 +54,7 @@ You never block the build: code against placeholder frames, then drop the real f
 | Water swash | `#2F7FC1` → `#8FC3EA` | accent, rain, links (darker shade for small text) |
 | Acacia leaves | `#6E8B5E` | sparing nature accent |
 | Golden bokeh | `#E9B872` | sparing warm highlight (story) |
-| "Clouds bruised purple" (story) | `#6C6A86` | story-section sky gradient |
+| Monsoon slate (story) | `#646C7C` | story-section sky gradient (violet dropped 17 Oct 2026, to match the film) |
 
 ### 1.3 Things to confirm with the client before launch
 
@@ -148,7 +148,7 @@ The client pointed at **MORPHO** (natural spring water in cans, Costa Rica) as t
   --rain-light: #8FC3EA;  /* highlights, droplets */
   --leaf: #6E8B5E;        /* nature accent, sparing */
   --sun: #E9B872;         /* warm highlight, story only */
-  --monsoon: #6C6A86;     /* story sky gradient */
+  --monsoon: #646C7C;     /* story sky gradient: the monsoon's slate (was violet) */
 }
 ```
 
@@ -246,7 +246,7 @@ SCROLL ▼
 - **The living film** (`client/src/film/`). A 2D canvas drawn every frame from generated layers (`scripts/build-film-layers.py`), the drawn Chatak (`chatak.ts`, a small 3D rig projected flat: perches in profile, beats its wings, climbs past the camera showing its white underside) and an acacia branch that moves in the wind (`branch.ts`). Scroll owns the story; time owns the life. Scenes, in film progress:
   - 0 to 0.1, **out of the can**: falling through soft cloud.
   - 0.1 to 0.3, **the wait**: a misty forest in layers, light shafts and motes; the Chatak on the branch breathes, looks about, flicks his crest; other birds fly down to drink. Caption: **He waited *for the sky.*** *Other birds drank from the pond and the river. Not the Chatak.*
-  - 0.3 to 0.44, **the monsoon**: smoky clouds roll down, colour drains to a bruised slate (cool, so it meets the river's silver), wind in the fronds, rain; he looks up. Caption: **The wind turned. *The clouds came.*** *Clouds bruised purple over the fields.*
+  - 0.3 to 0.44, **the monsoon**: smoky clouds roll down, colour drains to a bruised slate (cool, so it meets the river's silver), wind in the fronds, rain; he looks up. Caption: **The wind turned. *The clouds came.*** *Heavy clouds gathered over the fields.*
   - 0.44 to 0.55, **the flight**: he opens his wings and lifts off, and the camera tilts up into the storm. Caption: **He flew *into the storm.*** *He opened his wings and flew straight up — not away from the storm, but into it.*
   - 0.55 to 0.66, **the first drop**: seen from below, beak open, he catches the drop (splash), then flies on up and out of the frame. Caption: **Only what *the sky gives.*** *Beak open to the heavens, he caught the rain mid-air — cold, clean, falling.*
   - 0.61 to 0.72, **the descent** (added 17 Oct, after the client asked for one continuous motion and matching colour): no cut and no flash. The camera lets the Chatak go and follows the rain down one tall column of sky: the slate storm slides away, light breaks under it, the camera passes through the bright cloud base (nearest layers fastest; the rain slows as the camera falls with it), and the valley rises into view. One drop falls with the camera and lands in the river at 0.7 with a small splash; its rings are the river's first rings. No caption.
@@ -273,7 +273,7 @@ SCROLL ▼
 - "Save preview" downloads a PNG of the 3D view (2x); "Request a quote" takes the design to the inquiry form on `/custom-branding` (preview, logo or name, vessel; product prefilled). Sending it to the API is Phase 6.
 - Without WebGL the stage shows the printed label flat, and "Save preview" saves that.
 
-**06 Chatak story.** Five pinned chapters following the client's text, with the background moving from pale dry-season sky to bruised monsoon violet and back to washed-clean light:
+**06 Chatak story.** *(17 Oct 2026: the pictures are now drawn live with the film's pieces, `film/vignette.ts`, instead of the client's photos; the text was checked and lightly edited, see `copy.ts`; the monsoon is slate, not violet.)* Five pinned chapters following the client's text, with the background moving from pale dry-season sky to the monsoon's slate and back to washed-clean light:
 1. *He waited* — dry acacia branch, the bird still (client's illustration, cut-out layers).
 2. *Others drank from the pond* — small sparrow silhouettes dip to puddles; Chatak does not.
 3. *They thought he was proud. He was just faithful.* — the key line, full-screen.

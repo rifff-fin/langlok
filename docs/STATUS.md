@@ -26,7 +26,8 @@
    - drag to turn it (or arrow keys), double-click to face front;
    - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
    - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
-8. The other sections (Chatak story, mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals.
+8. **The Chatak story** (06, also `/story`): five chapters in the film's palette (a faint dry-season warmth, the monsoon's slate, washed-clean light). Its two pictures are drawn live with the film's pieces, no photos: he waits on the acacia branch in the misty woods (breathing, looking about, glancing up at the sky); seen from below in the rain, he catches drop after drop. The text was checked against the record and lightly edited (see Log).
+9. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals.
 
 ## Done
 
@@ -48,6 +49,7 @@
 
 ## Waiting on the client
 
+- **Story text edits** (17 Oct 2026, see Log): confirm them, and the place name (Tetulia instead of the original "Umm Lajj").
 - **LANGLOK label artwork.** The can and bottle artwork still prints **VERSA**, so the 3D labels show VERSA. We need the LANGLOK label files (flat, unwrapped) and the logo SVG.
 - Supplier dimension drawings for the can and bottle (the shapes are traced from photos).
 - Lining type before any purity claims; ReCan details; social links; full address and sales email.
@@ -76,6 +78,10 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **17 Oct 2026, late night**: **the Chatak story** (start of Phase 5):
+  - The client's bird photo and the can-photo crop are gone; both pictures are now drawn live with the film's pieces (`film/vignette.ts`), so the story looks like the film.
+  - The section's colours follow the film: no peach, and the monsoon chapter is slate instead of violet (`--monsoon` is now #646C7C).
+  - The text was checked against the record: Bengali name চাতক, a summer visitor to Bangladesh, Kalidasa's chatak, farmers reading its arrival as the sign of the monsoon and sowing. A short intro says so. Edits: a fable's opening line; the crest is black, not black and white; no puddles before the first rain; "I drink only what the sky gives"; heavy clouds instead of purple ones; the farmer's line now ends with the sowing. The hero's monsoon caption matches ("Heavy clouds gathered over the fields").
 - **17 Oct 2026, late**: **the preloader** (Phase 2 done): the drop, the ripple and the line are in `index.html` (they show before any script); the line fills for the fonts, the can and the live 3D, then the mist parts and the can rises in. Home page only; 1–3 s.
 - **17 Oct 2026, night**:
   - **Phase 4, the configurator**: your logo or brand name on the live 3D can and bottle, colours, size and position, drag to turn, PNG preview, and the quote form with the design attached. Edits re-upload only the logo zone of the label; logo and zone canvases stay in main memory, which keeps slider drags at full frame rate.

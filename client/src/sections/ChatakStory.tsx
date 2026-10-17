@@ -1,25 +1,28 @@
-import type { CSSProperties } from 'react';
+import { lazy, Suspense } from 'react';
 import { story } from '../content/copy';
 import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
 import { Eyebrow } from '../components/ui/Eyebrow';
+import type { Scene } from '../film/vignette';
+
+// The story's pictures are drawn live, like the hero film (their own chunk).
+const StoryVignette = lazy(() => import('../film/StoryVignette'));
 
 /**
- * Sky colour per chapter: pale dry season → bruised monsoon violet → washed-clean light.
- * --sun and --monsoon are allowed only in this section.
+ * Sky colour per chapter, in the film's palette: the dry season's faint warmth in the
+ * morning mist → the monsoon's slate → washed-clean light. --sun and --monsoon are allowed
+ * only in this section.
  */
-const DRY_SKY = 'color-mix(in oklab, var(--sun) 22%, var(--paper))';
+const DRY_SKY = 'color-mix(in oklab, var(--sun) 8%, var(--cloud))';
 
 const SKIES: Record<number, { bg: string; dark?: boolean }> = {
-  1: { bg: `linear-gradient(180deg, ${DRY_SKY}, var(--paper))` },
-  2: {
-    bg: 'linear-gradient(180deg, var(--paper), color-mix(in oklab, var(--sun) 12%, var(--cloud)))',
-  },
+  1: { bg: `linear-gradient(180deg, ${DRY_SKY}, var(--mist))` },
+  2: { bg: 'linear-gradient(180deg, var(--mist), var(--cloud))' },
   3: {
-    bg: 'linear-gradient(180deg, color-mix(in oklab, var(--sun) 12%, var(--cloud)), color-mix(in oklab, var(--monsoon) 30%, var(--cloud)))',
+    bg: 'linear-gradient(180deg, var(--cloud), color-mix(in oklab, var(--monsoon) 40%, var(--cloud)))',
   },
   4: {
-    bg: 'linear-gradient(180deg, color-mix(in oklab, var(--monsoon) 80%, var(--cloud)), var(--monsoon) 70%, color-mix(in oklab, var(--monsoon) 85%, var(--ink)))',
+    bg: 'linear-gradient(180deg, color-mix(in oklab, var(--monsoon) 80%, var(--cloud)), var(--monsoon) 55%, color-mix(in oklab, var(--monsoon) 82%, var(--ink)))',
     dark: true,
   },
   5: {
@@ -27,24 +30,25 @@ const SKIES: Record<number, { bg: string; dark?: boolean }> = {
   },
 };
 
-/** Crops of client artwork. TODO(client): replace with the layered, high-res bird art. */
-const CROPS: Record<number, { src: string; alt: string; style: CSSProperties }> = {
+/** The chapters with a picture, drawn like the film (never the client's photos). */
+const PICTURES: Partial<Record<number, { scene: Scene; alt: string; ground: string }>> = {
   1: {
-    src: '/img/mockups/logo-theme.jpeg',
+    scene: 'wait',
     alt: story.birdAlt,
-    style: { width: '240%', left: '-72%', top: '-8%' },
+    ground: 'linear-gradient(180deg, #e7ecee, #eef1f2)',
   },
   5: {
-    src: '/img/mockups/can-front.jpeg',
+    scene: 'catch',
     alt: story.catchAlt,
-    style: { width: '210%', left: '-52%', top: '-62%' },
+    ground: 'linear-gradient(180deg, #7f8797, #a5acb8 60%, #c8ced5)',
   },
 };
 
 /**
- * 06 The Chatak story. Five full-viewport chapters following the client's text.
- * Phase 5 pins the chapters, adds rain particles (density follows scroll speed) and
- * animates the bird; this layout stays as the reduced-motion version.
+ * 06 The Chatak story. Five full-viewport chapters following the client's story (lightly
+ * edited for accuracy, see copy.ts). The first and the last have living pictures drawn
+ * with the hero film's pieces. Phase 5 may still pin the chapters and add rain that
+ * follows scroll speed; this layout stays as the reduced-motion version.
  */
 export function ChatakStory({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const Heading = headingLevel === 1 ? 'h1' : 'h2';
@@ -69,12 +73,15 @@ export function ChatakStory({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
             <span aria-hidden="true">·</span>
             <em className="font-display text-lg">{story.species.latin}</em>
           </p>
+          <p data-reveal="fade" className="mt-8 max-w-[52ch] text-lg leading-relaxed text-slate">
+            {story.intro}
+          </p>
         </Container>
       </div>
 
       {story.chapters.map((ch) => {
         const sky = SKIES[ch.id];
-        const crop = CROPS[ch.id];
+        const picture = PICTURES[ch.id];
         const isKeyLine = ch.body.length === 0;
         const text = sky.dark ? 'text-paper' : 'text-ink';
         const muted = sky.dark ? 'text-paper/85' : 'text-slate';
@@ -97,7 +104,7 @@ export function ChatakStory({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
                 className={
                   isKeyLine
                     ? ''
-                    : crop
+                    : picture
                       ? 'col-span-4 md:col-span-6'
                       : 'col-span-4 md:col-span-8 md:col-start-3'
                 }
@@ -124,19 +131,16 @@ export function ChatakStory({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
                 ))}
               </div>
 
-              {crop && (
+              {picture && (
                 <figure
                   data-reveal="fade"
                   className="relative col-span-4 m-0 aspect-[4/5] overflow-hidden md:col-span-5 md:col-start-8"
+                  style={{ background: picture.ground }}
                 >
-                  <img
-                    src={crop.src}
-                    alt={crop.alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute max-w-none"
-                    style={crop.style}
-                  />
+                  <Suspense fallback={null}>
+                    <StoryVignette scene={picture.scene} />
+                  </Suspense>
+                  <figcaption className="sr-only">{picture.alt}</figcaption>
                 </figure>
               )}
             </Container>

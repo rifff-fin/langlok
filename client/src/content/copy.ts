@@ -115,7 +115,7 @@ export const hero = {
       id: 'monsoon',
       label: '01 · The monsoon',
       title: 'The wind turned. *The clouds came.*',
-      sub: 'Clouds bruised purple over the fields.',
+      sub: 'Heavy clouds gathered over the fields.',
     },
     {
       id: 'flight',
@@ -259,20 +259,34 @@ export const story = {
   title: 'Chatak',
   species: { common: 'Pied cuckoo', latin: 'Clamator jacobinus' },
   readMore: { label: 'Read the story →', href: '/story' },
-  birdAlt: 'The Chatak, a black-and-white crested pied cuckoo, perched on an acacia branch',
-  catchAlt: 'The Chatak with its beak open, catching a single raindrop',
+  /**
+   * Checked against the record (17 Oct 2026): the pied or Jacobin cuckoo is a summer visitor
+   * to Bangladesh, called chatak (চাতক) in Bengali; in Sanskrit poetry the chātaka waits
+   * for rain to quench its thirst (Kalidasa, Meghaduta); farmers have long taken its arrival
+   * as the sign of the monsoon and the sowing season (Wildlife Institute of India). That it
+   * drinks only rain is folklore, so the copy tells it as a story, not a fact.
+   */
+  intro:
+    'In the poetry of South Asia, the chatak drinks only rain; Kalidasa made it the image of longing. Farmers have long read its arrival as the sign that the monsoon, and the sowing season, is near.',
+  birdAlt:
+    'A drawing of the Chatak, a black-and-white crested pied cuckoo, waiting on an acacia branch in the misty woods',
+  catchAlt:
+    'A drawing of the Chatak seen from below in the rain, wings spread, catching a falling drop in his open beak',
   chapters: [
     {
       id: 1,
       heading: 'He waited.',
-      body: ['The Pied Cuckoo — the Jacobin cuckoo — was called Chatak.', 'All summer, he waited.'],
+      body: [
+        'There was a pied cuckoo the people of Bengal called Chatak.',
+        'All summer, he waited.',
+      ],
     },
     {
       id: 2,
       heading: 'Others drank from the pond.',
       body: [
-        'Other birds drank from the pond, from puddles, from the river. Not Chatak. He sat on the dry acacia branch, his black and white crest raised, his throat parched, refusing.',
-        '“The rain will come,” he told the sparrows. “I will drink only what the sky gives me directly.”',
+        'Other birds drank from the pond and from the river. Not Chatak. He sat on a dry acacia branch, his black crest raised, his throat parched, and still he would not drink.',
+        '“The rain will come,” he told the sparrows. “I drink only what the sky gives.”',
       ],
     },
     {
@@ -286,7 +300,7 @@ export const story = {
       body: [
         // TODO(client): the original says "the fields of Umm Lajj" (Saudi Arabia). The plan
         // suggests Tetulia, Panchagarh. Using Tetulia until the client confirms.
-        'Then the monsoon wind turned. Clouds bruised purple over the fields of Tetulia. The first drop fell.',
+        'Then the monsoon wind turned. Heavy clouds gathered over the fields of Tetulia, and the first drop fell.',
       ],
     },
     {
@@ -294,7 +308,7 @@ export const story = {
       heading: 'He flew into the storm.',
       body: [
         'Chatak opened his wings and flew straight up, not away from the storm but into it. Beak open to the heavens, he caught the raindrops mid-air — cold, clean, falling.',
-        'He drank, and the farmer below smiled, for when Chatak drinks, the earth knows rain has truly returned.',
+        'He drank, and in the fields below a farmer smiled: when the Chatak drinks, the rain has truly returned, and it is time to sow.',
       ],
     },
   ],
