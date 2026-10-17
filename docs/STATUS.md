@@ -11,10 +11,11 @@
 2. **The dive** (first scroll): the can tips its lid to the camera, the tab clicks (a small knock and a puff of cold vapour), the opening shows sky ("One small click. *The sky opens.*") and the camera dives in.
 3. **The living film**, drawn live in the page, one caption at a time:
    - **The wait**: a misty forest; the Chatak (drawn, animated) sits on a swaying acacia branch, breathing, looking about, crest flicking, while other birds fly past.
-   - **The monsoon**: smoky clouds roll in, colours drain to bruised purple, wind and rain; he looks up.
+   - **The monsoon**: smoky clouds roll in, colours drain to a cool slate (one colour family with the river), wind and rain; he looks up.
    - **The flight**: he opens his wings and flies up into the storm as the camera tilts up.
-   - **The first drop**: seen from below, beak open, he catches a raindrop, then flies off into breaking light.
-   - **The river**: the rain becomes a river in a misty valley.
+   - **The first drop**: seen from below, beak open, he catches a raindrop, then flies on up and out of the frame.
+   - **The descent** (one unbroken shot, no cut or flash): the camera lets him go and follows the rain down, under the storm, through the bright cloud base, until the valley rises into view and the drop it followed lands in the river.
+   - **The river**: the rain has returned, a calm river in a misty valley (unchanged, as asked).
 4. **Meet LANGLOK**: the film ends in mist, the can comes back, then glides on to the products (desktop).
 5. **Products**: the can, then the bottle, each about 70% of the screen tall, a full turn as you scroll (pinned on desktop), with the spec list.
 6. **Your logo here**: can and bottle side by side at true size; one more turn and both come round wearing YOUR LOGO HERE.
@@ -65,6 +66,10 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **17 Oct 2026, evening**:
+  - **The catch → river transition is one continuous shot.** The white flash and crossfade are gone: after the catch the camera follows the rain down through the cloud base, and the followed drop lands in the river. The rain slows while the camera falls with it.
+  - **Colours matched:** the monsoon and storm are a cool slate instead of lilac, so the film stays in one family from the forest to the river.
+  - **Unchanged:** the river page and everything after it.
 - **17 Oct 2026, later**:
   - **The hero film, rebuilt.** The client's two bird pictures are now references only (as asked). The Chatak is a drawn, animated silhouette: he perches, breathes, looks around, takes off, beats his wings, climbs and catches the drop.
   - **The forest before the river is generated** in the river scene's misty layered style, so the film reads as one piece.

@@ -13,7 +13,7 @@ Phase prompts: `docs/PROMPTS_for_Claude_Code.md`.
 
 - Bright, misty, editorial. Light backgrounds always. Aluminium silver, mist white, navy ink, rain blue.
 - Story thread: the **Chatak** (pied cuckoo, _Clamator jacobinus_, চাতক) drinks only rain that falls from the sky. Never call it "machranga" (that is a kingfisher).
-- Signature moments: the opening screen *is* the live 3D can (reference: morphowater.com, master plan §2.5), and scroll tips its lid and dives through the opening into the hero film: the Chatak waits in a misty forest, the monsoon comes, he flies into the storm and catches the first drop, the rain becomes a river. Then the can spins and comes round showing **YOUR LOGO HERE**; rain density follows scroll speed.
+- Signature moments: the opening screen *is* the live 3D can (reference: morphowater.com, master plan §2.5), and scroll tips its lid and dives through the opening into the hero film: the Chatak waits in a misty forest, the monsoon comes, he flies into the storm and catches the first drop, and in one unbroken shot the camera follows the rain down through the cloud base until the drop lands in the river. One colour family throughout (silver-green, cool slate storm, silver); no cuts or white flashes between scenes. Then the can spins and comes round showing **YOUR LOGO HERE**; rain density follows scroll speed.
 - Headlines have two voices: light Jost for the line, Bodoni Moda italic for its accent. Copy marks the accent `*like this*`; render titles with `components/ui/Emph` (the `.headline` class gives a non-heading element the same style).
 
 ## Stack

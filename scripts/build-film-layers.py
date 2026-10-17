@@ -273,5 +273,6 @@ if __name__ == '__main__':
     mist('mist-a.webp', 21, stretch=3.2, density=0.0)
     mist('mist-b.webp', 34, stretch=2.2, density=0.35)
     clouds('clouds-light.webp', 51, lit=(252, 253, 253), shade=(214, 219, 226), cover=-0.9)
-    clouds('clouds-storm.webp', 77, lit=(226, 228, 233), shade=(124, 121, 141), cover=-1.2)
+    # a cool, bruised slate: the monsoon has to meet the river's silver-green without a jump
+    clouds('clouds-storm.webp', 77, lit=(224, 229, 233), shade=(112, 119, 133), cover=-1.2)
     rays()

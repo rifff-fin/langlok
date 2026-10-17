@@ -10,12 +10,17 @@
  *               ~0.28  smoky monsoon clouds roll in, colour drains, wind; he looks up
  *               ~0.44  he opens his wings and flies up into the storm; the camera tilts up
  *               ~0.6   beak open to the sky, he catches the first drop
- *               ~0.62  light breaks through; the rain becomes a river in a misty valley
+ *               ~0.61  one unbroken shot: he flies on up, and the camera lets him go and
+ *                      follows the rain down, under the storm, through the lit cloud base,
+ *                      to the valley; the drop it follows lands in the river (its first ring)
+ *               ~0.72  the rain has returned: a calm river in a misty valley
  *               1      mist: the page colour, where the can stands
  *
- * Scroll owns the story (camera, scene mix, flight path); time owns the life (breathing,
- * wingbeats, wind, mist, rain, ripples), so it keeps moving when the visitor stops. With
- * reduced motion nothing moves on its own and the camera stays put: scenes crossfade.
+ * The colour runs one way: silver-green forest, a cool slate monsoon, the silver cloud base,
+ * the silver-green river. Scroll owns the story (camera, scene mix, flight path); time owns
+ * the life (breathing, wingbeats, wind, mist, rain, ripples), so it keeps moving when the
+ * visitor stops. With reduced motion nothing moves on its own and the camera stays put:
+ * scenes crossfade.
  */
 import { beakTip, drawChatak, type BirdPose } from './chatak';
 import { Branch } from './branch';
@@ -69,6 +74,17 @@ type P2 = [number, number];
 const LAUNCH = 0.46;
 const CATCH = 0.6;
 const GONE = 0.665;
+/** The camera comes down after the catch: from the storm to the river, in film progress. */
+const DESCENT = [0.61, 0.715] as const;
+/** The sky it comes down, in screen heights: the storm, the cloud base, the valley's sky. */
+const PAN = 1.5;
+/** The drop it follows falls in, hangs (falling with the camera), then lands in the river,
+ *  where river() opens its first ring. */
+const DROP_IN = 0.638;
+const DROP_FALL = 0.678;
+const DROP_LAND = 0.7;
+/** The monsoon's slate, top to bottom of the storm (cool, so it meets the river's silver). */
+const STORM = ['#7f8797', '#a5acb8', '#c8ced5'] as const;
 /** Where he looks while he waits: a slow, deterministic round of head turns. */
 const LOOKS = [0, -0.55, 0.18, -0.28, 0.42, -0.12, 0.3, -0.48];
 
@@ -90,7 +106,11 @@ export class Film {
   private ripples: Ripple[] = [];
   private lastSpawn = 0;
   private caughtAt = -1;
+  private landedAt = -1;
   private lastTime = 0;
+  private lastF = 0;
+  /** The rain's own clock: it slows while the camera falls with it. */
+  private rainClock = 0;
   /** Pointer from the frame centre, -1..1, damped (desktop parallax). */
   private px = 0;
   private py = 0;
@@ -106,7 +126,7 @@ export class Film {
     this.ctx = canvas.getContext('2d', { alpha: false })!;
     this.reflection = this.makeReflection();
     this.water = document.createElement('canvas');
-    this.smoke = this.tint(L.mistB, '#8d8aa2');
+    this.smoke = this.tint(L.mistB, '#8c93a1');
   }
 
   resize(w: number, h: number, dpr: number) {
@@ -198,14 +218,21 @@ export class Film {
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, w, h);
 
+    // After the catch the camera comes down one tall column of sky (the storm, the cloud
+    // base, the valley's sky) to the river, without a cut. Reduced motion: scenes crossfade.
+    const down = this.motion ? ss(DESCENT[0], DESCENT[1], f) : 0;
+    const pan = h * PAN;
+    const lift = down * pan; // how far down the column the camera has come
+    const riverAt = this.motion ? pan - lift : 0; // where the valley's sky begins on screen
+
     const wFall = 1 - ss(0.06, 0.13, f);
     const wWoods = ss(0.03, 0.12, f) * (1 - ss(0.56, 0.62, f));
     const storm = ss(0.27, 0.42, f);
-    const wSky = ss(0.42, 0.53, f) * (1 - ss(0.66, 0.72, f));
-    const wBird = ss(0.05, 0.12, f) * (1 - ss(GONE - 0.012, GONE, f));
+    const wSky = ss(0.42, 0.53, f) * (this.motion ? (down < 1 ? 1 : 0) : 1 - ss(0.66, 0.72, f));
+    const wBird = ss(0.05, 0.12, f) * (this.motion ? 1 : 1 - ss(GONE - 0.012, GONE, f));
     const wRain = ss(0.38, 0.46, f) * (1 - ss(0.86, 0.95, f));
-    const wLight = ss(0.6, 0.66, f) * (1 - ss(0.69, 0.74, f));
-    const wRiver = ss(0.65, 0.72, f);
+    const wLight = this.motion ? 0 : ss(0.6, 0.66, f) * (1 - ss(0.69, 0.74, f));
+    const wRiver = this.motion ? (riverAt < h ? 1 : 0) : ss(0.65, 0.72, f);
     const wOut = ss(0.88, 1, f);
 
     // where he looks while he waits (snappy turns), settling forward as the storm comes
@@ -214,12 +241,29 @@ export class Film {
 
     const flying = ss(LAUNCH, LAUNCH + 0.01, f) > 0;
     if (wWoods > 0) this.woods(f, t, wWoods, storm, wBird, flying);
-    if (wSky > 0) this.stormSky(f, t, wSky);
-    if (wBird > 0 && flying) this.flight(f, t, time, wBird, storm);
+    if (wSky > 0) this.stormSky(f, t, wSky, lift, pan);
+    if (wBird > 0 && flying && f < GONE) this.flight(f, t, time, wBird, storm, lift);
     if (wFall > 0) this.clouds(f, t, wFall);
     if (wLight > 0) this.light(t, wLight);
-    if (wRiver > 0) this.river(f, t, wRiver, wRain, portrait);
-    if (wRain > 0 && this.motion) this.rain(t, wRain, velocity, clamp01(wRiver + 0.6 * wLight));
+    if (wRiver > 0) {
+      if (riverAt > 0) {
+        // the valley rising into view: its sky starts where the column's ends
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, riverAt, w, h - riverAt);
+        ctx.clip();
+        ctx.translate(0, riverAt);
+        this.river(f, t, wRiver, wRain, portrait);
+        ctx.restore();
+      } else {
+        this.river(f, t, wRiver, wRain, portrait);
+      }
+    }
+    if (down > 0 && down < 1) this.cloudBase(t, down, lift);
+    if (this.motion) this.followDrop(f, time, riverAt, portrait);
+    // falling with the rain, the camera sees it slow; it picks up again at the river
+    this.rainClock += dt * (1 - 0.7 * Math.sin(Math.PI * down));
+    if (wRain > 0 && this.motion) this.rain(this.rainClock, wRain, velocity, down);
 
     // the Monsoon Light register, and a quiet side for the captions to sit on
     ctx.globalCompositeOperation = 'source-over';
@@ -245,6 +289,7 @@ export class Film {
       ctx.fillRect(0, 0, w, h);
     }
     ctx.globalAlpha = 1;
+    this.lastF = f;
   }
 
   /** Out of the can: falling through soft, bright cloud. */
@@ -377,15 +422,15 @@ export class Film {
       }
     }
 
-    // the monsoon arrives: colour drains towards bruised purple, smoky cloud rolls down
+    // the monsoon arrives: colour drains to a bruised slate, smoky cloud rolls down
     if (storm > 0) {
       ctx.globalCompositeOperation = 'color';
       ctx.globalAlpha = wgt * storm * 0.5;
-      ctx.fillStyle = '#7d7b93';
+      ctx.fillStyle = '#7c8292';
       ctx.fillRect(0, 0, w, h);
       ctx.globalCompositeOperation = 'multiply';
       ctx.globalAlpha = wgt * storm * 0.3;
-      ctx.fillStyle = '#9da1b6';
+      ctx.fillStyle = '#a0a6b3';
       ctx.fillRect(0, 0, w, h);
       ctx.globalCompositeOperation = 'source-over';
       const y = -h * 0.95 + storm * h * 0.62;
@@ -432,18 +477,33 @@ export class Film {
     ctx.restore();
   }
 
-  /** Looking up into the monsoon: the sky the Chatak climbs into. */
-  private stormSky(f: number, t: number, wgt: number) {
+  /**
+   * Looking up into the monsoon, the sky the Chatak climbs into; then the column of sky the
+   * camera comes down after the catch (`lift` px so far): the storm, light breaking under it,
+   * the bright cloud base, and at its foot (y = `pan`) the colour river() starts its sky with.
+   */
+  private stormSky(f: number, t: number, wgt: number, lift: number, pan: number) {
     const { ctx, w, h } = this;
-    const slide = (this.motion ? ss(0.45, 0.62, f) : 1) * h * 0.45;
+    const slide = (this.motion ? ss(0.45, 0.6, f) : 1) * h * 0.45;
     ctx.save();
     ctx.globalAlpha = wgt;
-    const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#8f8da4');
-    g.addColorStop(0.55, '#aaacbd');
-    g.addColorStop(1, '#c8cbd5');
+    ctx.translate(0, -lift);
+    const g = ctx.createLinearGradient(0, 0, 0, pan);
+    g.addColorStop(0, STORM[0]);
+    g.addColorStop(0.36, STORM[1]);
+    g.addColorStop(0.62, STORM[2]);
+    g.addColorStop(0.8, '#eef2f4');
+    g.addColorStop(1, '#e2eaf0');
     ctx.fillStyle = g;
-    ctx.fillRect(0, 0, w, h);
+    ctx.fillRect(0, lift, w, h);
+    if (lift > 0) {
+      // the light breaking through under the storm (ends above the valley's sky)
+      const glow = ctx.createRadialGradient(w * 0.62, h, 0, w * 0.62, h, h * 0.5);
+      glow.addColorStop(0, 'rgba(255, 252, 244, 0.9)');
+      glow.addColorStop(1, 'rgba(255, 252, 244, 0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, h * 0.5, w, h);
+    }
     ctx.globalAlpha = wgt * 0.95;
     this.band(this.L.cloudsStorm, -h * 0.45 + slide, h * 0.95, t * 10 + f * 700);
     ctx.globalAlpha = wgt * 0.7;
@@ -453,8 +513,9 @@ export class Film {
     ctx.restore();
   }
 
-  /** He leaves the branch, climbs into the rain, catches the first drop and is gone. */
-  private flight(f: number, t: number, time: number, wgt: number, storm: number) {
+  /** He leaves the branch, climbs into the rain, catches the first drop and flies on up and
+   *  out of the frame (the camera, coming down, lets him go). */
+  private flight(f: number, t: number, time: number, wgt: number, storm: number, lift: number) {
     const { ctx, w, h } = this;
     const portrait = h > w;
     const lay = this.layout();
@@ -504,6 +565,7 @@ export class Film {
     };
     ctx.save();
     ctx.globalAlpha = wgt;
+    ctx.translate(0, -lift); // he is in the storm's sky
     drawChatak(ctx, pose);
 
     // the first drop falls into the open beak
@@ -542,6 +604,64 @@ export class Film {
     ctx.globalAlpha = wgt * 0.8;
     this.band(this.L.mistA, h * 0.2, h * 0.7, t * 9);
     ctx.restore();
+  }
+
+  /**
+   * The lit cloud base the camera comes down through (nearest layers fastest), and light
+   * falling through it towards the valley. All of it has passed before the river settles.
+   */
+  private cloudBase(t: number, down: number, lift: number) {
+    const { ctx, w, h } = this;
+    ctx.save();
+    const shafts = ss(0.2, 0.5, down) * (1 - ss(0.65, 0.95, down));
+    if (shafts > 0) {
+      ctx.globalCompositeOperation = 'screen';
+      ctx.globalAlpha = shafts * 0.55;
+      const r = Math.max(w, h) * 1.15;
+      ctx.drawImage(this.L.rays, w - r * 0.92, h * 0.55 - lift * 0.6, r, r);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    for (const [img, top, height, speed, alpha, drift] of [
+      [this.L.cloudsLight, 1.02, 0.8, 1.25, 0.95, 5],
+      [this.L.cloudsLight, 1.15, 0.9, 1.45, 0.85, -7],
+      [this.L.mistA, 1.3, 0.7, 1.75, 0.8, 11],
+    ] as const) {
+      const y = h * top - lift * speed;
+      if (y >= h || y + h * height <= 0) continue;
+      ctx.globalAlpha = alpha;
+      this.band(img, y, h * height, t * drift + top * 997);
+    }
+    ctx.restore();
+  }
+
+  /**
+   * The drop the camera follows down: it falls in from the storm, hangs while the camera
+   * falls with it, then drops to the water, where river() opens its first ring.
+   */
+  private followDrop(f: number, time: number, riverAt: number, portrait: boolean) {
+    const { w, h } = this;
+    // the ring's centre on screen (river(): zoom about the horizon, parallax, ring centre)
+    const horizon = h * (portrait ? 0.46 : 0.5);
+    const zoom = 1 + 0.06 * ss(0.65, 1, f);
+    const cx = portrait ? w * 0.5 : w * 0.34;
+    const x = w / 2 + this.px * w * 0.006 + (cx - w / 2) * zoom;
+    const water = riverAt + horizon + (h - horizon) * 0.42 * zoom;
+    if (f < DROP_LAND) {
+      this.landedAt = -1;
+      if (f < DROP_IN) return;
+      const a = clamp01(((f - DROP_IN) / (DROP_FALL - DROP_IN)) * 1.6);
+      const hang = lerp(-h * 0.06, h * (portrait ? 0.34 : 0.38), 1 - (1 - a) ** 2);
+      const b = clamp01((f - DROP_FALL) / (DROP_LAND - DROP_FALL));
+      // near the lens while it hangs, smaller as it falls away to the water
+      this.drop(x, lerp(hang, water, b * b), Math.max(5, h * lerp(0.016, 0.009, b)), 1);
+    } else {
+      // splash only when the drop was seen landing (not when the page opens further down)
+      if (this.landedAt < 0 && this.lastF >= DROP_IN && this.lastF < DROP_LAND) {
+        this.landedAt = time;
+      }
+      const age = this.landedAt < 0 ? 1 : time - this.landedAt;
+      if (age < 0.8) this.splash(x, water, age, 1);
+    }
   }
 
   private drop(x: number, y: number, r: number, alpha: number) {
