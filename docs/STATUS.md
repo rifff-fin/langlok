@@ -50,7 +50,7 @@
 ## Waiting on the client
 
 - **Story text edits** (17 Oct 2026, see Log): confirm them, and the place name (Tetulia instead of the original "Umm Lajj").
-- **LANGLOK label artwork.** The can and bottle artwork still prints **VERSA**, so the 3D labels show VERSA. We need the LANGLOK label files (flat, unwrapped) and the logo SVG.
+- **LANGLOK label artwork.** The can and bottle artwork still prints **VERSA**, so the 3D labels show VERSA. We need the LANGLOK label files (flat, unwrapped). (The logo pack arrived on 17 Oct 2026 and is on the site.)
 - Supplier dimension drawings for the can and bottle (the shapes are traced from photos).
 - Lining type before any purity claims; ReCan details; social links; full address and sales email.
 - The open questions in master plan §1.3 (bird name, "Umm Lajj", etc.).
@@ -78,6 +78,7 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **17 Oct 2026, late night**: **the client's logo** (logo pack, Chatak direction) replaces the text placeholder: the mark + LANGLOK in the header, the full lockup with "INT. COMPANY LTD." in the footer, and the app icon as the favicon and phone home-screen icon. SVG sources kept in `docs/client/logo-pack/`.
 - **17 Oct 2026, late night**: **the Chatak story** (start of Phase 5):
   - The client's bird photo and the can-photo crop are gone; both pictures are now drawn live with the film's pieces (`film/vignette.ts`), so the story looks like the film.
   - The section's colours follow the film: no peach, and the monsoon chapter is slate instead of violet (`--monsoon` is now #646C7C).

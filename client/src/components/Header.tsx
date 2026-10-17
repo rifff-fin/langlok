@@ -26,8 +26,8 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-aluminium/70 bg-mist/95">
       <div className="mx-auto flex h-[var(--header-h)] max-w-[var(--page-max)] items-center justify-between gap-8 px-[var(--gutter)]">
-        <Link to="/" className="no-underline" aria-label={nav.homeLabel}>
-          <Logo />
+        <Link to="/" className="-ml-1 shrink-0 no-underline" aria-label={nav.homeLabel}>
+          <Logo className="h-9 w-auto md:h-10" />
         </Link>
 
         <nav aria-label={nav.primaryLabel} className="hidden lg:block">

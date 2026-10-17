@@ -11,7 +11,7 @@ export function Footer() {
       <Container>
         <div className="grid grid-cols-4 gap-x-[var(--grid-gap)] gap-y-12 md:grid-cols-12">
           <div className="col-span-4 md:col-span-5">
-            <Logo />
+            <Logo variant="full" className="-ml-1 h-auto w-[min(100%,340px)]" />
             <p className="mt-6 max-w-[36ch] text-slate">{footer.missionLine}</p>
           </div>
 
