@@ -691,7 +691,7 @@ Rough effort for one developer working with Claude Code. Live progress: [`STATUS
 ## 11. Asset checklist
 
 **From the client**
-- [x] Master logo SVG + monochrome versions (logo pack, Chatak direction, 17 Oct 2026: `docs/client/logo-pack/`)
+- [x] Master logo SVG + monochrome versions (our logo pack, Chatak direction, 17 Oct 2026: `docs/client/logo-pack/`; the client approves it)
 - [ ] Flat label print files for can and bottle (AI/PDF/SVG), with dimensions
 - [ ] Supplier dimension drawings: can (Ø, height, neck) and bottle profile
 - [ ] Bird illustration, layered, high-res, transparent

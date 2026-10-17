@@ -61,7 +61,7 @@ Version pins: React stays `~19.3` (R3F 9.8 peer range is `<19.4`); TypeScript st
 --rain-light #8FC3EA   --leaf #6E8B5E   --sun #E9B872 (story only)   --monsoon #646C7C (story only; slate, not violet)
 ```
 
-Fonts: **Jost** (headlines in light 300, UI/body, uppercase eyebrows tracked 0.24em), **Bodoni Moda** italic (headline accents, big volumes, `.accent`), **Noto Serif Bengali** (Bengali accents). The logo is always the client's SVG, never typeset. Sizes: `--text-hero` (opening headline), `--text-display`, `--text-h2`, `--text-h3`.
+Fonts: **Jost** (headlines in light 300, UI/body, uppercase eyebrows tracked 0.24em), **Bodoni Moda** italic (headline accents, big volumes, `.accent`), **Noto Serif Bengali** (Bengali accents). The logo is always the logo pack's SVG (the user's design), never typeset. Sizes: `--text-hero` (opening headline), `--text-display`, `--text-h2`, `--text-h3`.
 
 Styling is **Tailwind v4**. `globals.css` maps the tokens into `@theme inline`, so use `bg-mist`, `text-ink`, `border-aluminium`, `font-display`, `ease-liquid`, etc. Raw font and ease tokens are `--ff-display|sans|bengali` and `--ease-water-*`. They must not share names with Tailwind's `--font-*`/`--ease-*`, which would create a cyclic `var()`. Fluid sizes: `text-[length:var(--text-h2)]`; gutters: `px-[var(--gutter)]`. Fonts load via `<link>` in `client/index.html`.
 
@@ -71,7 +71,7 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 
 - Dark or black page backgrounds, neon, purple-blue "AI gradients", glassmorphism everywhere, floating blobs.
 - Text inside WebGL. Auto-playing audio.
-- AI-generated versions of the logo or the label's bird. The logo and the label artwork are always the client's.
+- AI-generated versions of the logo or the label's bird. The logo is the user's logo pack; the label artwork is the client's.
 - The client's bird pictures pasted straight into the film or the story section. They are references only (user, 17 Oct 2026); the story's pictures are drawn with the film's pieces (`film/vignette.ts`). The film's Chatak is drawn in code as an animated silhouette (`film/chatak.ts`): crest, black above and white below, white wing crescents, white-tipped graduated tail.
 - Absolute health claims ("zero microplastics", "leaches nothing") in new copy; keep the client's wording only where `copy.ts` already has it and flag it.
 - Inventing statistics. Counters stay hidden until real data exists.
@@ -93,7 +93,7 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 - Keep components small; one section per file in `client/src/sections/`; 3D in `client/src/three/`. Pages in `client/src/pages/` compose sections; shared pieces in `client/src/components/` (`ui/` for primitives: Container, Eyebrow, Hairline, ChapterHead, Button).
 - The hero is a tall track (`(HERO_SCROLL_VH + 100)svh`) with a CSS-sticky full-viewport stage (`[data-hero-stage]`); the film canvas lives in its sky layer (`[data-hero-sky]`). Its height is already final, so drive it with a ScrollTrigger on the track (progress only, no `pin`). The opening screen (intro + dive) is an absolutely placed sticky layer at the top of the track. Other pinned sections are `min-h-svh` panels; their pin spacing gets added later.
 - The static Phase 1 layouts double as the reduced-motion and no-WebGL versions. Enhance them; don't replace them.
-- The logo is the client's logo pack (Chatak direction, received 17 Oct 2026; SVG sources and README in `docs/client/logo-pack/`, served from `client/public/brand/`). `components/Logo.tsx`: `header` = the mark + LANGLOK (the pack's horizontal lockup without its "INT. COMPANY LTD." line, which would be ~3 px tall there), `full` = the complete horizontal lockup (footer). Favicon and touch icon = the pack's light app icon. Use the pack's files as they are; never redraw or typeset the logo. Vessel plates (`components/VesselPlate.tsx`) show studio stills of the whole vessel, never the cropped mockup photos.
+- The logo is the LANGLOK logo pack (Chatak direction), designed by the site's designer (the user) on 17 Oct 2026 and awaiting the client's approval; SVG sources and README in `docs/client/logo-pack/`, served from `client/public/brand/`. `components/Logo.tsx`: `header` = the mark + LANGLOK (the pack's horizontal lockup without its "INT. COMPANY LTD." line, which would be ~3 px tall there), `full` = the complete horizontal lockup (footer). Favicon and touch icon = the pack's light app icon. Use the pack's files as they are; never redraw, AI-generate or typeset the logo. Vessel plates (`components/VesselPlate.tsx`) show studio stills of the whole vessel, never the cropped mockup photos.
 - When unsure about copy or a brand fact, leave a `// TODO(client):` comment instead of guessing.
 
 ## 3D vessels (Phase 3)

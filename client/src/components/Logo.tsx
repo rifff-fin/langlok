@@ -1,8 +1,9 @@
 import { site } from '../content/copy';
 
 /**
- * The client's LANGLOK logo (logo pack, Chatak direction, 17 Oct 2026): the Chatak mark
- * catching a raindrop, with the wordmark after it. Never typeset or redrawn.
+ * The LANGLOK logo (logo pack, Chatak direction, 17 Oct 2026, designed for the site and
+ * awaiting the client's approval): the Chatak mark catching a raindrop, with the wordmark
+ * after it. Never typeset or redrawn.
  *   header  the mark + LANGLOK (the small "INT. COMPANY LTD." line is left out: it would be
  *           ~3 px tall at header size)
  *   full    the complete horizontal lockup, for larger places (the footer)
