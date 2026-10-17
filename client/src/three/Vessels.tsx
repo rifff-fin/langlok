@@ -7,7 +7,7 @@ import type { VesselId } from '../store/scene';
 import layout from './labelLayout.json';
 import spec from './vesselSpec.json';
 import { knurlBand, latheBody, openingShape, pullTab, skyTexture, wispTexture } from './geometry';
-import { composeYourLogo, configureLabel, labelUrls, type LabelSet } from './labels';
+import { composeYourLogo, configureLabel, labelUrls, watchDesign, type LabelSet } from './labels';
 import { smoothstep, targets } from './stations';
 import { Vessel } from './Vessel';
 
@@ -47,6 +47,10 @@ function useLabel(vessel: VesselId) {
     };
   }, [vessel, brand, gl]);
 
+  // the configurator's design (made on the visitor's first edit, then updated in place)
+  const [config, setConfig] = useState<LabelSet | null>(null);
+  useEffect(() => watchDesign(vessel, brand, gl, setConfig), [vessel, brand, gl]);
+
   // Printed aluminium: metalness/roughness come from the ORM map (bare metal vs matte ink).
   const material = useMemo(
     () =>
@@ -61,13 +65,13 @@ function useLabel(vessel: VesselId) {
       }),
     [brand],
   );
-  return { brand, custom, material };
+  return { brand, custom, config, material };
 }
 
 const LID_Y = 17.8; // lid centre (vesselSpec can profile)
 
 export function Can() {
-  const { brand, custom, material } = useLabel('can');
+  const { brand, custom, config, material } = useLabel('can');
   const body = useMemo(() => latheBody(spec.can.profile, SEGMENTS, spec.can.label), []);
 
   return (
@@ -80,6 +84,7 @@ export function Can() {
       label={material}
       brand={brand}
       custom={custom}
+      config={config}
     >
       <mesh geometry={body} material={material} />
       <CanTop />
@@ -181,7 +186,7 @@ function CanTop() {
 }
 
 export function Bottle() {
-  const { brand, custom, material } = useLabel('bottle');
+  const { brand, custom, config, material } = useLabel('bottle');
   const body = useMemo(() => latheBody(spec.bottle.profile, SEGMENTS, spec.bottle.label), []);
   const cap = useMemo(() => latheBody(spec.bottle.cap.profile, SEGMENTS), []);
   const knurl = useMemo(() => knurlBand(spec.bottle.cap.knurl), []);
@@ -196,6 +201,7 @@ export function Bottle() {
       label={material}
       brand={brand}
       custom={custom}
+      config={config}
     >
       <mesh geometry={body} material={material} />
       <mesh geometry={cap} material={capMetal} />

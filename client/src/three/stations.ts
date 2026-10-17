@@ -36,8 +36,9 @@ const ROUTES: Record<VesselId, Route> = {
       { anchor: 'hero-can' },
       { anchor: 'products-can' },
       { anchor: 'logo-can' },
+      { anchor: 'config-can' },
     ],
-    links: ['cut', 'cut', 'travel-wide', 'cut'],
+    links: ['cut', 'cut', 'travel-wide', 'cut', 'travel-wide'],
     spins: ['productsCan', 'logo'],
   },
   bottle: {
@@ -45,11 +46,18 @@ const ROUTES: Record<VesselId, Route> = {
       { anchor: 'stage-bottle' },
       { anchor: 'products-bottle' },
       { anchor: 'logo-bottle' },
+      { anchor: 'config-bottle' },
     ],
-    links: ['cut', 'travel'],
+    links: ['cut', 'travel', 'travel-wide'],
     spins: ['productsBottle', 'logo'],
   },
 };
+
+/** The configurator's stations: there the vessel wears the visitor's design. */
+const CONFIG = new Set<AnchorId>(['config-can', 'config-bottle']);
+
+/** Which print a vessel wears: the client's, YOUR LOGO HERE, or the visitor's design. */
+export type VesselLabel = 'brand' | 'yourlogo' | 'config';
 
 const VESSELS = Object.keys(ROUTES) as VesselId[];
 
@@ -64,12 +72,15 @@ export interface VesselTarget {
   turns: number;
   /** Lean into the direction of travel, radians. */
   lean: number;
-  /** YOUR LOGO HERE label wanted (second half of the logo spin). */
-  logo: boolean;
+  /** The print wanted: YOUR LOGO HERE from the second half of the logo spin, the
+   *  visitor's design at the configurator. */
+  label: VesselLabel;
   /** Hero dive progress, 0..1 (0 at every other station). */
   dive: number;
   /** The station the vessel is at, arriving at or leaving. */
   station: AnchorId | null;
+  /** Standing at its station (not gliding between two). */
+  settled: boolean;
 }
 
 const blank = (): VesselTarget => ({
@@ -79,9 +90,10 @@ const blank = (): VesselTarget => ({
   pxPerCm: 1,
   turns: 0,
   lean: 0,
-  logo: false,
+  label: 'brand',
   dive: 0,
   station: null,
+  settled: true,
 });
 
 /** Written once per frame by `updateTargets`, read by the vessels in `useFrame`. */
@@ -158,6 +170,7 @@ export function updateTargets(vw: number, vh: number): boolean {
     let lean = 0;
     let dive = 0;
     let gone = false;
+    let settled = true;
     let at = present[present.length - 1].p;
     let station: AnchorId = present[present.length - 1].st.anchor;
     for (let k = 0; k < present.length; k++) {
@@ -204,6 +217,7 @@ export function updateTargets(vw: number, vh: number): boolean {
           pxPerCm: lerp(a.p.pxPerCm, b.p.pxPerCm, e),
         };
         station = f < 0.5 ? a.st.anchor : b.st.anchor;
+        settled = f >= 1;
         travelTurns += e;
         lean = Math.sin(Math.PI * f) * 0.09 * Math.sign(b.p.x - a.p.x || 1);
       } else if (a.dive !== undefined) {
@@ -227,7 +241,12 @@ export function updateTargets(vw: number, vh: number): boolean {
     t.lean = lean;
     t.dive = dive;
     t.station = station;
-    t.logo = spinProgress(spins.logo?.progress ?? 0, 'logo') > 0.5;
+    t.settled = settled;
+    t.label = CONFIG.has(station)
+      ? 'config'
+      : spinProgress(spins.logo?.progress ?? 0, 'logo') > 0.5
+        ? 'yourlogo'
+        : 'brand';
 
     const halfH = (heightCm / 2) * at.pxPerCm * 1.15;
     const halfW = spec[id].radius * at.pxPerCm * 2;

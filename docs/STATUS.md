@@ -1,7 +1,7 @@
 # LANGLOK website — current status
 
 **Updated:** 17 Oct 2026 · **Branch:** `phase-3-3d-products` (not merged into `main` yet)
-**Stage:** Phases 0, 1 and 3 done. The hero film is built (drawn live, no footage needed). **Next: the preloader, then Phase 4 (configurator).**
+**Stage:** Phases 0, 1, 3 and 4 done; the hero film is built (drawn live, no footage needed). **Next: the preloader, then Phase 5 (story, ReCan, polish).**
 
 > Keep this file current: update it at the end of every piece of work (what changed, what's next, what's blocked).
 
@@ -19,7 +19,13 @@
 4. **Meet LANGLOK**: the film ends in mist, the can comes back, then glides on to the products (desktop).
 5. **Products**: the can, then the bottle, each about 70% of the screen tall, a full turn as you scroll (pinned on desktop), with the spec list.
 6. **Your logo here**: can and bottle side by side at true size; one more turn and both come round wearing YOUR LOGO HERE.
-7. The other sections (configurator, Chatak story, mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals.
+7. **Configurator** (05, also on `/custom-branding`): the can glides in from section 04 and stands in the stage, and your design appears on it live:
+   - upload a PNG, SVG or JPG logo (checked, sanitised, plain white backgrounds taken out) or type a brand name (Modern or Classic lettering);
+   - choose can, bottle or both; silver, white, navy or any colour; logo size and height;
+   - drag to turn it (or arrow keys), double-click to face front;
+   - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
+   - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
+8. The other sections (Chatak story, mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals.
 
 ## Done
 
@@ -29,15 +35,16 @@
 | 1 Skeleton | Every section and route as a static, responsive layout; all copy in `copy.ts` | `phase-1-skeleton` |
 | 3 3D products | Procedural can + bottle from the photos, label textures, studio lighting, scroll spins, station router, YOUR LOGO swap | `phase-3-3d-products` |
 | 3.1 Showcase | Morpho-style opening + dive, chrome-contrast lighting, bigger vessels, studio stills instead of cropped photos, two-voice headlines, Motion switch, rename to LANGLOK | `phase-3-3d-products` |
-| 2 Hero film | The living film: a drawn, animated Chatak (no photos), generated misty forest, monsoon, flight and catch, river; captions from the client's story | `phase-3-3d-products` |
+| 2 Hero film | The living film: a drawn, animated Chatak (no photos), generated misty forest, monsoon, flight and catch, one continuous descent to the river; captions from the client's story | `phase-3-3d-products` |
+| 4 Configurator | Logo upload or brand name on the live 3D can and bottle, backgrounds, size and position, drag to turn, PNG preview, quote form with the design attached (react-hook-form + zod); inner pages lazy-loaded | `phase-3-3d-products` |
 
 ## Next
 
 1. **Preloader** (rest of Phase 2): a drop that becomes a thin progress line while fonts, the can and the film's layers load.
-2. **Phase 4, configurator**: upload a logo and see it on the 3D can and bottle (the YOUR LOGO swap already works).
-3. **Phase 5 polish**: Chatak story section, ReCan loop drawing, chapter rail ("01 / 07").
-4. Then the backend (Phase 6), real assets and performance (7), launch (8).
-5. Optional, any time: real AI-generated footage of the same story can replace the drawn film (prompts in `docs/PROMPTS_for_Claude_Code.md`, Part C).
+2. **Phase 5 polish**: Chatak story section, ReCan loop drawing, chapter rail ("01 / 07").
+3. **Phase 6 backend**: the quote form starts sending (POST /api/inquiries with the logo and the preview); until then its button stays off.
+4. Then real assets and performance (7), launch (8).
+5. Optional, any time: real AI-generated footage of the same story can replace the drawn film (prompts in `docs/PROMPTS_for_Claude_Code.md`, Part C); the "rain-wash" label swap (plan §7.5 v2).
 
 ## Waiting on the client
 
@@ -52,7 +59,10 @@
 - **The film's bird is drawn in code** (`client/src/film/chatak.ts`), not taken from the client's pictures. Those pictures are references only. Tune its shape at `/dev/bird`.
 - **No WebGL**: the plates show studio stills (`client/public/img/stills/`), rendered from the same 3D scene at `/dev/studio`; re-render them after changing the models, labels or lighting.
 - Not yet measured: frame rate on real phones (budget ≥ 40 fps mid-range Android).
-- Bundle: initial JS 188 KB gz (budget 200), lazy 3D chunk 271 KB gz, film chunk 7 KB gz plus 1.1 MB of film layers loaded at idle.
+- Bundle: initial JS 192 KB gz (budget 200); lazy chunks: 3D 271 KB, film 8 KB (+1.1 MB of layers at idle), inquiry form 37 KB (inner pages only), upload 2 KB + DOMPurify 11 KB (only on an SVG upload).
+- **Dev server:** lazily imported packages must be in `client/vite.config.ts` `optimizeDeps.include`, or Vite reloads the page the first time one is used (the configurator's design is lost on reload).
+- DOMPurify is pinned to 3.4.16 (3.4.17 was five days old when added); bump it after a look at the release notes.
+- The configurator's quote form validates as you type but doesn't send yet (Phase 6).
 
 ## How to run and check
 
@@ -66,6 +76,9 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **17 Oct 2026, night**:
+  - **Phase 4, the configurator**: your logo or brand name on the live 3D can and bottle, colours, size and position, drag to turn, PNG preview, and the quote form with the design attached. Edits re-upload only the logo zone of the label; logo and zone canvases stay in main memory, which keeps slider drags at full frame rate.
+  - Inner pages are lazy routes now (the form's validation loads with them), so the home page stays within its JS budget.
 - **17 Oct 2026, evening**:
   - **The catch → river transition is one continuous shot.** The white flash and crossfade are gone: after the catch the camera follows the rain down through the cloud base, and the followed drop lands in the river. The rain slows while the camera falls with it.
   - **Colours matched:** the monsoon and storm are a cool slate instead of lilac, so the film stays in one family from the forest to the river.

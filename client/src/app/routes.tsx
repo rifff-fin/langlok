@@ -1,25 +1,29 @@
 import { createBrowserRouter } from 'react-router';
 import { RootLayout } from './RootLayout';
 import { Home } from '../pages/Home';
-import { CustomBranding } from '../pages/CustomBranding';
-import { ReCan } from '../pages/ReCan';
-import { Story } from '../pages/Story';
-import { Contact } from '../pages/Contact';
 import { NotFound } from '../pages/NotFound';
 import { DevPin } from '../pages/DevPin';
 import { DevStudio } from '../pages/DevStudio';
 import { DevBird } from '../pages/DevBird';
 
+// The home page ships in the main bundle; the inner pages (and the inquiry form's
+// validation) load when visited.
 // Phase 6 adds /admin.
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
       { path: '/', element: <Home /> },
-      { path: '/custom-branding', element: <CustomBranding /> },
-      { path: '/recan', element: <ReCan /> },
-      { path: '/story', element: <Story /> },
-      { path: '/contact', element: <Contact /> },
+      {
+        path: '/custom-branding',
+        lazy: async () => ({ Component: (await import('../pages/CustomBranding')).CustomBranding }),
+      },
+      { path: '/recan', lazy: async () => ({ Component: (await import('../pages/ReCan')).ReCan }) },
+      { path: '/story', lazy: async () => ({ Component: (await import('../pages/Story')).Story }) },
+      {
+        path: '/contact',
+        lazy: async () => ({ Component: (await import('../pages/Contact')).Contact }),
+      },
       ...(import.meta.env.DEV
         ? [
             { path: '/dev', element: <DevPin /> },

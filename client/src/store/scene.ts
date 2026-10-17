@@ -16,7 +16,9 @@ export type AnchorId =
   | 'products-can'
   | 'products-bottle'
   | 'logo-can'
-  | 'logo-bottle';
+  | 'logo-bottle'
+  | 'config-can'
+  | 'config-bottle';
 
 /**
  * Scroll-driven moves: one full turn per section, plus the hero dive (the can tips its

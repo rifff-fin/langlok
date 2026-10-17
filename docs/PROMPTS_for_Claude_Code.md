@@ -174,7 +174,10 @@ Done when: the can looks printed and metallic (not a pasted sticker), spins at 6
 desktop, and the handoff is invisible at normal scroll speed.
 ```
 
-### B5. Phase 4 — "Your logo here" and the configurator
+### B5. Phase 4 — "Your logo here" and the configurator (built)
+
+Built 17 Oct 2026 (master plan §4.3-05, §7.6 "as built"). Two departures from the prompt below: the preview turns by dragging the stage (drei `PresentationControls` can't receive events, as the one canvas sits behind the DOM), and the quote is not sent until the API exists (Phase 6). The v2 rain-wash swap is still open.
+
 
 ```text
 Phase 4: the B2B moment. Follow master plan §4.3 (04–05), §7.5 and §7.6.

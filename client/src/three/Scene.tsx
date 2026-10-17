@@ -3,6 +3,7 @@ import { Canvas, advance, useThree } from '@react-three/fiber';
 import { PerformanceMonitor } from '@react-three/drei';
 import { NeutralToneMapping } from 'three';
 import { gsap } from '../lib/gsap';
+import { capture } from '../store/configurator';
 import { stage, updateTargets } from './stations';
 import { Lighting } from './Lighting';
 import { Bottle, Can } from './Vessels';
@@ -38,9 +39,56 @@ export default function Scene() {
         <Can />
         <Bottle />
         <Ready />
+        <Capture />
       </Suspense>
     </Canvas>
   );
+}
+
+/** Page colour under saved previews (the canvas itself is transparent). */
+const PREVIEW_GROUND = '#f3f5f6';
+
+/**
+ * The configurator's "Save preview": renders the current frame again at a higher pixel
+ * ratio and crops the preview box out of it. The pixels are read in the same task as the
+ * render, so the drawing buffer needs no preserving; the normal frame is restored at once.
+ */
+function Capture() {
+  const { gl, scene, camera } = useThree();
+  useEffect(() => {
+    capture.fn = async (rect) => {
+      const ratio = gl.getPixelRatio();
+      const sharp = Math.min(3, Math.max(2, ratio));
+      gl.setPixelRatio(sharp);
+      gl.render(scene, camera);
+      const src = gl.domElement;
+      const k = src.width / src.clientWidth;
+      const out = document.createElement('canvas');
+      out.width = Math.round(rect.width * k);
+      out.height = Math.round(rect.height * k);
+      const x = out.getContext('2d')!;
+      x.fillStyle = PREVIEW_GROUND;
+      x.fillRect(0, 0, out.width, out.height);
+      x.drawImage(
+        src,
+        rect.left * k,
+        rect.top * k,
+        out.width,
+        out.height,
+        0,
+        0,
+        out.width,
+        out.height,
+      );
+      gl.setPixelRatio(ratio);
+      gl.render(scene, camera);
+      return new Promise<Blob | null>((resolve) => out.toBlob(resolve, 'image/png'));
+    };
+    return () => {
+      capture.fn = null;
+    };
+  }, [gl, scene, camera]);
+  return null;
 }
 
 function Driver() {

@@ -62,7 +62,7 @@ client/   Vite + React 19 + TS, Tailwind v4, three / R3F, GSAP, Lenis
   public/img/stills/    studio stills of the 3D vessels (no-WebGL fallback, first paint)
   public/film/          the hero film's generated layers (forest, mist, clouds, river bank)
   public/textures/      3D label colour + ORM maps (generated)
-  src/app/ components/ content/ film/ hooks/ lib/ pages/ sections/ store/ styles/ three/
+  src/app/ components/ configurator/ content/ film/ hooks/ lib/ pages/ sections/ store/ styles/ three/
 server/   Express 5 + TS (Mongo, uploads, email arrive in Phase 6)
 scripts/  label texture builder, film layer builder, hero frame tools
 docs/     status, master plan, prompts, client text

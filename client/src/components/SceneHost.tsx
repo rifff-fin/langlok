@@ -1,22 +1,10 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { useStore } from 'zustand';
+import { hasWebGL } from '../lib/webgl';
 import { sceneStore } from '../store/scene';
 
 // three + R3F + drei live in their own chunk, fetched only when a page has vessel anchors.
 const Scene = lazy(() => import('../three/Scene'));
-
-let webgl: boolean | undefined;
-function hasWebGL() {
-  if (webgl === undefined) {
-    try {
-      const c = document.createElement('canvas');
-      webgl = !!(c.getContext('webgl2') ?? c.getContext('webgl'));
-    } catch {
-      webgl = false;
-    }
-  }
-  return webgl;
-}
 
 /**
  * Mounts the 3D scene once a page registers a vessel anchor, then keeps it for later

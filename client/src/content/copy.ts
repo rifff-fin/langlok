@@ -189,17 +189,37 @@ export const configurator = {
   title: 'See it *on the can.*',
   intro:
     'Upload your logo and see it on a LANGLOK can or bottle. When it looks right, request a quote — we’ll prepare print-ready artwork with you.',
-  previewAlt: 'Preview of a LANGLOK can with your logo',
+  previewAlt: {
+    can: 'A LANGLOK can wearing your design',
+    bottle: 'A LANGLOK bottle wearing your design',
+  },
+  /** Mobile only: the controls sit in tabs under the preview. */
+  groups: { logo: 'Logo', vessel: 'Vessel', colour: 'Colour', size: 'Size' },
+  groupsLabel: 'Configurator settings',
   brandNameLabel: 'Brand name',
   brandNamePlaceholder: 'Your brand',
+  font: {
+    label: 'Lettering',
+    options: { sans: 'Modern', serif: 'Classic' },
+  },
   customHexLabel: 'Custom colour (hex)',
+  customPickerLabel: 'Pick a custom colour',
   upload: {
     label: 'Upload your logo',
     hint: 'PNG, SVG or JPG, up to 5 MB',
+    drop: 'Drop it here',
     orType: 'or type your brand name',
+    current: 'On the label:',
+    replace: 'Replace',
+    remove: 'Remove',
+    reading: 'Reading your logo…',
+    keyed: 'We took out its white background for the preview.',
+    usingLogo: 'The label shows your uploaded logo. Remove it to use the brand name instead.',
     errors: {
       type: 'Please upload a PNG, SVG or JPG file.',
       size: 'That file is larger than 5 MB.',
+      read: 'We couldn’t read that file. Please try another one.',
+      dimensions: 'That image is too large to preview. Please use one under 8,000 pixels across.',
     },
   },
   vessel: {
@@ -213,8 +233,22 @@ export const configurator = {
   logoSize: 'Logo size',
   logoPosition: 'Logo position',
   rotateHint: 'Drag to rotate · double-click to reset',
+  rotateHintTouch: 'Swipe sideways to turn · double-tap to reset',
+  /** The preview is a slider for keyboards and screen readers: it turns the vessel. */
+  rotate: {
+    label: 'Turn the preview',
+    keys: 'Left and right arrow keys turn the vessel, up and down tilt it, plus and minus change the logo size, and 0 faces it forward again.',
+    front: 'Facing front',
+    left: 'Turned {deg}° left',
+    right: 'Turned {deg}° right',
+  },
+  flatNote: 'A flat view of your label (this browser can’t show the 3D preview).',
   savePreview: 'Save preview',
+  saving: 'Saving…',
+  saved: 'Preview saved as a PNG.',
+  previewFile: 'langlok-preview.png',
   requestQuote: 'Request a quote',
+  reset: 'Start over',
 } as const;
 
 /** 06 Chatak story — the client's text, split into five chapters. */
@@ -378,11 +412,28 @@ export const contact = {
 } as const;
 
 /**
- * Inquiry form (contact, samples, branding, ReCan). Static in Phase 1;
- * zod schema + API wiring in Phases 4 and 6 (fields match master plan §8.2).
+ * Inquiry form (contact, samples, branding, ReCan). Validated with the zod schema in
+ * lib/inquiry.ts (fields match master plan §8.2); sending arrives with the API in Phase 6.
  */
 export const inquiryForm = {
   heading: 'Send an inquiry',
+  quoteHeading: 'Request a quote',
+  design: {
+    heading: 'Your design',
+    logo: 'Logo',
+    brandName: 'Brand name',
+    vessel: 'Vessel',
+    preview: 'Preview',
+    previewAlt: 'Your saved preview of the vessel wearing your design',
+    note: 'We’ll attach these to your inquiry.',
+    edit: 'Change the design',
+  },
+  errors: {
+    required: 'Please fill this in.',
+    email: 'Please enter a valid email address.',
+    consent: 'Please tick this box so we can reply.',
+    tooLong: 'That’s a little long. Please shorten it.',
+  },
   fields: {
     name: 'Name',
     company: 'Company',

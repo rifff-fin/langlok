@@ -265,11 +265,13 @@ SCROLL ▼
 
 **04 Your Logo Here.** Both vessels side by side. Scroll drives one more full spin. When rotation passes π (front facing away), the label texture switches to the "YOUR LOGO HERE" variant; scrolling back switches it back at the same point, so it's deterministic in both directions. Headline: **Your name, on our water.** Sub: *Custom-branded cans and bottles for hotels, franchises, events and venues.* CTA: **Try it with your logo →**.
 
-**05 Configurator.** Not scroll-driven; fully interactive.
-- Upload PNG/SVG/JPG (≤5 MB), or type a brand name to set it in a chosen font.
-- Choose vessel (can / bottle / both), label background (silver / white / navy / custom hex), logo size and vertical position.
-- Drag to rotate (drei `PresentationControls`, limited polar angle), double-click to reset.
-- "Save preview" captures a PNG of the 3D view; "Request a quote" opens the inquiry form with the preview and logo attached.
+**05 Configurator.** Not scroll-driven; fully interactive. *(Built 17 Oct 2026.)*
+- The live can glides in from section 04 (one more turn on the way) and stands in a sticky stage on the right (wide screens); phones get the stage on top and the controls in four tabs under it (Logo, Vessel, Colour, Size), so the vessel stays in view while they change it.
+- Upload PNG/SVG/JPG (≤5 MB; checked by content, sanitised, plain white grounds taken out), or type a brand name and choose its lettering (Modern: Jost caps; Classic: Bodoni Moda italic). The design shows on the 3D label as it is edited.
+- Choose vessel (can / bottle / both, side by side at true size), label background (silver = bare aluminium, white basecoat, navy or a custom colour as a tinted lacquer; the client's print turns white on dark grounds), logo size and vertical position.
+- Drag to turn and tilt (the stage handles the pointer: the one canvas sits behind the DOM, so drei `PresentationControls` is not used), double-click to reset; keyboard: arrows, +/-, 0.
+- "Save preview" downloads a PNG of the 3D view (2x); "Request a quote" takes the design to the inquiry form on `/custom-branding` (preview, logo or name, vessel; product prefilled). Sending it to the API is Phase 6.
+- Without WebGL the stage shows the printed label flat, and "Save preview" saves that.
 
 **06 Chatak story.** Five pinned chapters following the client's text, with the background moving from pale dry-season sky to bruised monsoon violet and back to washed-clean light:
 1. *He waited* — dry acacia branch, the bird still (client's illustration, cut-out layers).
@@ -570,6 +572,8 @@ Pre-create both textures once and swap the reference; never re-upload textures e
 
 ### 7.6 Live logo configurator
 
+> **As built (17 Oct 2026):** one canvas per label (2048 px desktop, 1024 px phones) per vessel, made on the first edit. A new background re-uploads the whole label; logo, lettering, size and position copy only the logo zone into the existing texture (`renderer.copyTextureToTexture`), at most once a frame and only for vessels on show. The zone, logo and scratch canvases are CPU-backed (`willReadFrequently`) so the uploads don't read a GPU canvas back. Code: `client/src/store/configurator.ts`, `client/src/configurator/`, `client/src/three/labels.ts`. The plan below is the original outline.
+
 1. User uploads a file → validated client-side (type, ≤5 MB). SVGs are sanitized (DOMPurify) before drawing.
 2. An offscreen 2D canvas draws the "your logo" label template, then the uploaded logo into the logo zone (fit-contain, user-adjustable scale and Y offset), plus the chosen background colour.
 3. That canvas is a `CanvasTexture`; set `texture.needsUpdate = true` after each redraw (debounced). Same canvas feeds can and bottle.
@@ -676,7 +680,7 @@ Rough effort for one developer working with Claude Code. Live progress: [`STATUS
 | **1 Skeleton** | All sections as static, responsive layouts with real copy from `copy.ts` | 2 days | Whole page readable on mobile and desktop without any animation | ✅ Done |
 | **2 Hero** | Preloader, frame player on placeholders, text beats, fog glass | 2 days | Scrubs smoothly both directions; LCP poster in place | ◐ The living film is built (drawn, not filmed); preloader to do |
 | **3 3D products** | Procedural can + bottle, materials, lighting, label textures, scroll spin, handoff | 3–4 days | Spin is smooth; labels look printed, not pasted | ✅ Done, plus the Morpho-style opening, dive, stills and Motion switch |
-| **4 Logo swap + configurator** | Hidden-side swap, upload, live texture, preview capture | 3 days | A PNG/SVG logo appears correctly on both vessels | ◐ Swap done; configurator to do |
+| **4 Logo swap + configurator** | Hidden-side swap, upload, live texture, preview capture | 3 days | A PNG/SVG logo appears correctly on both vessels | ✅ Built 17 Oct 2026 (sending the quote waits for Phase 6) |
 | **5 Story + Mission + ReCan** | Chatak chapters, rain particles, stages strip, ReCan loop | 3 days | Each section works with reduced motion too | ◐ Reveals only |
 | **6 Backend** | Express API, Mongo models, uploads, email, admin list | 2–3 days | An inquiry with logo arrives by email and in admin | ◯ Health check only |
 | **7 Real assets + polish** | Real frames, client label files, KTX2, performance pass, a11y, SEO, fallbacks | 3 days | Budgets met on a mid-range Android and an iPhone | ◯ |
