@@ -59,13 +59,15 @@ export function ChatakStory({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
       <div style={{ background: DRY_SKY }}>
         <Container className="pt-[var(--section-y)]">
           <ChapterHead n={story.chapter} label={story.eyebrow} />
-          <Heading id="story-title" className="mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-2">
+          {/* The words keep their own spacing (a margin and a real space): the home page's
+              line reveal wraps both in one line, where a flex gap no longer applies. */}
+          <Heading id="story-title" className="mt-12 flex flex-wrap items-baseline gap-y-2">
             <span
               lang="bn"
-              className="font-bengali text-[length:var(--text-h2)] font-medium leading-none"
+              className="me-[0.35em] font-bengali text-[length:var(--text-h2)] font-medium leading-none"
             >
               {story.titleBengali}
-            </span>
+            </span>{' '}
             <span className="text-[length:var(--text-display)] leading-none">{story.title}</span>
           </Heading>
           <p className="mt-6 flex flex-wrap items-baseline gap-x-3 text-slate">
