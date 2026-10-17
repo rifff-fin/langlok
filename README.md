@@ -44,7 +44,7 @@ to `server/.env` to override defaults.
 The home page opens on the live 3D can and dives into its opening as you scroll. If your
 operating system asks for reduced motion (on Windows: *Settings → Accessibility → Visual
 effects → Animation effects* off), the site shows a calmer version: no pins, glides or
-dive. Use the **Motion** switch in the bottom-right corner to choose either way.
+dive. Use the **Motion** switch in the bottom-left corner to choose either way.
 
 ## Dev routes
 

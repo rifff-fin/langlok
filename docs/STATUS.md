@@ -58,7 +58,7 @@
 
 ## Good to know
 
-- **Windows "Animation effects" off = reduced motion.** On this development PC the setting is off, so browsers ask the site for reduced motion. The site then shows a calm version: no pins or glides, the film's scenes crossfade. Use the **Motion** switch (bottom-right corner) to turn the full version on.
+- **Windows "Animation effects" off = reduced motion.** On this development PC the setting is off, so browsers ask the site for reduced motion. The site then shows a calm version: no pins or glides, the film's scenes crossfade. Use the **Motion** switch (bottom-left corner) to turn the full version on.
 - **The film's bird is drawn in code** (`client/src/film/chatak.ts`), not taken from the client's pictures. Those pictures are references only. Tune its shape at `/dev/bird`.
 - **No WebGL**: the plates show studio stills (`client/public/img/stills/`), rendered from the same 3D scene at `/dev/studio`; re-render them after changing the models, labels or lighting.
 - Not yet measured: frame rate on real phones (budget ≥ 40 fps mid-range Android).

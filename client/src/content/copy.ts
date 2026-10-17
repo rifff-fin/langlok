@@ -37,7 +37,7 @@ export const nav = {
   homeLabel: 'LANGLOK home',
 } as const;
 
-/** The Motion switch (bottom corner): overrides the OS reduced-motion setting. */
+/** The Motion switch (bottom-left corner): overrides the OS reduced-motion setting. */
 export const motionSwitch = {
   label: 'Motion',
   on: 'On',
