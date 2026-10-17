@@ -102,7 +102,10 @@ export function Vessel({
 
     const d = m.dive;
     const calm = 1 - smoothstep(0, 0.5, d); // drift and pointer fade out as the dive starts
-    const tipAngle = TILT_X + DIVE_TIP * smoothstep(0.02, 0.78, d) + m.py * 0.07 * calm;
+    // the click: a small, quickly settling knock as the panel gives way (d 0.37..0.47)
+    const knock =
+      d > 0.37 && d < 0.47 ? Math.sin(((d - 0.37) / 0.1) * Math.PI * 3) * (0.47 - d) * 0.5 : 0;
+    const tipAngle = TILT_X + DIVE_TIP * smoothstep(0.02, 0.78, d) + m.py * 0.07 * calm + knock;
     const grow = 1 + DIVE_GROW * Math.pow(smoothstep(0.18, 1, d), 1.5);
     const focus = smoothstep(0.1, 0.85, d);
 

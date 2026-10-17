@@ -8,6 +8,7 @@ import { Contact } from '../pages/Contact';
 import { NotFound } from '../pages/NotFound';
 import { DevPin } from '../pages/DevPin';
 import { DevStudio } from '../pages/DevStudio';
+import { DevBird } from '../pages/DevBird';
 
 // Phase 6 adds /admin.
 export const router = createBrowserRouter([
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
         ? [
             { path: '/dev', element: <DevPin /> },
             { path: '/dev/studio', element: <DevStudio /> },
+            { path: '/dev/bird', element: <DevBird /> },
           ]
         : []),
       { path: '*', element: <NotFound /> },

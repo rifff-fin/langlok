@@ -31,6 +31,7 @@ npm run format
 bash scripts/make-placeholder-frames.sh          # placeholder hero frames + poster
 bash scripts/extract-frames.sh hero_master.mov   # real hero frames from the graded master
 python scripts/build-label-textures.py           # 3D label textures from the mockup photos
+python scripts/build-film-layers.py              # the hero film's generated layers (seeded)
 ```
 
 The Vite dev server proxies `/api` to the API on port 4000. Copy `server/.env.example`
@@ -50,6 +51,7 @@ dive. Use the **Motion** switch in the bottom-right corner to choose either way.
 - `/dev` — Lenis + ScrollTrigger pin test (dev builds only)
 - `/dev/studio?vessel=can|bottle&label=brand|yourlogo` — one vessel on a transparent page,
   for rendering the studio stills in `client/public/img/stills/` (dev builds only)
+- `/dev/bird` — the hero film's drawn Chatak in a grid of poses (dev builds only)
 
 ## Layout
 
@@ -58,10 +60,11 @@ client/   Vite + React 19 + TS, Tailwind v4, three / R3F, GSAP, Lenis
   public/frames/hero/{desktop,mobile}/NNNN.webp, poster.jpg
   public/img/mockups/   client product photos (label texture source)
   public/img/stills/    studio stills of the 3D vessels (no-WebGL fallback, first paint)
+  public/film/          the hero film's generated layers (forest, mist, clouds, river bank)
   public/textures/      3D label colour + ORM maps (generated)
-  src/app/ components/ content/ hooks/ lib/ pages/ sections/ store/ styles/ three/
+  src/app/ components/ content/ film/ hooks/ lib/ pages/ sections/ store/ styles/ three/
 server/   Express 5 + TS (Mongo, uploads, email arrive in Phase 6)
-scripts/  hero frame tools, label texture builder
+scripts/  label texture builder, film layer builder, hero frame tools
 docs/     status, master plan, prompts, client text
 ```
 

@@ -1,13 +1,17 @@
-import { useRef } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { hero, products } from '../content/copy';
 import { Container } from '../components/ui/Container';
 import { Emph } from '../components/ui/Emph';
 import { Eyebrow } from '../components/ui/Eyebrow';
 import { VesselPlate } from '../components/VesselPlate';
-import { gsap, useGSAP } from '../lib/gsap';
+import { gsap, useGSAP, type ScrollTrigger } from '../lib/gsap';
 import { motionQuery, reducedQuery } from '../lib/motion';
 import { registerSpin } from '../store/scene';
+import { CAPTION_TIMES } from '../film/timeline';
+
+// The living film (its own chunk; layers fetched at idle).
+const HeroFilm = lazy(() => import('../film/HeroFilm'));
 
 /** Scroll distance of the film, in viewport heights (master plan §4.2: ~500vh). */
 export const HERO_SCROLL_VH = 500;
@@ -18,23 +22,54 @@ const DIVE_VH = 90;
  * 01 Hero.
  * Opening screen: the live 3D can, centred, between the headline and a serif aside (the
  * Morpho reference). Scrolling holds the screen while the can tips its lid to the camera,
- * the tab clicks open and the camera dives into the opening; the sky stage (the "Sky to
- * Seal" film from Phase 2, a CSS sky for now) takes over, and its beats scroll past.
- * Beat F's plate is where the can comes back: the stage fades to the mist page and the can
- * stands there, then glides on to the products.
- * Reduced motion: no hold and no dive; the opening screen scrolls away under the sky.
+ * the tab clicks open and the camera dives into the opening. The sky stage takes over with
+ * the film (film/: the Chatak waits in the forest, monsoon clouds roll in, he catches the
+ * first drop, the rain becomes a river in the mist), its captions shown one at a time on a
+ * sticky layer. The vessel beat's plate is where the can comes back: the film ends in mist,
+ * the stage fades to the mist page and the can stands there, then glides on to the products.
+ * Reduced motion: no hold and no dive; the opening screen scrolls away under the sky and
+ * the film's scenes only crossfade.
  */
 export function Hero() {
   const section = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const intro = useRef<HTMLDivElement>(null);
   const backdrop = useRef<HTMLDivElement>(null);
+  const film = useRef<ScrollTrigger | null>(null);
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add({ motion: motionQuery(), reduced: reducedQuery() }, (ctx) => {
         const q = gsap.utils.selector(section);
+        const reduced = ctx.conditions!.reduced;
+        // The film runs from the end of the dive until the vessel beat starts to arrive. Its
+        // captions ride the same trigger, one at a time (windows in film/timeline.ts).
+        // Opacity only, not visibility: hidden captions stay readable to screen readers.
+        const captions = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: {
+            trigger: section.current,
+            start: () => window.innerHeight * (reduced ? 0.55 : DIVE_VH / 100),
+            endTrigger: q('[data-beat="vessel"]')[0],
+            end: 'top bottom',
+            scrub: reduced ? true : 0.5,
+          },
+        });
+        for (const el of q('[data-caption]')) {
+          const [from, to] = CAPTION_TIMES[el.dataset.caption as keyof typeof CAPTION_TIMES];
+          const lift = reduced ? 0 : 28;
+          captions
+            .fromTo(
+              el,
+              { opacity: 0, y: lift },
+              { opacity: 1, y: 0, duration: 0.035, ease: 'power2.out' },
+              from,
+            )
+            .to(el, { opacity: 0, y: -lift, duration: 0.03, ease: 'power2.in' }, to - 0.03);
+        }
+        captions.set({}, {}, 1); // the timeline spans the whole film: progress = film progress
+        film.current = captions.scrollTrigger ?? null;
         // One tween per element: the sky layer comes up as the opening screen ends, and its
         // stage leaves again as beat F arrives (uncovering the can on the mist page). Two
         // scrubbed tweens on one element would fight after a jump (e.g. a nav link).
@@ -47,7 +82,7 @@ export function Hero() {
             ease: 'none',
             immediateRender: false,
             scrollTrigger: {
-              trigger: q('[data-beat="F"]')[0],
+              trigger: q('[data-beat="vessel"]')[0],
               start: 'top bottom',
               end: 'top 40%',
               scrub: true,
@@ -55,7 +90,7 @@ export function Hero() {
           },
         );
 
-        if (ctx.conditions!.reduced) {
+        if (reduced) {
           // no dive: the sky simply comes up as the opening screen scrolls away
           gsap
             .timeline({
@@ -69,7 +104,9 @@ export function Hero() {
             })
             .fromTo(sky, { autoAlpha: 0 }, { autoAlpha: 1 }, 0)
             .to(backdrop.current, { autoAlpha: 0 }, 0);
-          return;
+          return () => {
+            film.current = null;
+          };
         }
 
         gsap.set(intro.current, { height: `${100 + DIVE_VH}svh` }); // hold the opening screen
@@ -94,7 +131,10 @@ export function Hero() {
           .to(backdrop.current, { autoAlpha: 0, duration: 0.16 }, 0.84);
         // the 3D reads the trigger's raw progress and damps it itself
         registerSpin('heroDive', tl.scrollTrigger);
-        return () => registerSpin('heroDive', null);
+        return () => {
+          registerSpin('heroDive', null);
+          film.current = null;
+        };
       });
     },
     { scope: section },
@@ -123,8 +163,8 @@ export function Hero() {
         document.body,
       )}
 
-      {/* The sky stage: the film's place (Phase 2). Its sky layer is clear during the
-          opening screen; the stage itself fades out at beat F. */}
+      {/* The sky stage: the film. Its sky layer is clear during the opening screen (a CSS
+          sky until the film's layers load); the stage itself fades out at beat F. */}
       <div
         ref={stage}
         data-hero-stage
@@ -140,7 +180,11 @@ export function Hero() {
               'radial-gradient(90% 50% at 15% 95%, color-mix(in oklab, var(--leaf) 14%, transparent) 0%, transparent 70%),' +
               'linear-gradient(180deg, var(--cloud) 0%, var(--mist) 55%, color-mix(in oklab, var(--rain-light) 22%, var(--mist)) 100%)',
           }}
-        ></div>
+        >
+          <Suspense fallback={null}>
+            <HeroFilm trigger={film} />
+          </Suspense>
+        </div>
       </div>
 
       <div className="absolute inset-0">
@@ -216,44 +260,65 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Film beats B–F, placed where their scroll fraction will bring them on screen. */}
-        {hero.beats.map((beat) => {
-          const isLast = beat.id === 'F';
-          return (
-            <div
-              key={beat.id}
-              data-beat={beat.id}
-              className="absolute inset-x-0"
-              style={{ top: `calc(${beat.at * HERO_SCROLL_VH}svh + 40svh)` }}
-            >
-              <Container className={isLast ? 'grid items-center gap-10 md:grid-cols-12' : ''}>
-                <div
-                  className={isLast ? 'md:col-span-6' : 'md:ml-[calc(100%/12*6)] md:max-w-[34rem]'}
-                >
-                  <Eyebrow className="text-slate">{hero.beatLabels[beat.id]}</Eyebrow>
-                  <h2 className="mt-5 text-[length:var(--text-h2)] text-ink">
-                    <Emph text={beat.title} />
-                  </h2>
-                  {beat.sub && (
-                    <p data-reveal="fade" className="mt-5 max-w-[34ch] text-slate">
-                      {beat.sub}
-                    </p>
-                  )}
-                </div>
-                {isLast && (
-                  <div className="flex justify-center md:col-span-5 md:col-start-8">
-                    <VesselPlate
-                      vessel="can"
-                      anchor="hero-can"
-                      alt={products.can.imageAlt}
-                      height="min(64svh, 150vw)"
-                    />
+        {/* The film's captions: a sticky layer over the film's whole run, ending where the
+            vessel beat begins. Right of the bird on wide screens, under it on phones. */}
+        <div
+          className="pointer-events-none absolute inset-x-0"
+          style={{
+            top: `${DIVE_VH}svh`,
+            height: `calc(${hero.vessel.at * HERO_SCROLL_VH}svh + 40svh - ${DIVE_VH}svh)`,
+          }}
+        >
+          <div className="sticky top-0 h-svh">
+            {hero.captions.map((c) => (
+              <div
+                key={c.id}
+                data-caption={c.id}
+                className="absolute inset-0 flex items-end pb-[11svh] opacity-0 md:items-center md:pb-0"
+              >
+                <Container className="md:grid md:grid-cols-12 md:gap-x-[var(--grid-gap)]">
+                  <div className="md:col-span-5 md:col-start-8 md:pt-[var(--header-h)]">
+                    <Eyebrow className="text-slate">{c.label}</Eyebrow>
+                    <h2
+                      data-reveal="off"
+                      className="mt-4 text-[length:var(--text-h2)] text-ink md:mt-5"
+                    >
+                      <Emph text={c.title} />
+                    </h2>
+                    <p className="mt-4 max-w-[34ch] text-slate md:mt-5">{c.sub}</p>
                   </div>
-                )}
-              </Container>
+                </Container>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* The vessel beat: the film ends in mist and the can stands here again. */}
+        <div
+          data-beat="vessel"
+          className="absolute inset-x-0"
+          style={{ top: `calc(${hero.vessel.at * HERO_SCROLL_VH}svh + 40svh)` }}
+        >
+          <Container className="grid items-center gap-10 md:grid-cols-12">
+            <div className="md:col-span-6">
+              <Eyebrow className="text-slate">{hero.vessel.label}</Eyebrow>
+              <h2 className="mt-5 text-[length:var(--text-h2)] text-ink">
+                <Emph text={hero.vessel.title} />
+              </h2>
+              <p data-reveal="fade" className="mt-5 max-w-[34ch] text-slate">
+                {hero.vessel.sub}
+              </p>
             </div>
-          );
-        })}
+            <div className="flex justify-center md:col-span-5 md:col-start-8">
+              <VesselPlate
+                vessel="can"
+                anchor="hero-can"
+                alt={products.can.imageAlt}
+                height="min(64svh, 150vw)"
+              />
+            </div>
+          </Container>
+        </div>
       </div>
     </section>
   );

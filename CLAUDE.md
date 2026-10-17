@@ -13,7 +13,7 @@ Phase prompts: `docs/PROMPTS_for_Claude_Code.md`.
 
 - Bright, misty, editorial. Light backgrounds always. Aluminium silver, mist white, navy ink, rain blue.
 - Story thread: the **Chatak** (pied cuckoo, _Clamator jacobinus_, চাতক) drinks only rain that falls from the sky. Never call it "machranga" (that is a kingfisher).
-- Signature moments: the opening screen *is* the live 3D can (reference: morphowater.com, master plan §2.5), and scroll tips its lid and dives through the opening into the scroll-scrubbed "Sky to Seal" film; can spins and comes round showing **YOUR LOGO HERE**; rain density follows scroll speed in the story.
+- Signature moments: the opening screen *is* the live 3D can (reference: morphowater.com, master plan §2.5), and scroll tips its lid and dives through the opening into the hero film: the Chatak waits in a misty forest, the monsoon comes, he flies into the storm and catches the first drop, the rain becomes a river. Then the can spins and comes round showing **YOUR LOGO HERE**; rain density follows scroll speed.
 - Headlines have two voices: light Jost for the line, Bodoni Moda italic for its accent. Copy marks the accent `*like this*`; render titles with `components/ui/Emph` (the `.headline` class gives a non-heading element the same style).
 
 ## Stack
@@ -32,6 +32,8 @@ Phase prompts: `docs/PROMPTS_for_Claude_Code.md`.
 - `/dev` route (dev builds only) — Lenis + ScrollTrigger pin test
 - `/dev/studio?vessel=can|bottle&label=brand|yourlogo` (dev only) — one vessel on a transparent page at its frame; screenshot the plate (transparent background, 2x) to make `client/public/img/stills/*.webp` (1200 px tall). Re-render after changing models, labels or lighting.
 - `python scripts/build-label-textures.py` — rebuild the 3D label textures from the mockup photos (Python 3.10+, Pillow, numpy, scipy)
+- `python scripts/build-film-layers.py` — rebuild the hero film's generated layers (`client/public/film/`: misty woods, mist, clouds, rays, river bank); seeded, so the output is reproducible
+- `/dev/bird` (dev only) — the film's Chatak in a grid of poses, for tuning its shape
 
 Version pins: React stays `~19.3` (R3F 9.8 peer range is `<19.4`); TypeScript stays `~6.0` (typescript-eslint needs `<6.1`). Router is `react-router` v8: `createBrowserRouter` from `react-router`, `RouterProvider` from `react-router/dom`.
 
@@ -41,7 +43,7 @@ Version pins: React stays `~19.3` (R3F 9.8 peer range is `<19.4`); TypeScript st
 2. **ScrollTrigger writes, `useFrame` reads.** Sections register their ScrollTriggers (`registerSpin`) and DOM anchors (`useVesselAnchor`) in the zustand store (`store/scene.ts`) without React re-renders; the 3D reads `trigger.progress` and anchor rects every frame and damps with `maath/easing`.
 3. Register GSAP plugins once in `client/src/lib/gsap.ts`. Use `useGSAP()` for every timeline so it reverts on unmount. Use `gsap.matchMedia()` for responsive and reduced-motion variants, with queries built by `lib/motion.ts` (`motionQuery(extra?)` / `reducedQuery(extra?)`, `useReducedMotion()`), never a raw `(prefers-reduced-motion…)` string: the Motion switch can override the OS setting.
 4. Lenis drives the GSAP ticker (`lenis.on('scroll', ScrollTrigger.update)`, `gsap.ticker.add(t => lenis.raf(t * 1000))`, `gsap.ticker.lagSmoothing(0)`). Touch scrolling stays native.
-5. The hero film is a **2D canvas image sequence** (not `<video>`), loaded progressively (every 8th frame, then 4th, 2nd, rest), drawing the nearest loaded frame.
+5. The hero film is a **2D canvas**, not `<video>`. It is drawn live: a scroll-driven story (`film/film.ts`) composed from generated layers, the drawn Chatak (`film/chatak.ts`) and the acacia branch (`film/branch.ts`). The canvas lazy-loads in its own chunk, fetches its layers at idle and draws on the GSAP ticker only while the sky layer is visible. Caption windows live in `film/timeline.ts`. Scroll owns the story; time owns the life (breathing, wingbeats, wind, rain), which freezes under reduced motion. Real footage could replace it later as an image sequence in the same sky layer, loaded progressively (every 8th frame, then 4th, 2nd, rest).
 6. Can and bottle are **procedural** lathes built from `three/vesselSpec.json` (profiles traced from the photos). The label is mapped on the body itself: `phiStart = PI` puts u = 0.5 on the camera, v runs by height across the printable zone and clamps to bare-silver edge rows (the print continues onto the neck taper, which a straight band can't follow). Bottle cap = lathe + knurl band; can = lathe + pull tab. Units: 1 unit = 1 cm.
 7. Label textures are pre-created and uploaded once (`labels.ts`, `gl.initTexture`); the YOUR LOGO HERE swap changes the material's `map`/`roughnessMap`/`metalnessMap` references only while the print faces away (or while the vessel is off-screen), keyed on scroll progress, so it is deterministic in both directions. Never re-upload textures each frame.
 8. **All copy lives in `client/src/content/copy.ts`.** Components never hard-code marketing text.
@@ -67,7 +69,8 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 
 - Dark or black page backgrounds, neon, purple-blue "AI gradients", glassmorphism everywhere, floating blobs.
 - Text inside WebGL. Auto-playing audio.
-- AI-generated versions of the logo or the bird; use client artwork from `client/public/img/`.
+- AI-generated versions of the logo or the label's bird. The logo and the label artwork are always the client's.
+- The client's bird pictures pasted straight into the film. They are references only (user, 17 Oct 2026). The film's Chatak is drawn in code as an animated silhouette (`film/chatak.ts`): crest, black above and white below, white wing crescents, white-tipped graduated tail.
 - Absolute health claims ("zero microplastics", "leaches nothing") in new copy; keep the client's wording only where `copy.ts` already has it and flag it.
 - Inventing statistics. Counters stay hidden until real data exists.
 - Serving user-uploaded SVGs: sanitize on the client, rasterize with `sharp` on the server.
@@ -77,7 +80,7 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 - LCP < 2.5 s (hero poster `<img fetchpriority="high">`); initial JS < 200 KB gz excluding the lazy 3D chunk.
 - Hero frames ≤ 12 MB desktop, ≤ 5 MB mobile. 3D at 60 fps desktop, ≥ 40 fps mid-range Android.
 - R3F `dpr={[1, 1.75]}` with drei `PerformanceMonitor`; contact shadows only; no heavy postprocessing.
-- Reduced motion (OS setting or the Motion switch): Lenis off, 3 crossfading stills instead of the film, no auto-spin, no rain, no pins, no dive. The live 3D vessels still render and turn in place as their section passes (no drift, glides or pointer tilt).
+- Reduced motion (OS setting or the Motion switch): Lenis off, the film's scenes crossfade with scroll (nothing moves on its own, the camera stays put), no auto-spin, no rain, no pins, no dive. The live 3D vessels still render and turn in place as their section passes (no drift, glides or pointer tilt).
 - No WebGL: the vessel plates keep their studio stills; 2D label preview in the configurator.
 
 ## How to work in this repo
@@ -86,7 +89,7 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 - After changes: run `npm run typecheck` and `npm run lint`, then check the page in the browser at 390 × 844 and 1440 × 900, and with reduced motion enabled (or the Motion switch off). Then update `docs/STATUS.md`.
 - This dev PC has Windows *Animation effects* off, so its browsers report reduced motion; use the Motion switch to see the full version.
 - Keep components small; one section per file in `client/src/sections/`; 3D in `client/src/three/`. Pages in `client/src/pages/` compose sections; shared pieces in `client/src/components/` (`ui/` for primitives: Container, Eyebrow, Hairline, ChapterHead, Button).
-- The hero is a tall track (`(HERO_SCROLL_VH + 100)svh`) with a CSS-sticky full-viewport stage (`[data-hero-stage]`); the film canvas (Phase 2) belongs in its sky layer (`[data-hero-sky]`). Its height is already final, so drive it with a ScrollTrigger on the track (progress only, no `pin`). The opening screen (intro + dive) is an absolutely placed sticky layer at the top of the track. Other pinned sections are `min-h-svh` panels; their pin spacing gets added later.
+- The hero is a tall track (`(HERO_SCROLL_VH + 100)svh`) with a CSS-sticky full-viewport stage (`[data-hero-stage]`); the film canvas lives in its sky layer (`[data-hero-sky]`). Its height is already final, so drive it with a ScrollTrigger on the track (progress only, no `pin`). The opening screen (intro + dive) is an absolutely placed sticky layer at the top of the track. Other pinned sections are `min-h-svh` panels; their pin spacing gets added later.
 - The static Phase 1 layouts double as the reduced-motion and no-WebGL versions. Enhance them; don't replace them.
 - Until the client sends the master SVG, `components/Logo.tsx` is a neutral text placeholder (`data-placeholder="logo"`). Vessel plates (`components/VesselPlate.tsx`) show studio stills of the whole vessel, never the cropped mockup photos; `SlottedVessel` + `logoSlots.ts` remain for the configurator's 2D preview.
 - When unsure about copy or a brand fact, leave a `// TODO(client):` comment instead of guessing.

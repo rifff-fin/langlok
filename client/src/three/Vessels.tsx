@@ -2,11 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTexture } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { easing } from 'maath';
-import { MeshPhysicalMaterial, type Group } from 'three';
+import { MeshPhysicalMaterial, type Group, type Sprite, type SpriteMaterial } from 'three';
 import type { VesselId } from '../store/scene';
 import layout from './labelLayout.json';
 import spec from './vesselSpec.json';
-import { knurlBand, latheBody, openingShape, pullTab, skyTexture } from './geometry';
+import { knurlBand, latheBody, openingShape, pullTab, skyTexture, wispTexture } from './geometry';
 import { composeYourLogo, configureLabel, labelUrls, type LabelSet } from './labels';
 import { smoothstep, targets } from './stations';
 import { Vessel } from './Vessel';
@@ -92,6 +92,9 @@ export function Can() {
  * lifts with a small click, its nose presses the panel in and the opening shows the sky
  * the film continues from.
  */
+const PUFF = 12; // wisps of cold vapour when the can opens
+const PUFF_LIFE = 1.2; // s
+
 function CanTop() {
   const tab = useMemo(() => pullTab(), []);
   const metal = useMemo(() => aluminium(0.24, '#c4c9ce'), []);
@@ -99,19 +102,52 @@ function CanTop() {
   const lip = useMemo(() => openingShape(1.09), []);
   const lipMetal = useMemo(() => aluminium(0.3, '#8f979f'), []);
   const sky = useMemo(() => skyTexture(), []);
+  const wisp = useMemo(() => wispTexture(), []);
   const hinge = useRef<Group>(null);
   const mouth = useRef<Group>(null);
-  const live = useRef({ d: 0 });
+  const puffs = useRef<(Sprite | null)[]>([]);
+  const live = useRef({ d: 0, puffAt: -10 });
+  const seeds = useMemo(
+    () =>
+      Array.from({ length: PUFF }, (_, i) => ({
+        a: (i / PUFF) * Math.PI * 2 + Math.sin(i * 12.9) * 0.4,
+        out: 0.6 + ((i * 7) % 5) * 0.18,
+        up: 2.2 + ((i * 3) % 4) * 0.7,
+        size: 0.55 + ((i * 5) % 3) * 0.25,
+      })),
+    [],
+  );
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const m = live.current;
+    const before = m.d;
     easing.damp(m, 'd', targets.can.dive, 0.1, delta);
-    // ring up, then back down as the panel gives way
-    const lift = smoothstep(0.28, 0.42, m.d) * (1 - 0.75 * smoothstep(0.46, 0.62, m.d));
-    hinge.current!.rotation.x = lift * 0.55;
-    const open = smoothstep(0.4, 0.56, m.d);
+    // the click: the ring snaps up, then is pressed back as the panel gives way
+    const up = smoothstep(0.26, 0.36, m.d);
+    const down = smoothstep(0.44, 0.58, m.d);
+    hinge.current!.rotation.x = up * 0.95 - down * 0.7;
+    const open = smoothstep(0.37, 0.5, m.d);
     mouth.current!.visible = open > 0.002;
     mouth.current!.scale.setScalar(Math.max(open, 0.001));
+    // psst: vapour escapes the moment the panel opens (scrolling forwards)
+    const now = state.clock.elapsedTime;
+    if (before < 0.4 && m.d >= 0.4) m.puffAt = now;
+    const age = (now - m.puffAt) / PUFF_LIFE;
+    puffs.current.forEach((sp, i) => {
+      if (!sp) return;
+      sp.visible = age >= 0 && age < 1;
+      if (!sp.visible) return;
+      const s = seeds[i];
+      const e = 1 - (1 - age) * (1 - age); // fast out, slowing
+      sp.position.set(
+        Math.cos(s.a) * s.out * e,
+        LID_Y + 0.2 + s.up * e,
+        1.25 + Math.sin(s.a) * s.out * e,
+      );
+      sp.scale.setScalar(s.size + e * 2.2);
+      (sp.material as SpriteMaterial).opacity =
+        0.5 * Math.sin(Math.PI * Math.min(1, age * 1.4)) * (1 - age);
+    });
   });
 
   return (
@@ -129,6 +165,17 @@ function CanTop() {
           <meshBasicMaterial map={sky} toneMapped={false} />
         </mesh>
       </group>
+      {seeds.map((_, i) => (
+        <sprite
+          key={i}
+          ref={(el) => {
+            puffs.current[i] = el;
+          }}
+          visible={false}
+        >
+          <spriteMaterial map={wisp} transparent depthWrite={false} opacity={0} />
+        </sprite>
+      ))}
     </>
   );
 }

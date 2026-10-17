@@ -182,6 +182,22 @@ export function skyTexture() {
   return tex;
 }
 
+/** A soft white wisp (cold vapour puffing from the opened can). */
+export function wispTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const ctx = c.getContext('2d')!;
+  const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0, 'rgba(255,255,255,0.9)');
+  g.addColorStop(0.4, 'rgba(250,252,253,0.45)');
+  g.addColorStop(1, 'rgba(250,252,253,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 64, 64);
+  const tex = new CanvasTexture(c);
+  tex.colorSpace = SRGBColorSpace;
+  return tex;
+}
+
 /** Soft elliptical contact shadow, drawn once to a small canvas. */
 export function shadowTexture() {
   const c = document.createElement('canvas');

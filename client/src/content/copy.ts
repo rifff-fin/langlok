@@ -99,21 +99,49 @@ export const hero = {
   fogHint: 'Wipe the glass',
   scrollHint: 'Scroll',
   filmAlt:
-    'Film: monsoon clouds over the tea gardens of Tetulia, rain falling through earth and stone, a bright filtration hall, and a silver can rising out of mist.',
-  beats: [
-    { id: 'B', at: 0.3, title: 'The rain *returns.*', sub: 'Like the Chatak, we wait for it.' },
-    { id: 'C', at: 0.45, title: 'Filtered by *earth and time.*', sub: null },
-    { id: 'D', at: 0.6, title: 'Purified *with care.*', sub: 'Natural drinking water, pH 7.0.' },
-    { id: 'E', at: 0.75, title: 'Sealed in aluminium. *Never plastic.*', sub: null },
-    { id: 'F', at: 0.9, title: 'Meet LANGLOK.', sub: null },
+    'Film: the Chatak waits on an acacia branch in a misty forest; monsoon clouds roll in, rain falls and he catches the first drop; the rain becomes a river in the mist.',
+  /**
+   * Captions over the film, one at a time, after the client's story of the Chatak
+   * (docs/client/story-behind-the-logo.txt). Timing: film/timeline.ts.
+   */
+  captions: [
+    {
+      id: 'wait',
+      label: '01 · The wait',
+      title: 'He waited *for the sky.*',
+      sub: 'Other birds drank from the pond and the river. Not the Chatak.',
+    },
+    {
+      id: 'monsoon',
+      label: '01 · The monsoon',
+      title: 'The wind turned. *The clouds came.*',
+      sub: 'Clouds bruised purple over the fields.',
+    },
+    {
+      id: 'flight',
+      label: '01 · The flight',
+      title: 'He flew *into the storm.*',
+      sub: 'He opened his wings and flew straight up — not away from the storm, but into it.',
+    },
+    {
+      id: 'drop',
+      label: '01 · The first drop',
+      title: 'Only what *the sky gives.*',
+      sub: 'Beak open to the heavens, he caught the rain mid-air — cold, clean, falling.',
+    },
+    {
+      id: 'river',
+      label: '01 · The river',
+      title: 'The rain *has returned.*',
+      sub: 'Monsoon rain finds its way through forest and stone to the rivers of the north.',
+    },
   ],
-  /** Chapter label shown above each beat (editorial numbering). */
-  beatLabels: {
-    B: '01 · Rain',
-    C: '01 · Earth',
-    D: '01 · Purify',
-    E: '01 · Seal',
-    F: '01 · Vessel',
+  /** Where the film ends and the can comes back (`at`: fraction of the hero's scroll). */
+  vessel: {
+    at: 0.9,
+    label: '01 · The vessel',
+    title: 'Meet LANGLOK.',
+    sub: 'Sealed in aluminium. Never plastic.',
   },
 } as const;
 

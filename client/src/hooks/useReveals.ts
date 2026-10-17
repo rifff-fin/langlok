@@ -4,7 +4,8 @@ import { motionQuery } from '../lib/motion';
 
 /**
  * Editorial scroll reveals for a page, set up from markup alone:
- *   h2, [data-reveal="lines"]   lines rise out of a mask (SplitText, re-split on resize)
+ *   h2, [data-reveal="lines"]   lines rise out of a mask (SplitText, re-split on resize);
+ *                               h2[data-reveal="off"] is animated by its section instead
  *   [data-reveal="intro"]       same, on load (hero headline)
  *   [data-chapter-head]         hairline draws left to right, number and label follow
  *   [data-reveal="fade"]        fades up
@@ -37,7 +38,7 @@ export function useReveals(scope: RefObject<HTMLElement | null>, key: string) {
           .querySelectorAll<HTMLElement>('[data-reveal="intro"]')
           .forEach((el) => lines(el, true));
         root
-          .querySelectorAll<HTMLElement>('h2, [data-reveal="lines"]')
+          .querySelectorAll<HTMLElement>('h2:not([data-reveal="off"]), [data-reveal="lines"]')
           .forEach((el) => lines(el, false));
 
         root.querySelectorAll<HTMLElement>('[data-chapter-head]').forEach((el) => {

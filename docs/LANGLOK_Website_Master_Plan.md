@@ -13,7 +13,7 @@
 
 - **Creative direction — "Monsoon Light."** A bright, misty, editorial site built on aluminium silver, mist white, navy ink and rain blue. It is the opposite of the usual black-background 3D site. The Chatak (pied cuckoo) that drinks only rain is the thread through the whole experience.
 - **Opening = the can itself (Morpho reference, §2.5).** The first screen is the live 3D can, large and centred between the headline and a serif aside. Scrolling tips its lid towards the camera, the tab clicks open, and the camera dives through the opening into the film.
-- **Hero = scroll-scrubbed film.** Nature → rain → earth → filtration → canning → one can rising out of mist. Generate it with an AI video tool, edit it into one continuous shot, export it as an **image sequence** (WebP frames) and draw those frames to a `<canvas>` as the user scrolls (GSAP ScrollTrigger). The film begins where the dive ends: pale monsoon sky seen through the can's opening. (The fogged-glass idea moves to the start of the film, or is dropped; decide in Phase 2.)
+- **Hero = the living film (built 17 Oct 2026).** Drawn live in a 2D canvas, not filmed: out of the can into soft cloud → a misty forest where the **Chatak waits** on an acacia branch → **smoky monsoon clouds** roll in → he **flies into the storm** and **catches the first drop** → light breaks and the rain becomes **a river in the mist**. The bird is a drawn, animated silhouette referenced from the client's pictures (they asked for motion, not the photos); the world is generated layers. A real AI-video image sequence can still replace it later (§6).
 - **Products = real-time 3D, not video.** The can and bottle are built in code with `LatheGeometry` (both are surfaces of revolution), so the label is a texture we fully control. That makes the "spin → **YOUR LOGO HERE**" reveal and a live **upload-your-logo configurator** easy and lightweight.
 - **The handoff.** The film's last frame shows a plain can in the exact pose of the 3D can, then crossfades to the live 3D model. AI video never has to render the logo (AI garbles text); the real label only ever appears in 3D.
 - **Backend.** Express + MongoDB handles custom-branding inquiries with logo uploads, ReCan partner sign-ups, newsletter and a simple admin list.
@@ -240,19 +240,20 @@ SCROLL ▼
 
 **00 Preloader.** A single drop falls from the top centre and becomes a thin horizontal progress line. Waits for: poster frame, first ~20 hero frames, fonts, and the 3D scene's essentials (lazy-load the rest). Minimum display 600 ms, maximum ~3 s, then reveals regardless.
 
-**01 Hero — the can, the dive, then "Sky to Seal".** *(Intro and dive built 17 Oct 2026; film in Phase 2.)*
+**01 Hero — the can, the dive, then the living film.** *(Built 17 Oct 2026.)*
 - **Intro (first screen).** The live 3D can stands centred on a soft studio light (a fixed backdrop *behind* the canvas), rises in with a turn on first load, breathes (slow sway and float) and turns a little towards the pointer. Headline left: **Drink only what *the sky gives.*** with the sub *Every drop of LANGLOK begins as monsoon rain over the north of Bangladesh.*; aside right: ***A vessel for the rain.*** with *Aluminium can · 500 ml / Aluminium bottle · 990 ml*.
-- **Dive (first ~90 vh, the opening screen holds).** The intro copy lifts away; the can tips its lid towards the camera and grows while the lid comes to the centre; the tab lifts with a click and the opening appears showing pale sky; caption **One small click. *The sky opens.*** The camera ends inside the opening and the sky stage (the film) fades up over it.
-- **Film.** Layer stack (bottom → top): frame canvas → optional WebGL rain overlay (beats A–B only) → DOM text beats → scroll hint. ~500 vh of scroll, `scrub: 0.5`. Its first frame should match the dive's end: pale monsoon sky seen through a round opening.
-- Copy beats (original lines; client can edit in `content/copy.ts`):
-  - A: **Drink only what the sky gives.** (now the intro headline)
-  - B: **The rain *returns.*** *Like the Chatak, we wait for it.*
-  - C: **Filtered by *earth and time.***
-  - D: **Purified *with care.*** *Natural drinking water, pH 7.0.*
-  - E: **Sealed in aluminium. *Never plastic.***
-  - F: **Meet LANGLOK.**
-- Mouse parallax: the frame canvas scales 1.04 and shifts ±12 px with pointer (desktop only).
-- Reduced motion: no hold and no dive; the opening screen scrolls away and the sky crossfades in.
+- **Dive (first ~90 vh, the opening screen holds).** The intro copy lifts away; the can tips its lid towards the camera and grows while the lid comes to the centre; the tab clicks open (a small knock and a puff of cold vapour) and the opening shows pale sky; caption **One small click. *The sky opens.*** The camera ends inside the opening and the film fades up over it.
+- **The living film** (`client/src/film/`). A 2D canvas drawn every frame from generated layers (`scripts/build-film-layers.py`), the drawn Chatak (`chatak.ts`, a small 3D rig projected flat: perches in profile, beats its wings, climbs past the camera showing its white underside) and an acacia branch that moves in the wind (`branch.ts`). Scroll owns the story; time owns the life. Scenes, in film progress:
+  - 0 to 0.1, **out of the can**: falling through soft cloud.
+  - 0.1 to 0.3, **the wait**: a misty forest in layers, light shafts and motes; the Chatak on the branch breathes, looks about, flicks his crest; other birds fly down to drink. Caption: **He waited *for the sky.*** *Other birds drank from the pond and the river. Not the Chatak.*
+  - 0.3 to 0.44, **the monsoon**: smoky clouds roll down, colour drains to bruised purple, wind in the fronds, rain; he looks up. Caption: **The wind turned. *The clouds came.*** *Clouds bruised purple over the fields.*
+  - 0.44 to 0.55, **the flight**: he opens his wings and lifts off, and the camera tilts up into the storm. Caption: **He flew *into the storm.*** *He opened his wings and flew straight up — not away from the storm, but into it.*
+  - 0.55 to 0.66, **the first drop**: seen from below, beak open, he catches the drop (splash), then flies up into breaking light. Caption: **Only what *the sky gives.*** *Beak open to the heavens, he caught the rain mid-air — cold, clean, falling.*
+  - 0.66 to 0.9, **the river** (unchanged since 17 Oct): treelines over still water, reflections, rain rings. Caption: **The rain *has returned.*** *Monsoon rain finds its way through forest and stone to the rivers of the north.*
+  - 0.9 to 1, **mist**, into the page colour, where the can stands again: **Meet LANGLOK.** *Sealed in aluminium. Never plastic.*
+- Captions are a sticky layer, one at a time, on the right on wide screens and under the picture on phones; they stay in the accessibility tree.
+- Mouse parallax across the layers (desktop only).
+- Reduced motion: no hold and no dive; nothing moves on its own; the camera stays put and the scenes crossfade with scroll.
 
 **02 Handoff.** *(Built: beat F's plate is where the 3D can comes back; the sky stage fades to the mist page and the can stands there, then glides to the products.)* At hero progress 0.97–1.0 the frame canvas fades out while the WebGL can fades in at the identical position, scale and angle. The can in the final frame is plain (no readable label) and seen slightly from the side, so any small mismatch reads as natural. A drop falls into the opening; a tiny ripple ring on contact.
 
@@ -387,6 +388,8 @@ langlok/
 ---
 
 ## 6. Hero — the scroll-scrubbed film
+
+> **As built (17 Oct 2026):** the hero film is drawn live (§4.3, `client/src/film/`), so no footage is needed. This section stays as the upgrade path: if real footage is ever made, follow it, keep the same story (forest and the waiting Chatak → smoky monsoon clouds → flight and the first drop → river in mist), and play the frames in the same sky layer.
 
 ### 6.1 Why an image sequence (not a `<video>`)
 
@@ -670,7 +673,7 @@ Rough effort for one developer working with Claude Code. Live progress: [`STATUS
 |---|---|---|---|---|
 | **0 Setup** | Monorepo, Vite + React + TS, deps, tokens, fonts, GSAP + Lenis wiring, `CLAUDE.md` | 0.5–1 day | Dev server runs; a test ScrollTrigger pins with Lenis | ✅ Done |
 | **1 Skeleton** | All sections as static, responsive layouts with real copy from `copy.ts` | 2 days | Whole page readable on mobile and desktop without any animation | ✅ Done |
-| **2 Hero** | Preloader, frame player on placeholders, text beats, fog glass | 2 days | Scrubs smoothly both directions; LCP poster in place | ⏭ Next: film behind the dive |
+| **2 Hero** | Preloader, frame player on placeholders, text beats, fog glass | 2 days | Scrubs smoothly both directions; LCP poster in place | ◐ The living film is built (drawn, not filmed); preloader to do |
 | **3 3D products** | Procedural can + bottle, materials, lighting, label textures, scroll spin, handoff | 3–4 days | Spin is smooth; labels look printed, not pasted | ✅ Done, plus the Morpho-style opening, dive, stills and Motion switch |
 | **4 Logo swap + configurator** | Hidden-side swap, upload, live texture, preview capture | 3 days | A PNG/SVG logo appears correctly on both vessels | ◐ Swap done; configurator to do |
 | **5 Story + Mission + ReCan** | Chatak chapters, rain particles, stages strip, ReCan loop | 3 days | Each section works with reduced motion too | ◐ Reveals only |

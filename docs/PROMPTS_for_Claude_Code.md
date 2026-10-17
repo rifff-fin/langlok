@@ -1,6 +1,6 @@
 # LANGLOK — Prompts for Claude Code (VS Code) and AI video
 
-> Updated 17 Oct 2026: the brand is **LANGLOK** (it was VERSA in the first draft; the label artwork still prints VERSA). The opening now follows the **morphowater.com** reference (master plan §2.5). Progress: [`STATUS.md`](STATUS.md). Phases 0, 1 and 3 are done; Phase 2 (the film) is next.
+> Updated 17 Oct 2026: the brand is **LANGLOK** (it was VERSA in the first draft; the label artwork still prints VERSA). The opening now follows the **morphowater.com** reference (master plan §2.5). Progress: [`STATUS.md`](STATUS.md). Phases 0, 1 and 3 are done, and the hero film is built as a **living film drawn in code** (no footage needed): the Chatak waits in a misty forest, flies into the monsoon, catches the first drop, and the rain becomes a river.
 
 Three parts:
 - **Part A** — how to set up the repo so Claude Code always has the context
@@ -125,32 +125,18 @@ Check 390×844, 768×1024, 1440×900. Show me screenshots of the hero, products 
 story sections at 390 and 1440.
 ```
 
-### B3. Phase 2 — Hero: preloader, scroll film (next)
+### B3. Phase 2 — Hero: the living film (built) and the preloader
+
+Built on 17 Oct 2026, differently from the original plan: there is no video. The film is drawn
+live in a 2D canvas (`client/src/film/`). The world comes from generated layers
+(`scripts/build-film-layers.py`). The Chatak is an animated silhouette drawn in code
+(`film/chatak.ts`), referenced from the client's two bird pictures, as the client asked: no
+photos in the film. See master plan §4.3 for the scenes and captions. Still to do here:
 
 ```text
-Phase 2: the hero film. Follow master plan §4.3 (00–02) and §6.7.
-Already built (Phase 3): the opening screen with the live 3D can and the dive into its
-opening (Hero.tsx, the `heroDive` move). The film's sky stage takes over as the dive ends,
-so mount the frame canvas in [data-hero-stage] and make its first frame the pale sky the
-opening shows. The fog glass is optional now: drop it, or use it on the film's first beat.
-
-1. Preloader: a drop falls and becomes a thin progress line; waits for poster, first
-   ~20 frames and fonts; min 600 ms, max 3 s.
-2. hooks/useImageSequence: loads frames from /frames/hero/{desktop|mobile}/NNNN.webp
-   (set chosen once by viewport aspect), progressive order (every 8th, 4th, 2nd, rest),
-   decodes before drawing, exposes drawNearest(index).
-3. Hero section: pinned ~500vh, scrub 0.5; canvas with cover-fit drawing and DPR cap 2;
-   poster.jpg as <img fetchpriority="high"> until the first frame draws.
-4. Six text beats (A–F from copy.ts) on the same timeline, revealed line by line with
-   SplitText masks, positioned on the editorial grid.
-5. FogGlass component: white fog layer the pointer wipes clear (destination-out soft
-   brush), fog slowly returns, works with touch drag, fades out after 10% scroll.
-   Small hint text: "Wipe the glass".
-6. Desktop-only pointer parallax on the frame canvas (scale 1.04, ±12px).
-7. Reduced motion: no pin, three stills crossfade on scroll, no fog.
-
-Done when: scrubbing forwards and backwards is smooth with placeholder frames, frame
-numbers never jump backwards while scrolling down, and Lighthouse LCP is under 2.5s.
+Phase 2 remainder: the preloader. A drop falls and becomes a thin progress line; it waits
+for fonts, the hero still of the can and the film's layers; min 600 ms, max 3 s. Keep the
+opening screen (the live 3D can) the first thing people see.
 ```
 
 ### B4. Phase 3 — 3D can and bottle (done)
@@ -283,39 +269,46 @@ Report a before/after table of Lighthouse scores (mobile) and bundle sizes.
 
 ---
 
-## Part C — AI stills and video for the hero film
+## Part C — AI stills and video for the hero film (optional upgrade)
 
-Use the **same style block** at the start of every prompt so the shots match. Generate the **7 key stills** first, then animate between them with **image-to-video, first-frame + last-frame** mode (shot N: first frame = still N, last frame = still N+1).
+The hero film is drawn live (Part B3), so none of this is needed for launch. Use these prompts only if real footage is wanted later. Keep the film's story, so the captions still fit:
+- the forest and the waiting Chatak;
+- smoky monsoon clouds;
+- the flight and the first drop;
+- the river in mist.
+
+Never let the tool draw the logo or the label. You can give it the client's bird pictures as **style references**, but don't use them as frames.
+
+Use the **same style block** at the start of every prompt so the shots match. Generate the **key stills** first, then animate between them with **image-to-video, first-frame + last-frame** mode (shot N: first frame = still N, last frame = still N+1).
 
 ### C1. Style block (prefix every prompt)
 
 ```text
-Cinematic, photoreal, natural daylight just after monsoon rain in northern Bangladesh.
-Bright, airy, high-key, soft mist, cool silver-blue palette with gentle green, no crushed
-blacks, no harsh contrast. Premium beverage commercial look, clean and calm. Shot on a
-large-format cinema camera, shallow depth of field, slow steady camera movement. Subject
-kept in the centre of the frame (vertical-crop safe).
+Cinematic, photoreal, natural daylight in the monsoon in northern Bangladesh. Bright, airy,
+high-key, soft mist, cool silver-green palette, no crushed blacks, no harsh contrast. Clean
+and calm, a premium nature film. Shot on a large-format cinema camera, shallow depth of
+field, slow steady camera movement. Subject kept in the centre third of the frame
+(vertical-crop safe).
 ```
 
 ### C2. Negative prompt (where the tool supports it)
 
 ```text
-text, letters, logos, labels, watermarks, people's faces, dark scenes, night, neon,
-fast camera moves, shaky camera, flicker, cuts, morphing objects, plastic bottles,
-cartoon, oversaturated colours, lens dirt
+text, letters, logos, labels, watermarks, people, dark scenes, night, neon, fast camera
+moves, shaky camera, flicker, cuts, morphing animals, extra limbs, plastic, cartoon,
+oversaturated colours, lens dirt
 ```
 
 ### C3. Key stills (image model)
 
 | # | Prompt (after the style block) |
 |---|---|
-| 1 | Wide dawn view over flat, endless tea gardens of Tetulia, Panchagarh; faint snowy Himalayan peaks on the far horizon; soft monsoon clouds gathering above; pale sky. |
-| 2 | Inside a soft white rain cloud, the first raindrops beginning to fall, backlit, glittering; the silhouette of a black-and-white crested pied cuckoo flying upward through the rain. |
-| 3 | Extreme macro: a single clear raindrop landing on a green tea leaf, splashing gently; behind it, a cross-section of clean soil, sand and smooth river stones with clear water seeping through. |
-| 4 | Bright, spotless water purification hall with white walls and daylight, polished stainless steel pipes and clear glass sections with water flowing through them. |
-| 5 | Close-up of plain brushed-silver aluminium cans with no printing moving along a clean filling line, one can being sealed, fine condensation droplets on the metal. |
-| 6 | A single plain brushed-silver aluminium can, no printing, rising out of soft white mist, slightly turned to the side, on a pale cool-grey seamless background, studio softbox reflections. |
-| 7 | Final pose: the same plain silver can, perfectly still, centred, three-quarter view, soft vertical highlight streaks, gentle contact shadow on pale grey paper. (Match this to the 3D handoff pose screenshot from Phase 3.) |
+| 1 | Soft white cloud seen from inside, glowing, pale blue above. |
+| 2 | A misty forest of tall thin trees at dawn, warm light shafts from the upper right; on a bare acacia branch with small pinnate leaves sits a pied cuckoo (Jacobin cuckoo): black upperparts, white throat and breast, tall swept-back black crest, long graduated tail with white tips, in profile facing right. |
+| 3 | The same forest and bird, the light gone cool and purple-grey as dark smoky monsoon clouds roll in over the canopy; the cuckoo looks up, crest raised. |
+| 4 | Looking up into grey-violet storm clouds, rain falling towards the camera; the pied cuckoo flying straight up, seen from below: white body, black wings with a white crescent near the tips, long dark tail with white tips. |
+| 5 | The same bird from below, beak open, a single clear raindrop just above its beak. |
+| 6 | A calm river in a wide misty valley, layered treelines on the far bank reflected in still water, gentle rain rings on the surface. |
 
 ### C4. Video shots (image-to-video)
 
@@ -323,12 +316,11 @@ Settings: 16:9, 1080p or 4K, 24 or 30 fps, ~4–5 s each, low motion strength, c
 
 | Shot | First → last still | Motion prompt (after the style block) |
 |---|---|---|
-| 1 Sky | 1 → 2 | Slow forward and upward glide over the tea gardens into the gathering clouds until white cloud fills the frame. |
-| 2 Rain | 2 → 3 | Camera descends slowly with the falling raindrops; the pied cuckoo silhouette rises past and out of frame; end in close-up on one falling drop. |
-| 3 Earth | 3 → 4 | The drop lands on the leaf and the camera follows the water down through the soil and stones in macro, ending on clear water flowing in a smooth channel that becomes a stainless pipe. |
-| 4 Purify | 4 → 5 | Slow dolly along the glass pipes through the bright hall, following the water to a filling nozzle above a silver can. |
-| 5 Seal | 5 → 6 | The can fills and seals; camera gently pushes in as one can lifts out of the line into soft mist. |
-| 6 Reveal | 6 → 7 | The can rises out of the mist and settles, completely still, in the final pose. Mist thins to reveal the pale background. |
+| 1 Cloud | 1 → 2 | Slow descent through soft cloud that thins to reveal the misty forest and the cuckoo on its branch. |
+| 2 Wait | 2 → 3 | Very slow push in on the bird; it turns its head, breathes; mist drifts; the light cools as clouds arrive. |
+| 3 Flight | 3 → 4 | The cuckoo opens its wings and lifts off; the camera tilts up to follow it into the storm. |
+| 4 Drop | 4 → 5 | The bird climbs, beak opening; one raindrop falls into its beak. |
+| 5 River | 5 → 6 | The camera follows the rain down through mist to the river in the valley. |
 
 Tool notes (October 2026): Google Veo 3.1 (via Flow) for the most realistic result; Kling 3.0 for value, native 4K and liquid motion; Runway Gen-4.5 when you need precise camera or keyframe control. Sora is shut down. Use a paid plan for commercial rights.
 
@@ -336,8 +328,7 @@ Tool notes (October 2026): Google Veo 3.1 (via Flow) for the most realistic resu
 
 1. Join the clips in DaVinci Resolve or CapCut, trim morphing frames at the joins, stabilize, grade to the Monsoon Light palette (lifted shadows, cool soft highlights), remove audio.
 2. Export `hero_master.mov` (ProRes 422 or H.264 ≥ 40 Mbps).
-3. In the repo: `bash scripts/extract-frames.sh hero_master.mov` and refresh the page.
-4. If the last frame doesn't line up with the 3D can, adjust the final shot's scale/position in the editor using the Phase 3 handoff screenshot as an overlay.
+3. In the repo: `bash scripts/extract-frames.sh hero_master.mov`, then swap the drawn film for a frame player in the same sky layer (`[data-hero-sky]`), keeping the captions' timing (`film/timeline.ts`).
 
 ### C6. Note for the label designer
 
