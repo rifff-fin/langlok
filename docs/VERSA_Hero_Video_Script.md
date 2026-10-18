@@ -683,3 +683,75 @@ The website version ends in mist, and the site's 3D can shows VERSA. For a versi
 - [ ] The phone crop (the centre third) still shows every subject.
 - [ ] The files are named as in §9.
 - [ ] The client has answered the questions in §8, or S9–S11 are marked "pending the client".
+
+---
+
+## 12. Quick version: one prompt for Google AI Studio (Veo 3.1)
+
+A faster route than the keyframes in §5 and §6: one continuous take, run in four parts.
+
+- **Why parts.** Veo 3.1 makes 8 s per run when reference images are attached (up to three). **Extend** adds 7 s, continuing from the last second, so the take stays unbroken.
+- **Length.** Four parts make about 29 s. The website still uses about 240 frames, so a shorter master scrubs even more smoothly.
+
+**How to run it:**
+
+1. **Settings.** In AI Studio, open video generation and choose **Veo 3.1** (not Lite), 16:9, 8 s, the highest resolution offered.
+2. **References.** Attach up to three pictures: the Chatak, the VERSA can, and the VERSA bottle (or a second Chatak angle).
+3. **Part 1.** Paste the prompt as it is. Make 3–4 takes and keep the best.
+4. **Parts 2–4.** Press **Extend** on the best take and paste the prompt again, changing only the first line to `PART 2`. Repeat for `PART 3` and `PART 4`.
+5. **If a run crowds in later parts**, delete the other PART paragraphs for that run.
+6. **If the Chatak looks wrong in an extension** (extensions may ignore the reference images), make Part 3 as a new 8 s run with the bird picture attached; the edit joins it to Part 2.
+7. **Afterwards**, follow §9: grade, check the 6-frames-per-second preview, and slice into frames.
+
+```text
+NOW SHOWING: PART 1 OF 4 (for each Extend, change only this line to PART 2, 3, then 4)
+
+One continuous, unbroken camera take for VERSA, a natural drinking water in matte white
+aluminium cans. No cuts, no dissolves, no flashes. The camera moves slowly and smoothly, like a
+motion-control rig, and settles gently at the end of each part. Every frame is crisp, with very
+little motion blur, because the film will be cut into still frames for a scroll animation.
+Falling water, drops and splashes are in slow motion.
+
+Style: photoreal, premium and restrained, like a luxury nature documentary; shot on an ARRI
+Alexa 35, 100 mm macro for close-ups, shallow depth of field. High-key, soft diffused daylight,
+gentle mist. Cool palette: pale mist grey, silver, soft slate, muted silver-green, clear
+pale-blue water. Lifted shadows, no crushed blacks, no oversaturation. The main subject always
+in the centre of the frame.
+
+Reference images: the bird is the Chatak, a pied cuckoo; keep its plumage exactly: glossy black
+above, a tall swept-back black crest, white throat and breast, a small white wing patch, a long
+black tail with white tips. The white aluminium can is VERSA; keep its slim shape, matte white
+finish and silver rim and lid, with its printed label turned away or softly out of focus, never
+readable.
+
+PART 1 (0-8 s), why a can: soft, bright light, as if seen through a can's opening, comes into
+focus as tiny plastic particles, shards and fibres, drifting in clear water inside a plastic
+bottle, glinting in a cool shaft of light. The camera pulls back out through the crinkled wall
+of a plain, unbranded clear plastic bottle standing on pale stone in a mist-grey studio, next to
+a matte white VERSA can beaded with cold condensation. The plastic bottle clouds, cracks and
+slowly crumbles into glittering particles that drift away; the white can stays clean and bright.
+
+PART 2 (8-15 s), aluminium comes back: the camera glides to the white can and pushes into its
+silver rim; the metal melts into flowing liquid silver, cool and mirror-bright, never orange,
+which smooths and curls into a new white can. Looking down into its open mouth, clear water
+mirrors a pale cloudy sky; the camera pushes through the reflection into the real sky: a vast,
+pale monsoon sky over the flat green tea gardens of northern Bangladesh, the first large
+raindrops falling toward the lens.
+
+PART 3 (15-22 s), the sky's water: the camera descends with the rain through mist into a misty
+forest of tall thin trees, to the Chatak perched on a thin bare acacia branch, head tilted up,
+beak open to the sky. In slow motion a raindrop falls into his beak and he drinks; he never
+flies. One drop slips from the tip of his beak and the camera follows it down to the forest
+floor, where it lands on a small green leaflet in a delicate crown of splash.
+
+PART 4 (22-29 s), from the earth to the can: the water soaks into the soil and the camera sinks
+with it through a glass-like cross-section of soil, sand, gravel and stone; the water grows
+crystal clear and gathers in a stone channel. The stone becomes polished stainless steel; the
+water runs through a clear glass pipe in a bright, spotless plant to a filling nozzle, where a
+matte white can fills with a clear stream and its silver lid is sealed. The camera rises into
+soft mist until the whole frame is an even, pale grey, and holds.
+
+Never show: text, letters, numbers, logos, readable labels, other brands, people or hands,
+flying or flapping birds, lightning, flicker, night, purple tones, dirt or litter.
+Audio: soft rain and flowing water only; no music, no voices.
+```
