@@ -46,7 +46,7 @@ The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle st
 ## Next
 
 1. **Phase 5 polish**: ReCan loop drawing, chapter rail ("01 / 07").
-2. **The hero video** (the user's, when it is ready): it replaces the drawn film after the can opens, in the hero's sky layer. The drawn film stays on in the story section (`film/StoryReel.tsx` uses `film/film.ts`).
+2. **The hero video** (the user makes it): the script and production brief are in [`VERSA_Hero_Video_Script.md`](VERSA_Hero_Video_Script.md) (microplastics first, as the client asked, then the Chatak drinking rain, the source, the plant and the white can; keyframes, prompts, checks, delivery). It replaces the drawn film after the can opens, in the hero's sky layer; the drawn film stays on in the story section (`film/StoryReel.tsx` uses `film/film.ts`).
 3. **Phase 6 backend**: the quote form starts sending (POST /api/inquiries with the logo and the preview); until then its button stays off.
 4. Then real assets and performance (7), launch (8).
 5. Optional, any time: real AI-generated footage of the same story can replace the drawn film (prompts in `docs/PROMPTS_for_Claude_Code.md`, Part C); the "rain-wash" label swap (plan §7.5 v2).
@@ -85,6 +85,7 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **19 Oct 2026, late night**: **the hero video script** (`docs/VERSA_Hero_Video_Script.md`), for the user to make the video with Claude in the browser and an AI video tool. The story: plastic particles in bottled water (the client's request: the microplastic problem first) → up to the monsoon sky → the Chatak drinks the rain → it sinks into the earth (sourcing) → the plant (managing) → a white aluminium can is filled and sealed → mist, where the website's live VERSA can takes over. Ten keyframes and nine clips with ready prompts, the look, the checks, draft captions with the 2024 PNAS study cited, the claims to avoid and the questions for the client (source, process, can lining).
 - **19 Oct 2026, night**: **the story's film fills the window** (asked): the words lie over it down the right side on a veil of mist, and its top and bottom fade into the page. Still one screen at 1440 × 900. Phones: the film is the first screen with the title and the controls at its foot (clear of the Motion switch), then the words. The `/story` page opens on it.
 - **19 Oct 2026, evening**: **Leadership names** shown under the portraits: AKM Jobaed Nahid (Chief Executive Officer) and S M Khairul Islam (Managing Director).
 - **19 Oct 2026, later**:
