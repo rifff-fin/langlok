@@ -5,8 +5,8 @@ import { Emph } from '../components/ui/Emph';
 
 /**
  * 11 Leadership. A quiet, official look at who leads Langlok Int. Company Ltd.: two
- * portraits with their roles (no names, as the client asked), beside where the company
- * works and where VERSA is made. Portraits: scripts/build-portraits.py (cut out, set on
+ * portraits with their names and roles, beside where the company works and where VERSA is
+ * made. Portraits: scripts/build-portraits.py (cut out, set on
  * one studio backdrop, in black and white, so two very different photos read as a pair).
  */
 export function Leadership() {
@@ -43,8 +43,9 @@ export function Leadership() {
                     />
                   </div>
                   <figcaption className="mt-4 border-t border-aluminium pt-4">
-                    <p className="eyebrow text-ink">{person.role}</p>
-                    <p className="mt-2 text-sm text-slate">{leadership.company}</p>
+                    <h3 className="text-lg text-ink sm:text-xl md:text-2xl">{person.name}</h3>
+                    <p className="eyebrow mt-3 text-ink">{person.role}</p>
+                    <p className="mt-1 text-sm text-slate">{leadership.company}</p>
                   </figcaption>
                 </figure>
               </li>

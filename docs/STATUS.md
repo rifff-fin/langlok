@@ -27,7 +27,7 @@
    - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
    - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
 8. **The Chatak story** (06, also `/story`): one screen instead of five. The client's story in about a hundred words (the quote "I drink only what the sky gives" set apart), beside the drawn film of it: the hero film's story played by time in a frame, from the wait through the monsoon, the flight and the first drop to the river, once the frame is well in view; then it stays on the river. Five moments under it to jump to, and a pause button. Reduced motion: one still (the catch); the moments show their stills.
-9. **Leadership** (11): the CEO and the Managing Director, roles only, in matching black-and-white portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
+9. **Leadership** (11): AKM Jobaed Nahid, CEO, and S M Khairul Islam, Managing Director, by name and role, in matching black-and-white portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
 10. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals. The footer and the contact page list both offices and the factory.
 
 The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle stand out instead of disappearing into a white page.
@@ -55,7 +55,7 @@ The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle st
 
 - **The client questionnaire** (17 Oct 2026, a shared doc: "LANGLOK website: what we need from you"): approvals (the new logo, the story edits, Tetulia instead of "Umm Lajj"), labels, the water and its claims, custom orders, ReCan, contact details, photos, going live.
 - **The story text** (about 100 words since 19 Oct 2026, see Log): confirm it, and the place name (Tetulia instead of the original "Umm Lajj").
-- **Leadership names** (asked 19 Oct 2026): the CEO's and the Managing Director's names and any titles; the section shows roles until then.
+- **The CEO's initials**: written "AKM Jobaed Nahid" (sent as "Akm"); confirm if he writes A.K.M. or A K M.
 - **VERSA label print files** (flat, unwrapped) for a sharper 3D label; the labels are built from photos for now. VERSA is the right name on them (19 Oct 2026). (The LANGLOK logo is ours, designed 17 Oct 2026; the client only approves it.)
 - Street addresses, a sales email and social links; confirm the Riyadh number (+966 50 583 4757, given as +966 0505834757).
 - Supplier dimension drawings for the can and bottle (the shapes are traced from photos).
@@ -85,6 +85,7 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **19 Oct 2026, evening**: **Leadership names** shown under the portraits: AKM Jobaed Nahid (Chief Executive Officer) and S M Khairul Islam (Managing Director).
 - **19 Oct 2026, later**:
   - **The Chatak story is one short section** (it was five full screens, too long a scroll): the client's story in about a hundred words in one place, the quote set apart, beside the drawn film of it. The film is the hero's (which will become a video): played by time in a frame, from the wait to the river, with five moments to jump to and a pause button. The old drawn pictures (`film/vignette.ts`) are gone.
   - **Darker page**: the page is a light cool grey (`#DFE4E8`, was near-white `#F3F5F6`) so the white can and bottle stand out. Secondary text, hairlines and the footer/ReCan band deepened with it to keep their contrast; the film's ending, the preloader and the saved configurator preview match. Sections 01–05 are otherwise unchanged.

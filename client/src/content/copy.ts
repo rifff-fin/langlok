@@ -391,15 +391,19 @@ export const leadership = {
   people: [
     {
       id: 'ceo',
+      // TODO(client): sent as "Akm Jobaed Nahid" (19 Oct 2026); confirm how he writes the
+      // initials (AKM, A.K.M. or A K M).
+      name: 'AKM Jobaed Nahid',
       role: 'Chief Executive Officer',
       image: '/img/people/ceo.webp',
-      alt: 'Portrait of the Chief Executive Officer of Langlok Int. Company Ltd.',
+      alt: 'Portrait of AKM Jobaed Nahid',
     },
     {
       id: 'md',
+      name: 'S M Khairul Islam',
       role: 'Managing Director',
       image: '/img/people/managing-director.webp',
-      alt: 'Portrait of the Managing Director of Langlok Int. Company Ltd.',
+      alt: 'Portrait of S M Khairul Islam',
     },
   ],
 } as const;
