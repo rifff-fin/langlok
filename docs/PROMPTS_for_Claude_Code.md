@@ -276,7 +276,7 @@ Report a before/after table of Lighthouse scores (mobile) and bundle sizes.
 
 ## Part C — AI stills and video for the hero film (optional upgrade)
 
-> **Superseded on 19 Oct 2026** by [`VERSA_Hero_Video_Script.md`](VERSA_Hero_Video_Script.md): a new story (microplastics first, then the Chatak, the source, the plant and the sealed can) with its own keyframes, prompts and checks. The notes below are kept for reference.
+> **Superseded on 19 Oct 2026** by [`VERSA_Hero_Video_Script.md`](VERSA_Hero_Video_Script.md): a new story (why a can first, then the Chatak, the source, the plant and the sealed can), built for scroll, with its own keyframes, prompts, frame map and checks. The notes below are kept for reference.
 
 The hero film is drawn live (Part B3), so none of this is needed for launch. Use these prompts only if real footage is wanted later. Keep the film's story, so the captions still fit:
 - the forest and the waiting Chatak;

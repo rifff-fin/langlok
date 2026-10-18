@@ -394,7 +394,7 @@ langlok/
 
 ## 6. Hero — the scroll-scrubbed film
 
-> **19 Oct 2026:** real footage is now planned. The new story (the microplastic problem first, as the client asked, then the Chatak drinking rain, the source, the plant and the sealed white can) and the full production brief are in [`VERSA_Hero_Video_Script.md`](VERSA_Hero_Video_Script.md); it replaces the storyboard in §6.2. §6.1 and §6.4–6.7 still apply.
+> **19–20 Oct 2026:** real footage is now planned. The new story (why a can first, as the client asked: plastic particles in bottled water, plastic that never goes away, aluminium recycled into a new can; then the Chatak drinking rain, the source, the plant and the sealed white can), its frame map for scroll and the full production brief are in [`VERSA_Hero_Video_Script.md`](VERSA_Hero_Video_Script.md); it replaces the storyboard in §6.2. §6.1 and §6.4–6.7 still apply.
 >
 > **As built (17 Oct 2026):** the hero film is drawn live (§4.3, `client/src/film/`), so no footage is needed. This section stays as the upgrade path: if real footage is ever made, follow it, keep the same story (forest and the waiting Chatak → smoky monsoon clouds → flight and the first drop → river in mist), and play the frames in the same sky layer.
 
