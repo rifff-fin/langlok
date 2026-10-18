@@ -18,7 +18,7 @@
    - **The descent** (one unbroken shot, no cut or flash): the camera lets him go and follows the rain down, under the storm, through the bright cloud base, until the valley rises into view and the drop it followed lands in the river.
    - **The river**: the rain has returned, a calm river in a misty valley (unchanged, as asked).
 4. **Meet LANGLOK**: the film ends in mist, the can comes back, then glides on to the products (desktop).
-5. **Products**: the can, then the bottle, each about 70% of the screen tall, a full turn as you scroll (pinned on desktop), with the spec list.
+5. **Products**: the white VERSA can, then the white VERSA bottle, each about 70% of the screen tall, a full turn as you scroll (pinned on desktop), with the spec list.
 6. **Your logo here**: can and bottle side by side at true size; one more turn and both come round wearing YOUR LOGO HERE.
 7. **Configurator** (05, also on `/custom-branding`): the can glides in from section 04 and stands in the stage, and your design appears on it live:
    - upload a PNG, SVG or JPG logo (checked, sanitised, plain white backgrounds taken out) or type a brand name (Modern or Classic lettering);
@@ -27,7 +27,8 @@
    - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
    - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
 8. **The Chatak story** (06, also `/story`): five chapters in the film's palette (a faint dry-season warmth, the monsoon's slate, washed-clean light). Its two pictures are drawn live with the film's pieces, no photos: he waits on the acacia branch in the misty woods (breathing, looking about, glancing up at the sky); seen from below in the rain, he catches drop after drop. The text was checked against the record and lightly edited (see Log).
-9. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals.
+9. **Leadership** (11): the CEO and the Managing Director, roles only, in matching black-and-white portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
+10. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals. The footer and the contact page list both offices and the factory.
 
 ## Done
 
@@ -51,7 +52,8 @@
 
 - **The client questionnaire** (17 Oct 2026, a shared doc: "LANGLOK website: what we need from you"): approvals (the new logo, the story edits, Tetulia instead of "Umm Lajj"), labels, the water and its claims, custom orders, ReCan, contact details, photos, going live.
 - **Story text edits** (17 Oct 2026, see Log): confirm them, and the place name (Tetulia instead of the original "Umm Lajj").
-- **LANGLOK label artwork.** The can and bottle artwork still prints **VERSA**, so the 3D labels show VERSA. We need the LANGLOK label files (flat, unwrapped). (The logo is ours, designed 17 Oct 2026, and is on the site; the client only approves it.)
+- **VERSA label print files** (flat, unwrapped) for a sharper 3D label; the labels are built from photos for now. VERSA is the right name on them (19 Oct 2026). (The LANGLOK logo is ours, designed 17 Oct 2026; the client only approves it.)
+- Street addresses, a sales email and social links; confirm the Riyadh number (+966 50 583 4757, given as +966 0505834757).
 - Supplier dimension drawings for the can and bottle (the shapes are traced from photos).
 - Lining type before any purity claims; ReCan details; social links; full address and sales email.
 - The open questions in master plan §1.3 (bird name, "Umm Lajj", etc.).
@@ -79,6 +81,11 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **19 Oct 2026**:
+  - **Names corrected**: LANGLOK is the company, **VERSA** its premium water. The product is called VERSA across the site ("Meet VERSA", "VERSA Can", "Bring VERSA to your venue"); the 3D labels already printed VERSA.
+  - **White can and bottle**, like the client's photo: the VERSA artwork on a matte white basecoat, rims and lid bare aluminium. The configurator and YOUR LOGO HERE start from white. Studio stills re-rendered.
+  - **Offices**: Dhaka (Uttara, +880 1712-726628, WhatsApp Business) and Riyadh (Al Olaya, +966 50 583 4757); factory in Panchagarh, Rangpur. On the contact page and in the footer.
+  - **Leadership** section (11): the CEO and the Managing Director, roles only, as matching black-and-white portraits (`scripts/build-portraits.py`).
 - **17 Oct 2026, night**: **deployed on Netlify** (by the user). `netlify.toml` builds the client only (`npm run build -w client`, publish `client/dist`, Node 22), serves every route from `index.html` (also `client/public/_redirects`) and caches hashed assets for a year. `main` fast-forwarded to all the work so far.
 - **17 Oct 2026, late night**: **the new LANGLOK logo** (our logo pack, Chatak direction; the client approves it) replaces the text placeholder: the mark + LANGLOK in the header, the full lockup with "INT. COMPANY LTD." in the footer, and the app icon as the favicon and phone home-screen icon. SVG sources kept in `docs/client/logo-pack/`.
 - **17 Oct 2026, late night**: **the Chatak story** (start of Phase 5):

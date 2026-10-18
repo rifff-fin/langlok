@@ -44,7 +44,7 @@ export interface ConfigState extends Design {
 }
 
 export const DEFAULT_DESIGN: Design = {
-  background: 'silver',
+  background: 'white', // the official VERSA can and bottle are white
   hex: '#2f7fc1',
   logo: null,
   brandName: '',

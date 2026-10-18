@@ -4,7 +4,7 @@ import { Container } from '../components/ui/Container';
 import { DropIcon } from '../components/icons';
 import { Emph } from '../components/ui/Emph';
 
-/** 11 Closing call to action (the footer itself lives in RootLayout). */
+/** 12 Closing call to action (the footer itself lives in RootLayout). */
 export function CallToAction() {
   return (
     <section

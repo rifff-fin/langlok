@@ -1,13 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useTexture } from '@react-three/drei';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { easing } from 'maath';
-import { MeshPhysicalMaterial, type Group, type Sprite, type SpriteMaterial } from 'three';
+import {
+  ImageLoader,
+  MeshPhysicalMaterial,
+  type Group,
+  type Sprite,
+  type SpriteMaterial,
+} from 'three';
+import type { LabelBase } from '../configurator/compose';
 import type { VesselId } from '../store/scene';
 import layout from './labelLayout.json';
 import spec from './vesselSpec.json';
 import { knurlBand, latheBody, openingShape, pullTab, skyTexture, wispTexture } from './geometry';
-import { composeYourLogo, configureLabel, labelUrls, watchDesign, type LabelSet } from './labels';
+import {
+  brandLabel,
+  composeYourLogo,
+  configureLabel,
+  labelUrls,
+  watchDesign,
+  type LabelSet,
+} from './labels';
 import { smoothstep, targets } from './stations';
 import { Vessel } from './Vessel';
 
@@ -27,15 +40,19 @@ function aluminium(roughness = layout.roughness.metal, color = layout.silver) {
 
 function useLabel(vessel: VesselId) {
   const gl = useThree((s) => s.gl);
-  // useTexture caches by URL; key the memo on the textures, not the wrapper object it returns.
-  const { map, orm } = useTexture(labelUrls(vessel, WIDE));
-  const brand = useMemo(() => configureLabel({ map, orm }, gl), [map, orm, gl]);
+  // The client's artwork, as plain images (never uploaded as they are): every print the
+  // vessel wears is composed from it. useLoader caches by URL.
+  const urls = labelUrls(vessel, WIDE);
+  const [color, orm] = useLoader(ImageLoader, [urls.map, urls.orm]);
+  const base = useMemo<LabelBase>(() => ({ vessel, color, orm }), [vessel, color, orm]);
+  // the official VERSA print: the artwork on the white can and bottle
+  const brand = useMemo(() => brandLabel(base, gl), [base, gl]);
   const [custom, setCustom] = useState<LabelSet | null>(null);
 
   useEffect(() => {
     let alive = true;
     let made: LabelSet | null = null;
-    composeYourLogo(vessel, brand).then((set) => {
+    composeYourLogo(base).then((set) => {
       if (!alive) return;
       made = configureLabel(set, gl);
       setCustom(made);
@@ -45,13 +62,22 @@ function useLabel(vessel: VesselId) {
       made?.map.dispose();
       made?.orm.dispose();
     };
-  }, [vessel, brand, gl]);
+  }, [base, gl]);
+
+  useEffect(
+    () => () => {
+      brand.map.dispose();
+      brand.orm.dispose();
+    },
+    [brand],
+  );
 
   // the configurator's design (made on the visitor's first edit, then updated in place)
   const [config, setConfig] = useState<LabelSet | null>(null);
-  useEffect(() => watchDesign(vessel, brand, gl, setConfig), [vessel, brand, gl]);
+  useEffect(() => watchDesign(base, gl, setConfig), [base, gl]);
 
-  // Printed aluminium: metalness/roughness come from the ORM map (bare metal vs matte ink).
+  // Printed aluminium: metalness/roughness come from the ORM map (bare metal, white
+  // basecoat, ink).
   const material = useMemo(
     () =>
       new MeshPhysicalMaterial({

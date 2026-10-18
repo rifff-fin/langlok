@@ -10,6 +10,7 @@ import {
 } from 'three';
 import {
   composeLabel,
+  composePrint,
   composeZone,
   ensureFonts,
   labelCanvases,
@@ -59,20 +60,23 @@ export function configureLabel(set: LabelSet, gl: WebGLRenderer) {
   return set;
 }
 
-const baseOf = (vessel: VesselId, brand: LabelSet): LabelBase => ({
-  vessel,
-  color: brand.map.image as HTMLImageElement,
-  orm: brand.orm.image as HTMLImageElement,
-});
+/**
+ * The official VERSA print: the client's artwork (made on bare aluminium in the photos it was
+ * taken from) on the white basecoat of the real can and bottle, rims left bare.
+ */
+export function brandLabel(base: LabelBase, gl: WebGLRenderer): LabelSet {
+  const out = labelCanvases(base.color.width, base.color.height);
+  composePrint(base, { background: 'white', hex: '' }, out);
+  return configureLabel({ map: new CanvasTexture(out.color), orm: new CanvasTexture(out.orm) }, gl);
+}
 
 /**
  * The YOUR LOGO HERE variant: the bird + wordmark zone is cleared to bare metal and a
  * dashed frame with tracked Jost caps is printed in its place (same layout otherwise). It
  * is the configurator's starting design, printed by the same code.
  */
-export async function composeYourLogo(vessel: VesselId, brand: LabelSet): Promise<LabelSet> {
+export async function composeYourLogo(base: LabelBase): Promise<LabelSet> {
   await ensureFonts(DEFAULT_DESIGN);
-  const base = baseOf(vessel, brand);
   const out = labelCanvases(base.color.width, base.color.height);
   composeLabel(base, DEFAULT_DESIGN, out);
   return { map: new CanvasTexture(out.color), orm: new CanvasTexture(out.orm) };
@@ -86,12 +90,11 @@ export async function composeYourLogo(vessel: VesselId, brand: LabelSet): Promis
  * A vessel that isn't on show waits, and catches up when it is chosen. Returns a cleanup.
  */
 export function watchDesign(
-  vessel: VesselId,
-  brand: LabelSet,
+  base: LabelBase,
   gl: WebGLRenderer,
   onReady: (set: LabelSet | null) => void,
 ) {
-  const base = baseOf(vessel, brand);
+  const vessel = base.vessel;
   const { width: w, height: h } = base.color;
   const z = zoneRect(base);
   // texture rows run bottom-up (flipY), so the zone's lower edge is its offset

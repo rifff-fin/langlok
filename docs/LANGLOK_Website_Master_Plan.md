@@ -1,11 +1,11 @@
 # LANGLOK — Website Master Plan
 
-**Client:** Langlok Int. Company Ltd. (Panchagarh, Bangladesh) · **Brand:** LANGLOK natural drinking water
-**Products:** LANGLOK Can 500 ml · LANGLOK Aluminium Bottle 990 ml
+**Client:** Langlok Int. Company Ltd. (LANGLOK; offices in Dhaka and Riyadh, factory in Panchagarh) · **Product brand:** VERSA premium natural drinking water
+**Products:** VERSA Can 500 ml · VERSA Aluminium Bottle 990 ml (both white)
 **Stack:** MERN (MongoDB, Express, React, Node) + React Three Fiber + GSAP + Lenis
-**Prepared:** 16 October 2026 · **Updated:** 17 October 2026 (brand renamed to LANGLOK; Morpho reference, §2.5)
+**Prepared:** 16 October 2026 · **Updated:** 19 October 2026 (company and product names; the white can)
 
-> **Brand name.** The site brand is **LANGLOK** (decided 17 Oct 2026; it was "VERSA" in the first draft of this plan). The client's label artwork still prints the earlier **VERSA** wordmark, so the 3D labels (built from those photos) show VERSA until LANGLOK label files arrive. See §1.3. Current progress lives in [`STATUS.md`](STATUS.md).
+> **Names.** **LANGLOK** (Langlok Int. Company Ltd.) is the company, and the site and its logo are LANGLOK. **VERSA** is its premium water brand: the cans and bottles, and their labels, say VERSA (confirmed 19 Oct 2026; on 17 Oct the whole brand had briefly been taken as LANGLOK). The official VERSA can and bottle are **white**. Older sections below may still say "LANGLOK can"; read them as the VERSA can. Current progress lives in [`STATUS.md`](STATUS.md).
 
 ---
 
@@ -272,6 +272,8 @@ SCROLL ▼
 - Drag to turn and tilt (the stage handles the pointer: the one canvas sits behind the DOM, so drei `PresentationControls` is not used), double-click to reset; keyboard: arrows, +/-, 0.
 - "Save preview" downloads a PNG of the 3D view (2x); "Request a quote" takes the design to the inquiry form on `/custom-branding` (preview, logo or name, vessel; product prefilled). Sending it to the API is Phase 6.
 - Without WebGL the stage shows the printed label flat, and "Save preview" saves that.
+
+**11 Leadership.** *(Added 19 Oct 2026.)* A quiet, official section: the Chief Executive Officer and the Managing Director in matching black-and-white portraits (roles only, no names, as the client asked), beside a line on where the company works (offices in Dhaka and Riyadh) and where VERSA is made (Panchagarh). Portraits: `scripts/build-portraits.py`.
 
 **06 Chatak story.** *(17 Oct 2026: the pictures are now drawn live with the film's pieces, `film/vignette.ts`, instead of the client's photos; the text was checked and lightly edited, see `copy.ts`; the monsoon is slate, not violet.)* Five pinned chapters following the client's text, with the background moving from pale dry-season sky to the monsoon's slate and back to washed-clean light:
 1. *He waited* — dry acacia branch, the bird still (client's illustration, cut-out layers).

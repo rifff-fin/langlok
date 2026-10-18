@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { footer, nav, site } from '../content/copy';
+import { contact, footer, nav, site } from '../content/copy';
 import { Logo } from './Logo';
 import { Container } from './ui/Container';
 import { Eyebrow } from './ui/Eyebrow';
@@ -13,6 +13,36 @@ export function Footer() {
           <div className="col-span-4 md:col-span-5">
             <Logo variant="full" className="-ml-1 h-auto w-[min(100%,340px)]" />
             <p className="mt-6 max-w-[36ch] text-slate">{footer.missionLine}</p>
+            <Eyebrow as="h2" className="mt-10 text-slate">
+              {footer.officesHeading}
+            </Eyebrow>
+            <ul className="mt-4 space-y-2 text-sm">
+              {contact.offices.map((office) => (
+                <li key={office.id} className="text-slate">
+                  <span className="text-ink">{office.city}</span>
+                  <span aria-hidden="true"> · </span>
+                  <a
+                    href={office.phone.href}
+                    className="text-ink no-underline hover:text-rain-deep"
+                  >
+                    {office.phone.display}
+                  </a>
+                  {office.whatsapp && (
+                    <>
+                      <span aria-hidden="true"> · </span>
+                      <a href={office.whatsapp} target="_blank" rel="noreferrer">
+                        {footer.whatsapp}
+                      </a>
+                    </>
+                  )}
+                </li>
+              ))}
+              <li className="text-slate">
+                <span className="text-ink">{contact.factory.label}</span>
+                <span aria-hidden="true"> · </span>
+                {contact.factory.lines[0]}
+              </li>
+            </ul>
           </div>
 
           <nav

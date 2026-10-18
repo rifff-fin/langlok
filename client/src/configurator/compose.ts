@@ -37,6 +37,16 @@ export interface Rect {
 
 const INK = '#16233f';
 const PAPER = '#f4f6f7';
+export const VERSA_WHITE = '#f3f4f4';
+/**
+ * Where a printed (non-silver) can stays bare metal: the label's top and bottom edge rows,
+ * which the texture clamps to beyond the print (the can's rim and its base; the bottle's
+ * base, while its neck is printed too).
+ */
+const RIMS: Record<VesselId, { top: boolean; bottom: boolean }> = {
+  can: { top: true, bottom: true },
+  bottle: { top: false, bottom: true },
+};
 const orm = (roughness: number, metalness: number) =>
   `rgb(255, ${Math.round(roughness * 255)}, ${Math.round(metalness * 255)})`;
 const ORM_METAL = orm(layout.roughness.metal, 1);
@@ -109,8 +119,8 @@ export function finish(d: Pick<Design, 'background' | 'hex'>): Finish {
   switch (d.background) {
     case 'silver':
       return { color: layout.silver, orm: ORM_METAL, dark: false, bare: true };
-    case 'white':
-      return { color: '#f2f4f5', orm: orm(0.42, 0), dark: false, bare: false };
+    case 'white': // the official VERSA can and bottle: a matte white basecoat
+      return { color: VERSA_WHITE, orm: orm(0.5, 0), dark: false, bare: false };
     case 'navy':
       return { color: INK, orm: orm(0.34, 0.5), dark: true, bare: false };
     case 'custom': {
@@ -175,8 +185,15 @@ function ink(base: LabelBase, kind: 'light' | 'dark' | 'orm') {
 
 /* ---------------------------------------------------------------- composing */
 
-/** The whole label: ground, the client's print, then the logo zone with the design. */
-export function composeLabel(base: LabelBase, d: Design, out: LabelCanvases, zone?: LabelCanvases) {
+/**
+ * The client's whole print (VERSA artwork included) on a ground: bare aluminium as it is,
+ * or a basecoat under the same print. A basecoat leaves the rims bare (`RIMS`).
+ */
+export function composePrint(
+  base: LabelBase,
+  d: Pick<Design, 'background' | 'hex'>,
+  out: LabelCanvases,
+) {
   const { width: w, height: h } = base.color;
   const f = finish(d);
   const c = ctx2d(out.color);
@@ -184,14 +201,33 @@ export function composeLabel(base: LabelBase, d: Design, out: LabelCanvases, zon
   if (f.bare) {
     c.drawImage(base.color, 0, 0, w, h);
     o.drawImage(base.orm, 0, 0, w, h);
-  } else {
-    c.fillStyle = f.color;
-    c.fillRect(0, 0, w, h);
-    c.drawImage(ink(base, f.dark ? 'dark' : 'light'), 0, 0);
-    o.fillStyle = f.orm;
-    o.fillRect(0, 0, w, h);
-    o.drawImage(ink(base, 'orm'), 0, 0);
+    return;
   }
+  c.fillStyle = f.color;
+  c.fillRect(0, 0, w, h);
+  c.drawImage(ink(base, f.dark ? 'dark' : 'light'), 0, 0);
+  o.fillStyle = f.orm;
+  o.fillRect(0, 0, w, h);
+  o.drawImage(ink(base, 'orm'), 0, 0);
+  const rim = Math.max(1, Math.round(w / 1024));
+  const rims = RIMS[base.vessel];
+  c.fillStyle = layout.silver;
+  o.fillStyle = ORM_METAL;
+  for (const [on, y] of [
+    [rims.top, 0],
+    [rims.bottom, h - rim],
+  ] as const) {
+    if (!on) continue;
+    c.fillRect(0, y, w, rim);
+    o.fillRect(0, y, w, rim);
+  }
+}
+
+/** The whole label: the print on its ground, then the logo zone with the design. */
+export function composeLabel(base: LabelBase, d: Design, out: LabelCanvases, zone?: LabelCanvases) {
+  const c = ctx2d(out.color);
+  const o = ctx2d(out.orm);
+  composePrint(base, d, out);
   const z = zoneRect(base);
   const part = zone ?? zoneCanvases(base);
   composeZone(base, d, part);

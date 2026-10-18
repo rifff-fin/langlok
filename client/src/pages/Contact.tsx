@@ -20,11 +20,39 @@ export function Contact() {
 
             <address className="mt-12 border-t border-aluminium pt-6 not-italic">
               <p className="font-display text-xl">{contact.addressHeading}</p>
-              {contact.address.map((line) => (
-                <p key={line} className="text-slate">
-                  {line}
-                </p>
-              ))}
+              <div className="mt-6 grid gap-8 sm:grid-cols-2">
+                {contact.offices.map((office) => (
+                  <div key={office.id}>
+                    <p className="eyebrow text-ink">{office.label}</p>
+                    {office.lines.map((line) => (
+                      <p key={line} className="mt-1 text-slate">
+                        {line}
+                      </p>
+                    ))}
+                    <p className="mt-3">
+                      <span className="sr-only">{contact.phoneLabel}: </span>
+                      <a href={office.phone.href} className="text-ink">
+                        {office.phone.display}
+                      </a>
+                    </p>
+                    {office.whatsapp && (
+                      <p className="mt-1">
+                        <a href={office.whatsapp} target="_blank" rel="noreferrer">
+                          {contact.whatsappLabel}
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                ))}
+                <div>
+                  <p className="eyebrow text-ink">{contact.factory.label}</p>
+                  {contact.factory.lines.map((line) => (
+                    <p key={line} className="mt-1 text-slate">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              </div>
               {contact.email && (
                 <p className="mt-4">
                   <span className="eyebrow mr-3 text-slate">{contact.emailLabel}</span>

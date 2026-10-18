@@ -1,5 +1,8 @@
 /**
  * All marketing copy for the LANGLOK site lives here. Components never hard-code text.
+ * LANGLOK (Langlok Int. Company Ltd.) is the company; VERSA is its premium water, sold in a
+ * white can (500 ml) and a white aluminium bottle (990 ml). Name the company where the
+ * company is meant (the logo, the mission, ReCan, custom branding) and VERSA for the water.
  * Sources: docs/LANGLOK_Website_Master_Plan.md §4.3, docs/client/mission.txt,
  * docs/client/story-behind-the-logo.txt, and the can/bottle labels.
  *
@@ -12,12 +15,14 @@
 
 export const site = {
   brand: 'LANGLOK',
+  /** The company's premium water brand. */
+  product: 'VERSA',
   company: 'Langlok Int. Company Ltd.',
   domain: 'langlok.com',
   tagline: 'Drink only what the sky gives.',
   description:
-    'LANGLOK natural drinking water in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues.',
-  manufactured: 'Manufactured in Panchagarh, Bangladesh by Langlok Int. Company Ltd.',
+    'VERSA premium natural drinking water by LANGLOK, in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues.',
+  manufactured: 'VERSA is made in Panchagarh, Rangpur, Bangladesh by Langlok Int. Company Ltd.',
   location: 'Panchagarh, Bangladesh',
 } as const;
 
@@ -48,14 +53,14 @@ export const motionSwitch = {
 /** Per-route <title> and meta description. */
 export const meta = {
   home: {
-    title: 'LANGLOK — Drink only what the sky gives.',
+    title: 'VERSA by LANGLOK — Drink only what the sky gives.',
     description:
-      'LANGLOK natural drinking water in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues. Made in Panchagarh, Bangladesh.',
+      'VERSA premium natural drinking water by LANGLOK, in aluminium cans and bottles, custom-branded for hotels, franchises, events and venues. Made in Panchagarh, Bangladesh.',
   },
   customBranding: {
     title: 'Custom-branded water — LANGLOK',
     description:
-      'Put your logo on LANGLOK cans and bottles. Custom-branded aluminium water for hotels, franchises, events and venues.',
+      'Put your logo on VERSA cans and bottles. Custom-branded aluminium water for hotels, franchises, events and venues.',
   },
   recan: {
     title: 'ReCan programme — LANGLOK',
@@ -65,7 +70,7 @@ export const meta = {
   story: {
     title: 'Chatak, the story behind the logo — LANGLOK',
     description:
-      'The pied cuckoo that drinks only what the sky gives — the story behind the LANGLOK label.',
+      'The pied cuckoo that drinks only what the sky gives — the story behind the VERSA label.',
   },
   contact: {
     title: 'Contact — LANGLOK',
@@ -85,12 +90,12 @@ export const preloader = {
  */
 export const hero = {
   intro: {
-    eyebrow: 'Natural drinking water · Panchagarh',
+    eyebrow: 'VERSA · Natural drinking water',
     title: 'Drink only what *the sky gives.*',
-    sub: 'Every drop of LANGLOK begins as monsoon rain over the north of Bangladesh.',
+    sub: 'Every drop of VERSA begins as monsoon rain over the north of Bangladesh.',
     aside: '*A vessel for the rain.*',
     asideLines: ['Aluminium can · 500 ml', 'Aluminium bottle · 990 ml'],
-    canAlt: 'The LANGLOK 500 ml aluminium can',
+    canAlt: 'The white VERSA 500 ml can, with the Chatak catching a raindrop',
   },
   dive: {
     eyebrow: '01 · The click',
@@ -140,7 +145,7 @@ export const hero = {
   vessel: {
     at: 0.9,
     label: '01 · The vessel',
-    title: 'Meet LANGLOK.',
+    title: 'Meet VERSA.',
     sub: 'Sealed in aluminium. Never plastic.',
   },
 } as const;
@@ -152,16 +157,16 @@ export const products = {
   title: 'Two vessels. *Never plastic.*',
   specLabel: 'Specification',
   can: {
-    name: 'LANGLOK Can',
+    name: 'VERSA Can',
     volume: '500 ml',
     callouts: ['500 ml', 'Natural drinking water', 'pH 7.0', 'Infinitely recyclable aluminium'],
-    imageAlt: 'The LANGLOK 500 ml aluminium can, with the Chatak catching a raindrop',
+    imageAlt: 'The white VERSA 500 ml can, with the Chatak catching a raindrop',
   },
   bottle: {
-    name: 'LANGLOK Aluminium Bottle',
+    name: 'VERSA Aluminium Bottle',
     volume: '990 ml',
     callouts: ['990 ml', 'Resealable aluminium bottle', 'Refill, reuse, repeat'],
-    imageAlt: 'The LANGLOK 990 ml resealable aluminium bottle',
+    imageAlt: 'The white VERSA 990 ml resealable aluminium bottle',
   },
   labelLines: {
     front: ['Say no plastic', 'Save the world'],
@@ -178,8 +183,8 @@ export const yourLogo = {
   sub: 'Custom-branded cans and bottles for hotels, franchises, events and venues.',
   cta: { label: 'Try it with your logo →', href: '/custom-branding' },
   placeholder: 'YOUR LOGO HERE',
-  canAlt: 'A LANGLOK can with a YOUR LOGO HERE label',
-  bottleAlt: 'A LANGLOK bottle with a YOUR LOGO HERE label',
+  canAlt: 'A white VERSA can with a YOUR LOGO HERE label',
+  bottleAlt: 'A white VERSA bottle with a YOUR LOGO HERE label',
 } as const;
 
 /** 05 Configurator */
@@ -188,10 +193,10 @@ export const configurator = {
   eyebrow: 'Configurator',
   title: 'See it *on the can.*',
   intro:
-    'Upload your logo and see it on a LANGLOK can or bottle. When it looks right, request a quote — we’ll prepare print-ready artwork with you.',
+    'Upload your logo and see it on a VERSA can or bottle. When it looks right, request a quote — we’ll prepare print-ready artwork with you.',
   previewAlt: {
-    can: 'A LANGLOK can wearing your design',
-    bottle: 'A LANGLOK bottle wearing your design',
+    can: 'A VERSA can wearing your design',
+    bottle: 'A VERSA bottle wearing your design',
   },
   /** Mobile only: the controls sit in tabs under the preview. */
   groups: { logo: 'Logo', vessel: 'Vessel', colour: 'Colour', size: 'Size' },
@@ -228,7 +233,7 @@ export const configurator = {
   },
   background: {
     label: 'Label background',
-    options: { silver: 'Silver', white: 'White', navy: 'Navy', custom: 'Custom' },
+    options: { white: 'White', silver: 'Silver', navy: 'Navy', custom: 'Custom' },
   },
   logoSize: 'Logo size',
   logoPosition: 'Logo position',
@@ -394,14 +399,42 @@ export const whoWeServe = {
 } as const;
 
 /** 11 CTA + footer */
+/**
+ * 11 Leadership. A quiet look at who leads the company: roles only, no names (the client's
+ * wish). Portraits from the client, prepared in scripts/build-portraits.py.
+ */
+export const leadership = {
+  chapter: '11',
+  eyebrow: 'Leadership',
+  title: 'The people *behind the water.*',
+  sub: 'Langlok Int. Company Ltd. works from offices in Dhaka and Riyadh, and makes VERSA at its own factory in Panchagarh.',
+  company: 'Langlok Int. Company Ltd.',
+  people: [
+    {
+      id: 'ceo',
+      role: 'Chief Executive Officer',
+      image: '/img/people/ceo.webp',
+      alt: 'Portrait of the Chief Executive Officer of Langlok Int. Company Ltd.',
+    },
+    {
+      id: 'md',
+      role: 'Managing Director',
+      image: '/img/people/managing-director.webp',
+      alt: 'Portrait of the Managing Director of Langlok Int. Company Ltd.',
+    },
+  ],
+} as const;
+
 export const cta = {
-  title: 'Bring LANGLOK *to your venue.*',
+  title: 'Bring VERSA *to your venue.*',
   primary: { label: 'Request samples', href: '/contact' },
   secondary: { label: 'Talk to us', href: '/contact' },
 } as const;
 
 export const footer = {
   missionLine: 'Premium natural drinking water in aluminium, made to replace single-use plastic.',
+  officesHeading: 'Offices',
+  whatsapp: 'WhatsApp',
   exploreHeading: 'Explore',
   followHeading: 'Follow',
   // TODO(client): real social URLs (Twitter icon on the label should become X)
@@ -420,7 +453,29 @@ export const contact = {
   intro:
     'Tell us about your hotel, franchise, event or venue. We’ll reply with samples, pricing and a branding proposal.',
   addressHeading: 'Langlok Int. Company Ltd.',
-  address: ['Panchagarh', 'Bangladesh'], // TODO(client): full street address, phone, sales email
+  /** The client's offices (19 Oct 2026). TODO(client): street addresses and a sales email. */
+  offices: [
+    {
+      id: 'dhaka',
+      label: 'Bangladesh office',
+      city: 'Dhaka',
+      lines: ['Uttara, Dhaka', 'Bangladesh'],
+      phone: { display: '+880 1712-726628', href: 'tel:+8801712726628' },
+      whatsapp: 'https://wa.me/8801712726628',
+    },
+    {
+      id: 'riyadh',
+      label: 'Saudi Arabia office',
+      city: 'Riyadh',
+      lines: ['Al Olaya, Riyadh', 'Saudi Arabia'],
+      // given as +966 0505834757: the 0 is dropped after the country code
+      phone: { display: '+966 50 583 4757', href: 'tel:+966505834757' },
+      whatsapp: null,
+    },
+  ],
+  factory: { label: 'Factory', lines: ['Panchagarh, Rangpur', 'Bangladesh'] },
+  phoneLabel: 'Phone',
+  whatsappLabel: 'WhatsApp Business',
   emailLabel: 'Email',
   email: null as string | null, // TODO(client): sales email
 } as const;

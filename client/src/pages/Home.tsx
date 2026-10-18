@@ -9,6 +9,7 @@ import { Mission } from '../sections/Mission';
 import { ReCanLoop } from '../sections/ReCanLoop';
 import { WhyAluminium } from '../sections/WhyAluminium';
 import { WhoWeServe } from '../sections/WhoWeServe';
+import { Leadership } from '../sections/Leadership';
 import { CallToAction } from '../sections/CallToAction';
 
 /** The full scroll experience, in master-plan order (§4.2). */
@@ -25,6 +26,7 @@ export function Home() {
       <ReCanLoop />
       <WhyAluminium />
       <WhoWeServe />
+      <Leadership />
       <CallToAction />
     </>
   );

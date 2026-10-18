@@ -1,7 +1,7 @@
 # LANGLOK — langlok.com
 
-Website for **LANGLOK** natural drinking water (500 ml can · 990 ml aluminium bottle) by
-Langlok Int. Company Ltd., Panchagarh, Bangladesh.
+Website for **LANGLOK** (Langlok Int. Company Ltd.) and its premium water **VERSA**: the
+white 500 ml can and 990 ml aluminium bottle, made in Panchagarh, Bangladesh.
 
 - **Current stage: [docs/STATUS.md](docs/STATUS.md)** (updated after every piece of work)
 - Brief and rules: [CLAUDE.md](CLAUDE.md)
