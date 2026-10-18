@@ -45,7 +45,7 @@ Version pins: React stays `~19.3` (R3F 9.8 peer range is `<19.4`); TypeScript st
 2. **ScrollTrigger writes, `useFrame` reads.** Sections register their ScrollTriggers (`registerSpin`) and DOM anchors (`useVesselAnchor`) in the zustand store (`store/scene.ts`) without React re-renders; the 3D reads `trigger.progress` and anchor rects every frame and damps with `maath/easing`.
 3. Register GSAP plugins once in `client/src/lib/gsap.ts`. Use `useGSAP()` for every timeline so it reverts on unmount. Use `gsap.matchMedia()` for responsive and reduced-motion variants, with queries built by `lib/motion.ts` (`motionQuery(extra?)` / `reducedQuery(extra?)`, `useReducedMotion()`), never a raw `(prefers-reduced-motion…)` string: the Motion switch can override the OS setting.
 4. Lenis drives the GSAP ticker (`lenis.on('scroll', ScrollTrigger.update)`, `gsap.ticker.add(t => lenis.raf(t * 1000))`, `gsap.ticker.lagSmoothing(0)`). Touch scrolling stays native.
-5. The hero film is a **2D canvas**, not `<video>`. It is drawn live: a scroll-driven story (`film/film.ts`) composed from generated layers, the drawn Chatak (`film/chatak.ts`) and the acacia branch (`film/branch.ts`). The canvas lazy-loads in its own chunk, fetches its layers at idle and draws on the GSAP ticker only while the sky layer is visible. Caption windows live in `film/timeline.ts`. Scroll owns the story; time owns the life (breathing, wingbeats, wind, rain), which freezes under reduced motion. Real footage could replace it later as an image sequence in the same sky layer, loaded progressively (every 8th frame, then 4th, 2nd, rest). The Chatak story's pictures are drawn with the same pieces (`film/vignette.ts`, `film/StoryVignette.tsx`: time-driven scenes, drawn only while on screen, one still frame under reduced motion).
+5. The hero film is a **2D canvas**, not `<video>`. It is drawn live: a scroll-driven story (`film/film.ts`) composed from generated layers, the drawn Chatak (`film/chatak.ts`) and the acacia branch (`film/branch.ts`). The canvas lazy-loads in its own chunk, fetches its layers at idle and draws on the GSAP ticker only while the sky layer is visible. Caption windows live in `film/timeline.ts`. Scroll owns the story; time owns the life (breathing, wingbeats, wind, rain), which freezes under reduced motion. Real footage could replace it later as an image sequence in the same sky layer, loaded progressively (every 8th frame, then 4th, 2nd, rest). The Chatak story (06) shows the same film played by time in a frame (`film/StoryReel.tsx`, moments in `film/timeline.ts` `REEL`): from the wait to the river once the frame is well in view, then held on the river; five moments to jump to and a pause button; drawn only while on screen; one still per moment under reduced motion. When a video replaces the hero's film, the drawn film lives on there.
 6. Can and bottle are **procedural** lathes built from `three/vesselSpec.json` (profiles traced from the photos). The label is mapped on the body itself: `phiStart = PI` puts u = 0.5 on the camera, v runs by height across the printable zone and clamps to bare-silver edge rows (the print continues onto the neck taper, which a straight band can't follow). Bottle cap = lathe + knurl band; can = lathe + pull tab. Units: 1 unit = 1 cm.
 7. Label textures are pre-created and uploaded once (`labels.ts`, `gl.initTexture`); the YOUR LOGO HERE swap changes the material's `map`/`roughnessMap`/`metalnessMap` references only while the print faces away (or while the vessel is off-screen), keyed on scroll progress, so it is deterministic in both directions. Never re-upload textures each frame.
 8. **All copy lives in `client/src/content/copy.ts`.** Components never hard-code marketing text.
@@ -55,11 +55,13 @@ Version pins: React stays `~19.3` (R3F 9.8 peer range is `<19.4`); TypeScript st
 ## Design tokens (source of truth: `client/src/styles/tokens.css`)
 
 ```
---mist #F3F5F6   --cloud #E6EBEE   --paper #FBFCFC   --aluminium #C7CDD2
---ink #16233F    --slate #5B6875
+--mist #DFE4E8   --cloud #D8DEE2   --paper #FBFCFC   --aluminium #BEC5CB
+--ink #16233F    --slate #505C68
 --rain #2F7FC1 (large text/graphics only)   --rain-deep #1F64A0 (links/small text)
 --rain-light #8FC3EA   --leaf #6E8B5E   --sun #E9B872 (story only)   --monsoon #646C7C (story only; slate, not violet)
 ```
+
+The page (`--mist`) is a light cool grey, not near-white, so the white VERSA can and bottle stand out (19 Oct 2026). `film/film.ts` `MIST`, `index.html` (preloader halves, theme colour) and `three/Scene.tsx` `PREVIEW_GROUND` repeat it.
 
 Fonts: **Jost** (headlines in light 300, UI/body, uppercase eyebrows tracked 0.24em), **Bodoni Moda** italic (headline accents, big volumes, `.accent`), **Noto Serif Bengali** (Bengali accents). The logo is always the logo pack's SVG (the user's design), never typeset. Sizes: `--text-hero` (opening headline), `--text-display`, `--text-h2`, `--text-h3`.
 
@@ -72,7 +74,7 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 - Dark or black page backgrounds, neon, purple-blue "AI gradients", glassmorphism everywhere, floating blobs.
 - Text inside WebGL. Auto-playing audio.
 - AI-generated versions of the logo or the label's bird. The logo is the user's logo pack; the label artwork is the client's.
-- The client's bird pictures pasted straight into the film or the story section. They are references only (user, 17 Oct 2026); the story's pictures are drawn with the film's pieces (`film/vignette.ts`). The film's Chatak is drawn in code as an animated silhouette (`film/chatak.ts`): crest, black above and white below, white wing crescents, white-tipped graduated tail.
+- The client's bird pictures pasted straight into the film or the story section. They are references only (user, 17 Oct 2026); the story section shows the drawn film itself (`film/StoryReel.tsx`). The film's Chatak is drawn in code as an animated silhouette (`film/chatak.ts`): crest, black above and white below, white wing crescents, white-tipped graduated tail.
 - Absolute health claims ("zero microplastics", "leaches nothing") in new copy; keep the client's wording only where `copy.ts` already has it and flag it.
 - Inventing statistics. Counters stay hidden until real data exists.
 - Serving user-uploaded SVGs: sanitize on the client, rasterize with `sharp` on the server.
@@ -82,7 +84,7 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 - LCP < 2.5 s (hero poster `<img fetchpriority="high">`); initial JS < 200 KB gz excluding the lazy 3D chunk.
 - Hero frames ≤ 12 MB desktop, ≤ 5 MB mobile. 3D at 60 fps desktop, ≥ 40 fps mid-range Android.
 - R3F `dpr={[1, 1.75]}` with drei `PerformanceMonitor`; contact shadows only; no heavy postprocessing.
-- Reduced motion (OS setting or the Motion switch): Lenis off, the film's scenes crossfade with scroll (nothing moves on its own, the camera stays put), no auto-spin, no rain, no pins, no dive. The live 3D vessels still render and turn in place as their section passes (no drift, glides or pointer tilt).
+- Reduced motion (OS setting or the Motion switch): Lenis off, the film's scenes crossfade with scroll (nothing moves on its own, the camera stays put), no auto-spin, no rain, no pins, no dive; the story's reel shows stills. The live 3D vessels still render and turn in place as their section passes (no drift, glides or pointer tilt).
 - No WebGL: the vessel plates keep their studio stills; the configurator shows the printed label flat (`configurator/FlatPreview.tsx`).
 
 ## How to work in this repo

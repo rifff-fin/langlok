@@ -256,7 +256,10 @@ export const configurator = {
   reset: 'Start over',
 } as const;
 
-/** 06 Chatak story — the client's text, split into five chapters. */
+/**
+ * 06 Chatak story — the client's story of the logo (docs/client/story-behind-the-logo.txt)
+ * in about a hundred words (asked for on 19 Oct 2026), its quote set in the headline voice.
+ */
 export const story = {
   chapter: '06',
   eyebrow: 'The story behind the logo',
@@ -271,52 +274,28 @@ export const story = {
    * as the sign of the monsoon and the sowing season (Wildlife Institute of India). That it
    * drinks only rain is folklore, so the copy tells it as a story, not a fact.
    */
-  intro:
-    'In the poetry of South Asia, the chatak drinks only rain; Kalidasa made it the image of longing. Farmers have long read its arrival as the sign that the monsoon, and the sowing season, is near.',
-  birdAlt:
-    'A drawing of the Chatak, a black-and-white crested pied cuckoo, waiting on an acacia branch in the misty woods',
-  catchAlt:
-    'A drawing of the Chatak seen from below in the rain, wings spread, catching a falling drop in his open beak',
-  chapters: [
-    {
-      id: 1,
-      heading: 'He waited.',
-      body: [
-        'There was a pied cuckoo the people of Bengal called Chatak.',
-        'All summer, he waited.',
-      ],
-    },
-    {
-      id: 2,
-      heading: 'Others drank from the pond.',
-      body: [
-        'Other birds drank from the pond and from the river. Not Chatak. He sat on a dry acacia branch, his black crest raised, his throat parched, and still he would not drink.',
-        '“The rain will come,” he told the sparrows. “I drink only what the sky gives.”',
-      ],
-    },
-    {
-      id: 3,
-      heading: 'They thought he was proud. He was just faithful.',
-      body: [],
-    },
-    {
-      id: 4,
-      heading: 'The monsoon wind turned.',
-      body: [
-        // TODO(client): the original says "the fields of Umm Lajj" (Saudi Arabia). The plan
-        // suggests Tetulia, Panchagarh. Using Tetulia until the client confirms.
-        'Then the monsoon wind turned. Heavy clouds gathered over the fields of Tetulia, and the first drop fell.',
-      ],
-    },
-    {
-      id: 5,
-      heading: 'He flew into the storm.',
-      body: [
-        'Chatak opened his wings and flew straight up, not away from the storm but into it. Beak open to the heavens, he caught the raindrops mid-air — cold, clean, falling.',
-        'He drank, and in the fields below a farmer smiled: when the Chatak drinks, the rain has truly returned, and it is time to sow.',
-      ],
-    },
+  text: [
+    'In Bengali folklore, the Chatak drinks only rain. All summer he waited on a dry acacia branch while other birds drank from the pond and the river.',
+    // TODO(client): the original says "the fields of Umm Lajj" (Saudi Arabia). The plan
+    // suggests Tetulia, Panchagarh. Using Tetulia until the client confirms.
+    'They thought he was proud. He was just faithful. Then the monsoon wind turned, clouds gathered over Tetulia, and the first drop fell. He flew up into the storm and caught it mid-air, and the farmer below smiled: when the Chatak drinks, the rain has truly returned.',
   ],
+  quote: '“The rain will come. *I drink only what the sky gives.*”',
+  closing: 'That is why he is on our logo, and on every can and bottle of VERSA.',
+  /** The drawn film beside the story (film/StoryReel.tsx), in five moments. */
+  reel: {
+    alt: 'A short drawn film: the Chatak waits on an acacia branch in the misty woods, monsoon clouds roll in, he flies up into the storm and catches the first drop, and the rain falls on into a river in the mist.',
+    label: 'Moments of the film',
+    play: 'Play the film',
+    pause: 'Pause the film',
+    moments: {
+      wait: 'The wait',
+      monsoon: 'The monsoon',
+      flight: 'The flight',
+      drop: 'The first drop',
+      river: 'The river',
+    },
+  },
 } as const;
 
 /** 07 Mission */

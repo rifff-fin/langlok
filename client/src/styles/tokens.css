@@ -3,17 +3,19 @@
  * Source of truth for colour, type and spacing. See docs/LANGLOK_Website_Master_Plan.md §3.
  * Rules: --mist ≈ 70% of every screen; --rain only in small doses (large text/graphics);
  * --rain-deep for links and small accent text; --sun and --monsoon only in the Chatak story.
+ * The page is a light cool grey, not near-white, so the white VERSA can and bottle stand out
+ * (19 Oct 2026); --slate and --aluminium deepened with it to keep their contrast.
  */
 :root {
   /* surfaces */
-  --mist: #f3f5f6; /* page background */
-  --cloud: #e6ebee; /* secondary surface, cards */
+  --mist: #dfe4e8; /* page background (film.ts MIST, index.html preloader and theme colour) */
+  --cloud: #d8dee2; /* secondary surface, bands (footer, ReCan) */
   --paper: #fbfcfc; /* raised surface */
-  --aluminium: #c7cdd2; /* hairlines, borders, chrome */
+  --aluminium: #bec5cb; /* hairlines, borders, chrome */
 
   /* text */
   --ink: #16233f; /* headlines, body (logo navy) */
-  --slate: #5b6875; /* secondary text */
+  --slate: #505c68; /* secondary text (≥ 4.5:1 on mist and cloud) */
 
   /* accents */
   --rain: #2f7fc1; /* large text/graphics only */

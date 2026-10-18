@@ -48,8 +48,8 @@ You never block the build: code against placeholder frames, then drop the real f
 
 | Source | Colour | Use |
 |---|---|---|
-| Can photo backdrop | cool off-white `#F3F5F6` | page background |
-| Aluminium highlights | `#C7CDD2` | hairlines, borders, chrome |
+| Can photo backdrop | cool off-white `#F3F5F6` | the first page colour; since 19 Oct 2026 the page is a light cool grey `#DFE4E8`, so the white can stands out |
+| Aluminium highlights | `#C7CDD2` (now `#BEC5CB`) | hairlines, borders, chrome |
 | Logo navy | `#16233F` | headlines, primary text |
 | Water swash | `#2F7FC1` → `#8FC3EA` | accent, rain, links (darker shade for small text) |
 | Acacia leaves | `#6E8B5E` | sparing nature accent |
@@ -133,14 +133,14 @@ The client pointed at **MORPHO** (natural spring water in cans, Costa Rica) as t
 ```css
 :root {
   /* surfaces */
-  --mist: #F3F5F6;        /* page background */
-  --cloud: #E6EBEE;       /* secondary surface, cards */
+  --mist: #DFE4E8;        /* page background (a light cool grey since 19 Oct 2026: white vessels) */
+  --cloud: #D8DEE2;       /* secondary surface, bands */
   --paper: #FBFCFC;       /* raised surface */
-  --aluminium: #C7CDD2;   /* hairlines, borders, chrome */
+  --aluminium: #BEC5CB;   /* hairlines, borders, chrome */
 
   /* text */
   --ink: #16233F;         /* headlines, body (logo navy) */
-  --slate: #5B6875;       /* secondary text (≈5.2:1 on --mist) */
+  --slate: #505C68;       /* secondary text (≈5.4:1 on --mist, ≈5.0:1 on --cloud) */
 
   /* accents */
   --rain: #2F7FC1;        /* large accents, icons, rain (≈3.9:1, large text only) */
@@ -275,7 +275,7 @@ SCROLL ▼
 
 **11 Leadership.** *(Added 19 Oct 2026.)* A quiet, official section: the Chief Executive Officer and the Managing Director in matching black-and-white portraits (roles only, no names, as the client asked), beside a line on where the company works (offices in Dhaka and Riyadh) and where VERSA is made (Panchagarh). Portraits: `scripts/build-portraits.py`.
 
-**06 Chatak story.** *(17 Oct 2026: the pictures are now drawn live with the film's pieces, `film/vignette.ts`, instead of the client's photos; the text was checked and lightly edited, see `copy.ts`; the monsoon is slate, not violet.)* Five pinned chapters following the client's text, with the background moving from pale dry-season sky to the monsoon's slate and back to washed-clean light:
+**06 Chatak story.** *(19 Oct 2026: shortened to one screen, as asked: the client's story in about a hundred words, its quote set in the headline voice, beside the drawn film of it, the hero film's story played by time in a frame from the wait to the river (`film/StoryReel.tsx`), with five moments to jump to and a pause button; reduced motion shows stills. The five chapters below were the first plan. 17 Oct 2026: the pictures drawn live with the film's pieces instead of the client's photos; the text checked and lightly edited, see `copy.ts`; the monsoon slate, not violet.)* First plan: five pinned chapters following the client's text, with the background moving from pale dry-season sky to the monsoon's slate and back to washed-clean light:
 1. *He waited* — dry acacia branch, the bird still (client's illustration, cut-out layers).
 2. *Others drank from the pond* — small sparrow silhouettes dip to puddles; Chatak does not.
 3. *They thought he was proud. He was just faithful.* — the key line, full-screen.

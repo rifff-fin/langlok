@@ -21,6 +21,9 @@
  * the life (breathing, wingbeats, wind, mist, rain, ripples), so it keeps moving when the
  * visitor stops. With reduced motion nothing moves on its own and the camera stays put:
  * scenes crossfade.
+ *
+ * The story section plays the same film by time, from the wait to the river (StoryReel.tsx,
+ * timeline.ts REEL), without the hero's caption veil.
  */
 import { beakTip, drawChatak, type BirdPose } from './chatak';
 import { Branch } from './branch';
@@ -40,8 +43,11 @@ const LAYERS = {
 
 export type Layers = Record<keyof typeof LAYERS, HTMLImageElement>;
 
-export async function loadLayers(): Promise<Layers> {
-  const entries = await Promise.all(
+let layers: Promise<Layers> | null = null;
+
+/** The film's layers, decoded once and shared by the hero's film and the story's reel. */
+export function loadLayers(): Promise<Layers> {
+  layers ??= Promise.all(
     Object.entries(LAYERS).map(async ([key, file]) => {
       const img = new Image();
       img.decoding = 'async';
@@ -49,11 +55,19 @@ export async function loadLayers(): Promise<Layers> {
       await img.decode();
       return [key, img] as const;
     }),
+  ).then(
+    (entries) => Object.fromEntries(entries) as Layers,
+    (error: unknown) => {
+      layers = null; // try again next time
+      throw error;
+    },
   );
-  return Object.fromEntries(entries) as Layers;
+  return layers;
 }
 
-const MIST = '#f3f5f6';
+/** The page colour (tokens.css --mist): the captions' veil, and where the film ends. */
+const MIST_RGB = '223, 228, 232';
+const MIST = `rgb(${MIST_RGB})`;
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const ss = (a: number, b: number, x: number) => {
   const t = clamp01((x - a) / (b - a));
@@ -122,6 +136,8 @@ export class Film {
     private canvas: HTMLCanvasElement,
     private L: Layers,
     private motion: boolean,
+    /** The hero lays its captions over the film on a veil of mist; the story's reel has none. */
+    private veil = true,
   ) {
     this.ctx = canvas.getContext('2d', { alpha: false })!;
     this.reflection = this.makeReflection();
@@ -268,16 +284,16 @@ export class Film {
     // the Monsoon Light register, and a quiet side for the captions to sit on
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 1;
-    if (portrait) {
+    if (this.veil && portrait) {
       const veil = ctx.createLinearGradient(0, h * 0.5, 0, h);
-      veil.addColorStop(0, 'rgba(243, 245, 246, 0)');
-      veil.addColorStop(1, 'rgba(243, 245, 246, 0.82)');
+      veil.addColorStop(0, `rgba(${MIST_RGB}, 0)`);
+      veil.addColorStop(1, `rgba(${MIST_RGB}, 0.82)`);
       ctx.fillStyle = veil;
       ctx.fillRect(0, 0, w, h);
-    } else {
+    } else if (this.veil) {
       const veil = ctx.createLinearGradient(w * 0.46, 0, w, 0);
-      veil.addColorStop(0, 'rgba(243, 245, 246, 0)');
-      veil.addColorStop(1, 'rgba(243, 245, 246, 0.58)');
+      veil.addColorStop(0, `rgba(${MIST_RGB}, 0)`);
+      veil.addColorStop(1, `rgba(${MIST_RGB}, 0.58)`);
       ctx.fillStyle = veil;
       ctx.fillRect(0, 0, w, h);
     }

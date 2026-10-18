@@ -1,7 +1,7 @@
 # LANGLOK website — current status
 
-**Updated:** 17 Oct 2026 · **Branch:** `main` (deployed on Netlify; work continues on `phase-3-3d-products` and is fast-forwarded into `main`)
-**Stage:** Phases 0 to 4 done (the hero film is drawn live; the preloader is in). **Next: Phase 5, starting with the Chatak story section.**
+**Updated:** 19 Oct 2026 · **Branch:** `main` (deployed on Netlify; work continues on `phase-3-3d-products` and is fast-forwarded into `main`)
+**Stage:** Phases 0 to 4 done (the hero film is drawn live; the preloader is in); the Chatak story is one short section. **Next: Phase 5 polish, and the hero video when it arrives.**
 
 > Keep this file current: update it at the end of every piece of work (what changed, what's next, what's blocked).
 
@@ -17,7 +17,7 @@
    - **The first drop**: seen from below, beak open, he catches a raindrop, then flies on up and out of the frame.
    - **The descent** (one unbroken shot, no cut or flash): the camera lets him go and follows the rain down, under the storm, through the bright cloud base, until the valley rises into view and the drop it followed lands in the river.
    - **The river**: the rain has returned, a calm river in a misty valley (unchanged, as asked).
-4. **Meet LANGLOK**: the film ends in mist, the can comes back, then glides on to the products (desktop).
+4. **Meet VERSA**: the film ends in mist, the can comes back, then glides on to the products (desktop).
 5. **Products**: the white VERSA can, then the white VERSA bottle, each about 70% of the screen tall, a full turn as you scroll (pinned on desktop), with the spec list.
 6. **Your logo here**: can and bottle side by side at true size; one more turn and both come round wearing YOUR LOGO HERE.
 7. **Configurator** (05, also on `/custom-branding`): the can glides in from section 04 and stands in the stage, and your design appears on it live:
@@ -26,9 +26,11 @@
    - drag to turn it (or arrow keys), double-click to face front;
    - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
    - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
-8. **The Chatak story** (06, also `/story`): five chapters in the film's palette (a faint dry-season warmth, the monsoon's slate, washed-clean light). Its two pictures are drawn live with the film's pieces, no photos: he waits on the acacia branch in the misty woods (breathing, looking about, glancing up at the sky); seen from below in the rain, he catches drop after drop. The text was checked against the record and lightly edited (see Log).
+8. **The Chatak story** (06, also `/story`): one screen instead of five. The client's story in about a hundred words (the quote "I drink only what the sky gives" set apart), beside the drawn film of it: the hero film's story played by time in a frame, from the wait through the monsoon, the flight and the first drop to the river, once the frame is well in view; then it stays on the river. Five moments under it to jump to, and a pause button. Reduced motion: one still (the catch); the moments show their stills.
 9. **Leadership** (11): the CEO and the Managing Director, roles only, in matching black-and-white portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
 10. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals. The footer and the contact page list both offices and the factory.
+
+The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle stand out instead of disappearing into a white page.
 
 ## Done
 
@@ -43,15 +45,17 @@
 
 ## Next
 
-1. **Phase 5 polish**: Chatak story section, ReCan loop drawing, chapter rail ("01 / 07").
-2. **Phase 6 backend**: the quote form starts sending (POST /api/inquiries with the logo and the preview); until then its button stays off.
-3. Then real assets and performance (7), launch (8).
-4. Optional, any time: real AI-generated footage of the same story can replace the drawn film (prompts in `docs/PROMPTS_for_Claude_Code.md`, Part C); the "rain-wash" label swap (plan §7.5 v2).
+1. **Phase 5 polish**: ReCan loop drawing, chapter rail ("01 / 07").
+2. **The hero video** (the user's, when it is ready): it replaces the drawn film after the can opens, in the hero's sky layer. The drawn film stays on in the story section (`film/StoryReel.tsx` uses `film/film.ts`).
+3. **Phase 6 backend**: the quote form starts sending (POST /api/inquiries with the logo and the preview); until then its button stays off.
+4. Then real assets and performance (7), launch (8).
+5. Optional, any time: real AI-generated footage of the same story can replace the drawn film (prompts in `docs/PROMPTS_for_Claude_Code.md`, Part C); the "rain-wash" label swap (plan §7.5 v2).
 
 ## Waiting on the client
 
 - **The client questionnaire** (17 Oct 2026, a shared doc: "LANGLOK website: what we need from you"): approvals (the new logo, the story edits, Tetulia instead of "Umm Lajj"), labels, the water and its claims, custom orders, ReCan, contact details, photos, going live.
-- **Story text edits** (17 Oct 2026, see Log): confirm them, and the place name (Tetulia instead of the original "Umm Lajj").
+- **The story text** (about 100 words since 19 Oct 2026, see Log): confirm it, and the place name (Tetulia instead of the original "Umm Lajj").
+- **Leadership names** (asked 19 Oct 2026): the CEO's and the Managing Director's names and any titles; the section shows roles until then.
 - **VERSA label print files** (flat, unwrapped) for a sharper 3D label; the labels are built from photos for now. VERSA is the right name on them (19 Oct 2026). (The LANGLOK logo is ours, designed 17 Oct 2026; the client only approves it.)
 - Street addresses, a sales email and social links; confirm the Riyadh number (+966 50 583 4757, given as +966 0505834757).
 - Supplier dimension drawings for the can and bottle (the shapes are traced from photos).
@@ -64,7 +68,7 @@
 - **The film's bird is drawn in code** (`client/src/film/chatak.ts`), not taken from the client's pictures. Those pictures are references only. Tune its shape at `/dev/bird`.
 - **No WebGL**: the plates show studio stills (`client/public/img/stills/`), rendered from the same 3D scene at `/dev/studio`; re-render them after changing the models, labels or lighting.
 - Not yet measured: frame rate on real phones (budget ≥ 40 fps mid-range Android).
-- Bundle: initial JS 192 KB gz (budget 200); lazy chunks: 3D 271 KB, film 8 KB (+1.1 MB of layers at idle), inquiry form 37 KB (inner pages only), upload 2 KB + DOMPurify 11 KB (only on an SVG upload).
+- Bundle: initial JS 195 KB gz (budget 200; the story's reel controls are in it); lazy chunks: 3D 271 KB, film 7 KB (+1.1 MB of layers at idle, shared by the hero and the story's reel), inquiry form 37 KB (inner pages only), upload 2 KB + DOMPurify 11 KB (only on an SVG upload).
 - **Dev server:** lazily imported packages must be in `client/vite.config.ts` `optimizeDeps.include`, or Vite reloads the page the first time one is used (the configurator's design is lost on reload).
 - DOMPurify is pinned to 3.4.16 (3.4.17 was five days old when added); bump it after a look at the release notes.
 - The configurator's quote form validates as you type but doesn't send yet (Phase 6).
@@ -81,6 +85,9 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **19 Oct 2026, later**:
+  - **The Chatak story is one short section** (it was five full screens, too long a scroll): the client's story in about a hundred words in one place, the quote set apart, beside the drawn film of it. The film is the hero's (which will become a video): played by time in a frame, from the wait to the river, with five moments to jump to and a pause button. The old drawn pictures (`film/vignette.ts`) are gone.
+  - **Darker page**: the page is a light cool grey (`#DFE4E8`, was near-white `#F3F5F6`) so the white can and bottle stand out. Secondary text, hairlines and the footer/ReCan band deepened with it to keep their contrast; the film's ending, the preloader and the saved configurator preview match. Sections 01–05 are otherwise unchanged.
 - **19 Oct 2026**:
   - **Names corrected**: LANGLOK is the company, **VERSA** its premium water. The product is called VERSA across the site ("Meet VERSA", "VERSA Can", "Bring VERSA to your venue"); the 3D labels already printed VERSA.
   - **White can and bottle**, like the client's photo: the VERSA artwork on a matte white basecoat, rims and lid bare aluminium. The configurator and YOUR LOGO HERE start from white. Studio stills re-rendered.
