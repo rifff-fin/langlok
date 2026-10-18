@@ -7,9 +7,8 @@ export function Story() {
   return (
     <>
       <PageMeta {...meta.story} />
-      <div className="pt-[var(--header-h)]">
-        <ChatakStory headingLevel={1} />
-      </div>
+      {/* the story's film fills the window from the top, under the header */}
+      <ChatakStory headingLevel={1} />
       <CallToAction />
     </>
   );

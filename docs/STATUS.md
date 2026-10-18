@@ -26,7 +26,7 @@
    - drag to turn it (or arrow keys), double-click to face front;
    - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
    - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
-8. **The Chatak story** (06, also `/story`): one screen instead of five. The client's story in about a hundred words (the quote "I drink only what the sky gives" set apart), beside the drawn film of it: the hero film's story played by time in a frame, from the wait through the monsoon, the flight and the first drop to the river, once the frame is well in view; then it stays on the river. Five moments under it to jump to, and a pause button. Reduced motion: one still (the catch); the moments show their stills.
+8. **The Chatak story** (06, also `/story`): one screen instead of five. The drawn film fills the window: the hero film's story played by time, from the wait through the monsoon, the flight and the first drop to the river, once it is well in view; then it stays on the river. The client's story, in about a hundred words (the quote "I drink only what the sky gives" set apart), lies over it down the right side on a veil of mist, with five moments to jump to and a pause button. Phones: the film is the first screen with the title at its foot, and the words follow. Reduced motion: one still (the catch); the moments show their stills.
 9. **Leadership** (11): AKM Jobaed Nahid, CEO, and S M Khairul Islam, Managing Director, by name and role, in matching black-and-white portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
 10. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals. The footer and the contact page list both offices and the factory.
 
@@ -85,6 +85,7 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **19 Oct 2026, night**: **the story's film fills the window** (asked): the words lie over it down the right side on a veil of mist, and its top and bottom fade into the page. Still one screen at 1440 × 900. Phones: the film is the first screen with the title and the controls at its foot (clear of the Motion switch), then the words. The `/story` page opens on it.
 - **19 Oct 2026, evening**: **Leadership names** shown under the portraits: AKM Jobaed Nahid (Chief Executive Officer) and S M Khairul Islam (Managing Director).
 - **19 Oct 2026, later**:
   - **The Chatak story is one short section** (it was five full screens, too long a scroll): the client's story in about a hundred words in one place, the quote set apart, beside the drawn film of it. The film is the hero's (which will become a video): played by time in a frame, from the wait to the river, with five moments to jump to and a pause button. The old drawn pictures (`film/vignette.ts`) are gone.

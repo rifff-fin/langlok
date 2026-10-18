@@ -99,6 +99,35 @@
 }
 
 @layer components {
+  /*
+   * 06 The story's film fills the window; this lays the page's mist over it where the words
+   * sit (its foot on phones, the right side on wide screens) and fades its top and bottom
+   * edges into the page.
+   */
+  .story-veil {
+    background:
+      linear-gradient(to bottom, var(--mist), transparent 12%),
+      linear-gradient(
+        to top,
+        var(--mist),
+        color-mix(in oklab, var(--mist) 90%, transparent) 30%,
+        transparent 62%
+      );
+  }
+  @media (width >= 64rem) {
+    .story-veil {
+      background:
+        linear-gradient(to bottom, var(--mist), transparent 14%),
+        linear-gradient(to top, var(--mist), transparent 14%),
+        linear-gradient(
+          to left,
+          color-mix(in oklab, var(--mist) 94%, transparent),
+          color-mix(in oklab, var(--mist) 86%, transparent) 42%,
+          transparent 72%
+        );
+    }
+  }
+
   /* Text inputs, selects and textareas: square hairline box on paper. */
   .field {
     display: block;
