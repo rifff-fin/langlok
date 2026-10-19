@@ -159,13 +159,24 @@ export const products = {
   can: {
     name: 'VERSA Can',
     volume: '500 ml',
-    callouts: ['500 ml', 'Natural drinking water', 'pH 7.0', 'Infinitely recyclable aluminium'],
+    callouts: [
+      '500 ml',
+      'Ø 66 mm · 168 mm tall',
+      'Natural drinking water',
+      'pH 7.0',
+      'Infinitely recyclable aluminium',
+    ],
     imageAlt: 'The white VERSA 500 ml can, with the Chatak catching a raindrop',
   },
   bottle: {
     name: 'VERSA Aluminium Bottle',
     volume: '990 ml',
-    callouts: ['990 ml', 'Resealable aluminium bottle', 'Refill, reuse, repeat'],
+    callouts: [
+      '990 ml',
+      'Ø 80 mm · 265 mm tall',
+      'Resealable aluminium bottle',
+      'Refill, reuse, repeat',
+    ],
     imageAlt: 'The white VERSA 990 ml resealable aluminium bottle',
   },
   labelLines: {

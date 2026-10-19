@@ -11,7 +11,10 @@ mockups are low resolution and carry baked-in lighting, so this script:
      elsewhere become clean silver, which the 3D material then lights for real,
   3. maps the art onto the label in (arc length, height) space. Measured from glyph widths
      and baselines: the can front/back and bottle back art are flat overlays on the photos
-     (x offset = arc length), the bottle front art is wrapped (asin, 6 deg camera elevation),
+     (x offset = arc length), the bottle front art is wrapped (asin, 6 deg camera elevation).
+     The calibration below is in the mockups' own centimetres; the vessels have since been
+     scaled to the supplier's sizes (vesselSpec.json `mockup`), so each label point is mapped
+     back through that scale: one uniform factor (by height), so the artwork keeps its shape,
   4. builds the bottle's bird, wordmark and back panel from the cleaner can photos, scaled to
      the bottle layout (same artwork; the bottle photo's reflections are too strong to key);
      only bottle-specific text (SAY NO PLASTIC, comma; 990 ML ...) comes from bottle photos,
@@ -197,6 +200,11 @@ def build(vessel: str):
     y0, y1 = spec['label']['y0'], spec['label']['y1']
     r_of = wall_radius_fn(spec['profile'], y0, y1)
 
+    # the mockups the art was measured on, before the vessel was scaled to its true size
+    mock = spec.get('mockup', {'r': 1.0, 'y': 1.0})
+    k_art = mock['y']                                   # art scale: fits the height, keeps shape
+    r_mock = lambda y: r_of(y * mock['y']) / mock['r']  # mockup wall radius at mockup height
+
     W = WIDTH
     px_per_cm = W / (2 * math.pi * spec['radius'])
     H = int(round((y1 - y0) * px_per_cm / 2) * 2)
@@ -215,7 +223,7 @@ def build(vessel: str):
         p = layer['photo']
         boxes = tuple(layer.get('boxes', p['boxes']))
         th = TH if p['side'] == 'front' else (np.mod(TH, 2 * math.pi) - math.pi)
-        s, y = th * RC, YC                                            # arc offset, height (cm)
+        s, y = th * RC / k_art, YC / k_art                            # arc offset, height (mockup cm)
         if 'k' in layer:                                              # transplant into place
             (ss, sy), (ds, dy), k = layer['src'], layer['dst'], layer['k']
             s, y = (s - ds) / k + ss, (y - dy) / k + sy
@@ -224,8 +232,8 @@ def build(vessel: str):
             ys = p['y_of_cm'](y)
             valid = np.abs(xs - p['C']) < 0.995 * p['R']
         else:
-            r_px = r_of(y) * p['pxcm']
-            t = s / r_of(y)
+            r_px = r_mock(y) * p['pxcm']
+            t = s / r_mock(y)
             xs = p['C'] + r_px * np.sin(t)
             ys = p['y_of_cm'](y) + r_px * np.cos(t) * p['elev']
             valid = np.abs(t) < math.asin(0.97)
@@ -271,5 +279,5 @@ if __name__ == '__main__':
     }
     for v in ('can', 'bottle'):
         layout[v] = build(v)
-    LAYOUT_OUT.write_text(json.dumps(layout, indent=2) + '\n', encoding='utf-8')
+    LAYOUT_OUT.write_text(json.dumps(layout, indent=2) + '\n', encoding='utf-8', newline='\n')
     print(f'wrote {LAYOUT_OUT.relative_to(ROOT)}')

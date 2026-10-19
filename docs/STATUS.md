@@ -27,7 +27,7 @@
    - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
    - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
 8. **The Chatak story** (06, also `/story`): one screen instead of five. The drawn film fills the window: the hero film's story played by time, from the wait through the monsoon, the flight and the first drop to the river, once it is well in view; then it stays on the river. The client's story, in about a hundred words (the quote "I drink only what the sky gives" set apart), lies over it down the right side on a veil of mist, with five moments to jump to and a pause button. Phones: the film is the first screen with the title at its foot, and the words follow. Reduced motion: one still (the catch); the moments show their stills.
-9. **Leadership** (11): AKM Jobaed Nahid, CEO, and S M Khairul Islam, Managing Director, by name and role, in matching black-and-white portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
+9. **Leadership** (11): AKM Jobaed Nahid, CEO, and S M Khairul Islam, Managing Director, by name and role, in matching black-and-white studio portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
 10. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals. The footer and the contact page list both offices and the factory.
 
 The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle stand out instead of disappearing into a white page.
@@ -58,7 +58,7 @@ The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle st
 - **The CEO's initials**: written "AKM Jobaed Nahid" (sent as "Akm"); confirm if he writes A.K.M. or A K M.
 - **VERSA label print files** (flat, unwrapped) for a sharper 3D label; the labels are built from photos for now. VERSA is the right name on them (19 Oct 2026). (The LANGLOK logo is ours, designed 17 Oct 2026; the client only approves it.)
 - Street addresses, a sales email and social links; confirm the Riyadh number (+966 50 583 4757, given as +966 0505834757).
-- Supplier dimension drawings for the can and bottle (the shapes are traced from photos).
+- The neck and shoulder profiles of the can and bottle (optional): the sizes are now the supplier's, the shapes still traced from photos.
 - Lining type before any purity claims; ReCan details; social links; full address and sales email.
 - The open questions in master plan §1.3 (bird name, "Umm Lajj", etc.).
 
@@ -85,6 +85,9 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **20 Oct 2026, night**:
+  - **True sizes**: the can is now the supplier's standard 500 ml can, Ø 66 × 168 mm (it was traced 64 × 181 mm), and the bottle Ø 80 × 265 mm with its cap. The labels were rebuilt with the artwork scaled evenly (it keeps its shape, slightly narrower around the can), the studio stills re-rendered, and the spec lists show the sizes.
+  - **New Managing Director portrait**: S M Khairul Islam's studio photo replaces the street photo, built the same way as the CEO's (`scripts/build-portraits.py`), so the two now match.
 - **20 Oct 2026, evening**: **a free way to make the hero video** (the designer has no paid video plan). The laptop (RTX 3050, 4 GB) can't run video models; Higgsfield has 0 credits; the free tiers of Kling, PixVerse, Hailuo and Vidu are watermarked. Recommended: Wan 2.2 first + last frame (open source, no watermark) on Hugging Face's free GPU (2–3 clips a day) or Kaggle (~30 h a week), keyframes from Google AI Studio, frames upscaled with Upscayl. Timing checked in `Hero.tsx`: the film now spans 3 screens (0.9 → 3.9); a five-act film wants 5 (`HERO_SCROLL_VH` 700). Script §13.
 - **20 Oct 2026, later**: the video script gets a quick version (§12): one prompt for Google AI Studio (Veo 3.1) with the three reference pictures, run as an 8 s part plus three 7 s extensions (about 29 s, one unbroken take).
 - **20 Oct 2026**: **the hero video script, second draft**, made for scroll: every frame must work as a still, slow moves and slow motion so ~6 sampled frames a second still scrub smoothly, holds where the words sit, no dissolves, and a frame map (240 desktop / 160 phone frames, progress windows for the words). It opens on why a can, for health and the environment: particles in bottled water (2024 PNAS study), plastic that never goes away (UNEP), aluminium recycled into a new can (International Aluminium Institute). The new can's water mirrors the sky, and the story flows on: the Chatak drinks, a drop from his beak falls to the earth, the source, the plant, the sealed can. Health is shown, not claimed.

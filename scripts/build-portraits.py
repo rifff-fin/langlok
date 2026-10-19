@@ -2,9 +2,10 @@
 Build the leadership portraits (client/public/img/people/) from the client's photos
 (docs/client/people/).
 
-The two photos are very different (a white studio headshot, and an evening street with
-neon light and a crowd), so each person is cut out, framed the same way (eyes at the same
-height, the same face size), set on one grey studio backdrop and printed in black and white.
+Each person is cut out, framed the same way (eyes at the same height, the same face size),
+set on one grey studio backdrop and printed in black and white, so the photos read as a
+pair whatever their light and background. Both are studio headshots on white (the Managing
+Director's photo was replaced on 20 Oct 2026; the first was an evening street photo).
 Faces and features are not retouched.
 
 Needs rembg (person cut-out; downloads its models on first use):
@@ -34,8 +35,9 @@ EYE_TO_CHIN = 235  # the face size, the same for both
 PEOPLE = {
     'ceo': dict(src='ceo.jpg', eye=(452, 362), chin=652,
                 model='isnet-general-use', matting=True),
-    'managing-director': dict(src='managing-director.jpg', eye=(728, 795), chin=958,
-                              model='u2net_human_seg', matting=False),
+    # the second photo (20 Oct 2026): a studio headshot on white, like the CEO's
+    'managing-director': dict(src='managing-director.jpg', eye=(515, 472), chin=772,
+                              model='isnet-general-use', matting=True),
 }
 
 INK = np.array([18, 24, 33], float)

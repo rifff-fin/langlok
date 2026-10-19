@@ -94,7 +94,8 @@ function useLabel(vessel: VesselId) {
   return { brand, custom, config, material };
 }
 
-const LID_Y = 17.8; // lid centre (vesselSpec can profile)
+/** The lid's centre: the last point of the can's profile. */
+const LID_Y = spec.can.profile[spec.can.profile.length - 1][1];
 
 export function Can() {
   const { brand, custom, config, material } = useLabel('can');

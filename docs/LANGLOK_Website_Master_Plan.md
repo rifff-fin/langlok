@@ -697,7 +697,7 @@ Rough effort for one developer working with Claude Code. Live progress: [`STATUS
 **From the client**
 - [x] Master logo SVG + monochrome versions (our logo pack, Chatak direction, 17 Oct 2026: `docs/client/logo-pack/`; the client approves it)
 - [ ] Flat label print files for can and bottle (AI/PDF/SVG), with dimensions
-- [ ] Supplier dimension drawings: can (Ø, height, neck) and bottle profile
+- [x] Supplier dimensions (20 Oct 2026): can Ø 66 × 168 mm (standard 500 ml, 202 end), bottle Ø 80 × 265 mm with its cap. The traced shapes are scaled to them; a full profile drawing (neck, shoulder) would still sharpen the shapes.
 - [ ] Bird illustration, layered, high-res, transparent
 - [ ] Confirmed lining type (for claims), ReCan details, social URLs, QR destination
 - [ ] Answers to the 11 questions in §1.3
