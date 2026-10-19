@@ -755,3 +755,46 @@ Never show: text, letters, numbers, logos, readable labels, other brands, people
 flying or flapping birds, lightning, flicker, night, purple tones, dirt or litter.
 Audio: soft rain and flowing water only; no music, no voices.
 ```
+
+---
+
+## 13. The free route (no paid video plan)
+
+Checked on 20 Oct 2026 for the designer's setup: no paid video subscription, and a laptop with an RTX 3050 (4 GB of video memory) and 15 GB of RAM.
+
+### What is free and usable
+
+| Step | Free tool | Notes |
+|---|---|---|
+| Keyframes K2–K12 | Google AI Studio's image generation (Nano Banana), with the reference pictures attached | Prompts as in §5. K1 and K13 are plain colour frames; the developer makes them. |
+| Clips S1–S12 | **Wan 2.2, first + last frame** (open source, Apache 2.0: no watermark, commercial use allowed) | **Hugging Face Space** `multimodalart/wan-2-2-first-last-frame`: free GPU time of about 3.5–5 minutes a day, so 2–3 clips a day. **Kaggle**: about 30 free GPU-hours a week, enough for every clip and retake in a day or two, run from a notebook the developer writes. |
+| The hardest shots (optional) | Google Flow's free daily credits (about 50 a day, if the account gets them; a Veo 3.1 Fast clip costs 20) | Check in the account whether Frames to Video is open to free credits, and whether a visible watermark is added. |
+| Upscaling | **Upscayl** (free desktop app, Real-ESRGAN), on the designer's own PC | The 4 GB GPU is too small to generate video, but it can upscale the ~240 chosen frames to 1600 px. |
+| Joining, frames, scroll | The developer (Claude Code): ffmpeg and `scripts/extract-frames.sh` | |
+
+### Not usable
+
+- **Generating on the laptop.** The good video models need 16–24 GB of video memory, and the laptop has 4.
+- **Higgsfield.** The free plan has 0 credits.
+- **The free tiers of Kling, PixVerse, Hailuo and Vidu.** They add a watermark and are mostly non-commercial.
+
+### Clip settings for Wan
+
+- **Size:** 16:9, at 480p (832 × 480) or 720p.
+- **Length:** about 3 s (49 frames) is enough. The site uses only about 20 frames from each clip, and shorter clips use less of the free GPU time.
+- **Prompts:** the motion prompts in §6. If the box is short, drop the style block but keep the motion sentence and "no text, no people".
+
+### Timing on the website (from `Hero.tsx`)
+
+- **Now:** the film fills **3 screens of scroll**, from 0.9 to 3.9 screen-heights; that is 2,700 px at 1440 × 900. Then "Meet VERSA" rises in.
+- **For this five-act film:** lengthen it to **5 screens**, one per act (`HERO_SCROLL_VH` 500 → 700).
+- **Frames:** 240 desktop and 160 phone frames, whatever the video's length.
+  - At 5 screens, that is one desktop frame for about every 19 px of scroll.
+  - Each act gets about 48 frames, and each clip about 20.
+
+### If a join won't match
+
+This applies to any tool that takes only a first frame:
+
+- start the next clip from the previous clip's last frame (ffmpeg can pull it out);
+- let the acts meet in mist, as a camera move through cloud, which hides the seam.
