@@ -4,6 +4,14 @@ import { motionQuery } from '../lib/motion';
 import { isRevealed, whenRevealed } from '../lib/preloader';
 
 /**
+ * Each reveal plays the first time its element comes into view (from below, or from above
+ * after a jump down the page) and never reverses. Not `once: true`: a trigger that kills
+ * itself while GSAP is still looping over its triggers (a page built already scrolled down,
+ * e.g. arriving at /#products) leaves a gap in the list, and the refresh throws.
+ */
+const ONCE = 'play none play none';
+
+/**
  * Editorial scroll reveals for a page, set up from markup alone:
  *   h2, [data-reveal="lines"]   lines rise out of a mask (SplitText, re-split on resize);
  *                               h2[data-reveal="off"] is animated by its section instead
@@ -32,7 +40,9 @@ export function useReveals(scope: RefObject<HTMLElement | null>, key: string) {
                 ease: 'expo.out',
                 stagger: 0.09,
                 paused: onLoad && !isRevealed(),
-                scrollTrigger: onLoad ? undefined : { trigger: el, start: 'top 88%', once: true },
+                scrollTrigger: onLoad
+                  ? undefined
+                  : { trigger: el, start: 'top 88%', toggleActions: ONCE },
               });
               // the opening headline rises as the preloader lifts, not behind it
               if (onLoad) whenRevealed(() => rise.play());
@@ -49,7 +59,7 @@ export function useReveals(scope: RefObject<HTMLElement | null>, key: string) {
 
         root.querySelectorAll<HTMLElement>('[data-chapter-head]').forEach((el) => {
           const tl = gsap.timeline({
-            scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+            scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: ONCE },
           });
           tl.from(el.querySelector('hr'), {
             scaleX: 0,
@@ -69,7 +79,7 @@ export function useReveals(scope: RefObject<HTMLElement | null>, key: string) {
             y: 28,
             duration: 0.9,
             ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+            scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: ONCE },
           });
         });
 
@@ -80,7 +90,7 @@ export function useReveals(scope: RefObject<HTMLElement | null>, key: string) {
             duration: 0.9,
             stagger: 0.1,
             ease: 'power2.out',
-            scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+            scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: ONCE },
           });
         });
       });

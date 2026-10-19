@@ -17,7 +17,7 @@ export function ChatakStory({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const { frameRef, canvasRef, ...reel } = useStoryReel();
 
   return (
-    <section id="story" aria-labelledby="story-title" className="relative">
+    <section id="story" data-nav="/story" aria-labelledby="story-title" className="relative">
       <ReelFilm
         frameRef={frameRef}
         canvasRef={canvasRef}

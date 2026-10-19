@@ -55,6 +55,7 @@ export function YourLogo() {
   return (
     <section
       ref={section}
+      data-nav="/custom-branding"
       aria-labelledby="your-logo-title"
       className="relative flex min-h-svh flex-col justify-center py-24"
     >

@@ -97,6 +97,11 @@ Motion: liquid eases (`power2.out`, `expo.out`, `sine.inOut`), no bounce. UI 200
 - The static Phase 1 layouts double as the reduced-motion and no-WebGL versions. Enhance them; don't replace them.
 - The logo is the LANGLOK logo pack (Chatak direction), designed by the site's designer (the user) on 17 Oct 2026 and awaiting the client's approval; SVG sources and README in `docs/client/logo-pack/`, served from `client/public/brand/`. `components/Logo.tsx`: `header` = the mark + LANGLOK (the pack's horizontal lockup without its "INT. COMPANY LTD." line, which would be ~3 px tall there), `full` = the complete horizontal lockup (footer). Favicon and touch icon = the pack's light app icon. Use the pack's files as they are; never redraw, AI-generate or typeset the logo. Vessel plates (`components/VesselPlate.tsx`) show studio stills of the whole vessel, never the cropped mockup photos.
 - When unsure about copy or a brand fact, leave a `// TODO(client):` comment instead of guessing.
+- **Navigation.**
+  - **The header** (`components/Header.tsx`) is clear at the very top, slides away while you scroll down and comes back on scroll up (it stays while the menu is open, while focus is in it, and while the site scrolls for a link). Home sections name their link with `data-nav` so it lights as they cross the middle of the screen.
+  - **Scrolling for links.** RootLayout scrolls to anchors and opens new pages at the top through `lib/scrollTo.ts`: `scrollPage` and `settleLenis`. The second stops and restarts Lenis, ending any glide before a jump; `lenis.resize()` alone makes `scrollTo` return early while the glide carries on.
+  - **Scroll memory** is kept per history entry, so Back returns where you were.
+  - **Reveals** use `toggleActions`, never `once: true`. A trigger that kills itself breaks ScrollTrigger's refresh loop when a page is built already scrolled down.
 
 ## 3D vessels (Phase 3)
 

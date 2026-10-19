@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Outlet, ScrollRestoration, useLocation } from 'react-router';
+import { Outlet, ScrollRestoration, useLocation, useNavigationType } from 'react-router';
+import { useLenis } from 'lenis/react';
 import { nav } from '../content/copy';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -7,18 +8,51 @@ import { MotionSwitch } from '../components/MotionSwitch';
 import { SceneHost } from '../components/SceneHost';
 import { useReveals } from '../hooks/useReveals';
 import { ScrollTrigger } from '../lib/gsap';
-import { runPreloader } from '../lib/preloader';
+import { runPreloader, whenRevealed } from '../lib/preloader';
+import { scrollPage, settleLenis } from '../lib/scrollTo';
 
 export function RootLayout() {
-  const { hash, pathname } = useLocation();
+  const { hash, pathname, key } = useLocation();
   const main = useRef<HTMLElement>(null);
   useReveals(main, pathname);
 
-  // Router doesn't scroll to #anchors on its own (e.g. /#products from another page).
+  // Anchors (/#products) and links back to the page you are on (the logo on the home page).
+  // Runs on every navigation, also to the same URL, and waits until the page has settled:
+  // the preloader, the fonts and the pin spacing all move the target. Links on the same page
+  // glide; arriving from another page jumps. A new page without an anchor opens at the top
+  // (or, going back, where it was): Lenis is told at once, or a glide still running would
+  // carry on into the new page.
+  const navType = useNavigationType();
+  const lenis = useLenis();
+  const lenisRef = useRef(lenis);
   useEffect(() => {
-    if (!hash) return;
-    document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView();
-  }, [hash, pathname]);
+    lenisRef.current = lenis;
+  }, [lenis]);
+  const lastPath = useRef<string | null>(null);
+  useEffect(() => {
+    const samePage = lastPath.current === pathname;
+    lastPath.current = pathname;
+    if (!hash && !samePage) {
+      if (navType === 'POP')
+        settleLenis(lenisRef.current); // keep the restored position
+      else scrollPage(lenisRef.current, 0, { immediate: true });
+      return;
+    }
+    let cancelled = false;
+    whenRevealed(() => {
+      void document.fonts.ready.then(() =>
+        requestAnimationFrame(() => {
+          if (cancelled) return;
+          ScrollTrigger.refresh();
+          const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : 0;
+          if (target !== null) scrollPage(lenisRef.current, target, { immediate: !samePage });
+        }),
+      );
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [key, hash, pathname, navType]);
 
   // Web fonts reflow text after first paint; re-measure every trigger once they land.
   useEffect(() => {
@@ -46,8 +80,12 @@ export function RootLayout() {
       </main>
       <Footer />
       <MotionSwitch />
-      {/* Key by pathname: every fresh document load shares location.key "default". */}
-      <ScrollRestoration getKey={(location) => location.pathname} />
+      {/* Scroll positions belong to history entries, so Back and Forward return where you
+          were and a link opens a page at the top. A fresh document load has the key
+          "default" on every page, so those are keyed by path instead. */}
+      <ScrollRestoration
+        getKey={(location) => (location.key === 'default' ? location.pathname : location.key)}
+      />
     </>
   );
 }

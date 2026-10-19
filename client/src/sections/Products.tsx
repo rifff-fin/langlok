@@ -19,7 +19,12 @@ type Vessel = (typeof products)['can'] | (typeof products)['bottle'];
  */
 export function Products() {
   return (
-    <section id="products" aria-labelledby="products-title" className="scroll-mt-[var(--header-h)]">
+    <section
+      id="products"
+      data-nav="/#products"
+      aria-labelledby="products-title"
+      className="scroll-mt-[var(--header-h)]"
+    >
       <Container className="pt-[var(--section-y)]">
         <ChapterHead n={products.chapter} label={products.eyebrow} />
         <h2 id="products-title" className="mt-10 max-w-[14ch] text-[length:var(--text-h2)]">
@@ -98,7 +103,11 @@ function VesselPanel({
                 stagger: 0.08,
                 duration: 0.7,
                 ease: 'power2.out',
-                scrollTrigger: { trigger: callouts[0], start: 'top 88%', once: true },
+                scrollTrigger: {
+                  trigger: callouts[0],
+                  start: 'top 88%',
+                  toggleActions: 'play none play none',
+                },
               });
             }
           }

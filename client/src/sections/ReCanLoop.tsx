@@ -20,7 +20,11 @@ export function ReCanLoop({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   const Heading = headingLevel === 1 ? 'h1' : 'h2';
 
   return (
-    <section aria-labelledby="recan-title" className="bg-cloud py-[var(--section-y)]">
+    <section
+      data-nav="/recan"
+      aria-labelledby="recan-title"
+      className="bg-cloud py-[var(--section-y)]"
+    >
       <Container>
         <ChapterHead n={recan.chapter} label={recan.eyebrow} />
 

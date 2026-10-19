@@ -450,6 +450,7 @@ export function Configurator({ headingLevel = 2 }: { headingLevel?: 1 | 2 }) {
   return (
     <section
       id="configurator"
+      data-nav="/custom-branding"
       aria-labelledby={`${id}-title`}
       className="scroll-mt-[var(--header-h)] py-[var(--section-y)]"
     >

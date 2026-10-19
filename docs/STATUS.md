@@ -68,7 +68,7 @@ The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle st
 - **The film's bird is drawn in code** (`client/src/film/chatak.ts`), not taken from the client's pictures. Those pictures are references only. Tune its shape at `/dev/bird`.
 - **No WebGL**: the plates show studio stills (`client/public/img/stills/`), rendered from the same 3D scene at `/dev/studio`; re-render them after changing the models, labels or lighting.
 - Not yet measured: frame rate on real phones (budget ≥ 40 fps mid-range Android).
-- Bundle: initial JS 195 KB gz (budget 200; the story's reel controls are in it); lazy chunks: 3D 271 KB, film 7 KB (+1.1 MB of layers at idle, shared by the hero and the story's reel), inquiry form 37 KB (inner pages only), upload 2 KB + DOMPurify 11 KB (only on an SVG upload).
+- Bundle: initial JS 197 KB gz (budget 200, getting tight; the story's reel controls and the smart header are in it); lazy chunks: 3D 271 KB, film 7 KB (+1.1 MB of layers at idle, shared by the hero and the story's reel), inquiry form 37 KB (inner pages only), upload 2 KB + DOMPurify 11 KB (only on an SVG upload).
 - **Dev server:** lazily imported packages must be in `client/vite.config.ts` `optimizeDeps.include`, or Vite reloads the page the first time one is used (the configurator's design is lost on reload).
 - DOMPurify is pinned to 3.4.16 (3.4.17 was five days old when added); bump it after a look at the release notes.
 - The configurator's quote form validates as you type but doesn't send yet (Phase 6).
@@ -85,6 +85,11 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **21 Oct 2026**: **the navbar, smarter and working properly**:
+  - **Behaviour.** It is clear over the opening can, slides away while you scroll down (the films and pinned sections get the whole window) and comes back the moment you scroll up. It lights the section you are in (Products, Your brand, The Chatak, ReCan), on phones too.
+  - **Fixed.** Products from another page landed short; Products clicked again did nothing; the logo didn't go back to the top; a fresh `/#products` landed in the wrong place; pages opened partway down if a scroll was still gliding, or where you last left them. Back now returns where you were.
+  - **Also fixed.** A crash ("reading 'end'") when the home page was built already scrolled down: the reveal animations no longer remove themselves mid-refresh.
+  - **Checked** at 1440 and 390, with motion on and off.
 - **20 Oct 2026, night**:
   - **True sizes**: the can is now the supplier's standard 500 ml can, Ø 66 × 168 mm (it was traced 64 × 181 mm), and the bottle Ø 80 × 265 mm with its cap. The labels were rebuilt with the artwork scaled evenly (it keeps its shape, slightly narrower around the can), the studio stills re-rendered, and the spec lists show the sizes.
   - **New Managing Director portrait**: S M Khairul Islam's studio photo replaces the street photo, built the same way as the CEO's (`scripts/build-portraits.py`), so the two now match.
