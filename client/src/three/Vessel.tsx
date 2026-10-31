@@ -183,7 +183,7 @@ export function Vessel({
       {/* contact shadow on the page, drawn behind the base */}
       <mesh
         position={[0, -height / 2 + 0.05, -radius * 1.2]}
-        scale={[radius * 3.2, radius * 0.8, 1]}
+        scale={[radius * 3.8, radius * 0.95, 1]}
       >
         <planeGeometry />
         <meshBasicMaterial

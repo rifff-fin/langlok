@@ -26,6 +26,8 @@ export function ReelFilm({
         aria-hidden="true"
         className="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-700 data-ready:opacity-100"
       />
+      {/* the misty film toned into the site's olive, like a print on green-tinted paper */}
+      <div aria-hidden="true" className="absolute inset-0 bg-leaf opacity-55 mix-blend-multiply" />
     </div>
   );
 }

@@ -44,10 +44,11 @@ const FlatPreview = lazy(() => import('../configurator/FlatPreview'));
 type Group = keyof typeof configurator.groups;
 const GROUPS = Object.keys(configurator.groups) as Group[];
 
+/** The label grounds as they print (configurator/compose.ts), not the page's theme colours. */
 const SWATCHES: Record<Background, string> = {
-  silver: 'var(--aluminium)',
-  white: 'var(--paper)',
-  navy: 'var(--ink)',
+  silver: '#c7cdd2',
+  white: '#f3f4f4',
+  navy: '#16233f',
   custom: 'conic-gradient(var(--rain), var(--leaf), var(--sun), var(--monsoon), var(--rain))',
 };
 

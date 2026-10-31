@@ -20,7 +20,6 @@
     "maath": "^0.10.8",
     "react": "~19.3.1",
     "react-dom": "~19.3.1",
-    "react-helmet-async": "^3.0.0",
     "react-hook-form": "^7.90.0",
     "react-router": "^8.4.0",
     "three": "^0.186.1",

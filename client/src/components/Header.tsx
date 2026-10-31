@@ -135,21 +135,22 @@ export function Header() {
           className="-ml-1 shrink-0 no-underline"
           aria-label={nav.homeLabel}
         >
-          <Logo className="h-9 w-auto md:h-10" />
+          <Logo className="h-11 w-auto md:h-14" />
         </Link>
 
         <nav aria-label={nav.primaryLabel} className="hidden lg:block">
-          <ul className="flex items-center gap-9">
+          <ul className="flex items-center gap-7 xl:gap-8">
             {nav.items.map((item) => (
               <li key={item.href}>
                 <NavLink
                   to={item.href}
                   preventScrollReset={glides(item.href)}
                   className={({ isActive }) =>
-                    `eyebrow no-underline transition-colors duration-[var(--dur-ui)] hover:text-rain-deep ${
+                    // a fine underline draws in on hover and stays under the current link
+                    `eyebrow relative no-underline transition-colors duration-[var(--dur-ui)] after:absolute after:inset-x-0 after:-bottom-1.5 after:h-px after:origin-left after:bg-current after:transition-transform after:duration-[var(--dur-ui)] after:ease-liquid hover:text-rain-deep hover:after:scale-x-100 ${
                       (isActive && !item.href.includes('#')) || inView === item.href
-                        ? 'text-rain-deep'
-                        : 'text-ink'
+                        ? 'text-rain-deep after:scale-x-100'
+                        : 'text-slate/85 after:scale-x-0'
                     }`
                   }
                 >

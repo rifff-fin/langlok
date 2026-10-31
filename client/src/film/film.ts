@@ -66,7 +66,7 @@ export function loadLayers(): Promise<Layers> {
 }
 
 /** The page colour (tokens.css --mist): the captions' veil, and where the film ends. */
-const MIST_RGB = '223, 228, 232';
+const MIST_RGB = '72, 91, 39';
 const MIST = `rgb(${MIST_RGB})`;
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const ss = (a: number, b: number, x: number) => {

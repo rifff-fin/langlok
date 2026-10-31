@@ -27,7 +27,7 @@
    - **Save preview** downloads a PNG of the 3D view; **Request a quote** takes the design to the form on `/custom-branding` (preview, logo, vessel attached; product filled in).
    - Phones: the stage on top, the controls in four tabs under it. No WebGL: the label is shown flat.
 8. **The Chatak story** (06, also `/story`): one screen instead of five. The drawn film fills the window: the hero film's story played by time, from the wait through the monsoon, the flight and the first drop to the river, once it is well in view; then it stays on the river. The client's story, in about a hundred words (the quote "I drink only what the sky gives" set apart), lies over it down the right side on a veil of mist, with five moments to jump to and a pause button. Phones: the film is the first screen with the title at its foot, and the words follow. Reduced motion: one still (the catch); the moments show their stills.
-9. **Leadership** (11): AKM Jobaed Nahid, CEO, and S M Khairul Islam, Managing Director, by name and role, in matching black-and-white studio portraits, beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
+9. **Leadership** (11): AKM Jobaed Nahid, CEO, and S M Khairul Islam, Managing Director, by name and role, in colour on olive cards in a cream band (the user's palette), beside the offices (Dhaka, Riyadh) and the factory (Panchagarh).
 10. The other sections (mission, ReCan, why aluminium, who we serve, CTA) are the static layouts with text reveals. The footer and the contact page list both offices and the factory.
 
 The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle stand out instead of disappearing into a white page.
@@ -68,7 +68,7 @@ The page colour is a light cool grey (`#DFE4E8`), so the white can and bottle st
 - **The film's bird is drawn in code** (`client/src/film/chatak.ts`), not taken from the client's pictures. Those pictures are references only. Tune its shape at `/dev/bird`.
 - **No WebGL**: the plates show studio stills (`client/public/img/stills/`), rendered from the same 3D scene at `/dev/studio`; re-render them after changing the models, labels or lighting.
 - Not yet measured: frame rate on real phones (budget ≥ 40 fps mid-range Android).
-- Bundle: initial JS 197 KB gz (budget 200, getting tight; the story's reel controls and the smart header are in it); lazy chunks: 3D 271 KB, film 7 KB (+1.1 MB of layers at idle, shared by the hero and the story's reel), inquiry form 37 KB (inner pages only), upload 2 KB + DOMPurify 11 KB (only on an SVG upload).
+- Bundle: initial JS 191 KB gz (budget 200; react-helmet-async was dropped for a small `PageMeta`); lazy chunks: 3D 271 KB, film 7 KB (+1.1 MB of layers at idle, shared by the hero and the story's reel), inquiry form 37 KB (inner pages only), upload 2 KB + DOMPurify 11 KB (only on an SVG upload).
 - **Dev server:** lazily imported packages must be in `client/vite.config.ts` `optimizeDeps.include`, or Vite reloads the page the first time one is used (the configurator's design is lost on reload).
 - DOMPurify is pinned to 3.4.16 (3.4.17 was five days old when added); bump it after a look at the release notes.
 - The configurator's quote form validates as you type but doesn't send yet (Phase 6).
@@ -85,6 +85,58 @@ Check 1440 × 900 and 390 × 844, with the Motion switch on and off. Dev routes:
 
 ## Log
 
+- **31 Oct 2026**: **"Meet VERSA" shows both vessels.** The scroll graphics tried there (halo, orbit, floor rings, rain) were removed at the user's word. The bottle now stands beside the can at their true sizes (a new `hero-bottle` anchor; plate heights in the frames' ratio). The can glides on to its Products panel as before; the bottle scrolls away with the section and comes back at its own panel (a cut while unseen). The film's controls (Play / Sound) now fade with the film as the beat arrives; before, they hung over "Meet VERSA". Typecheck and lint clean; checked at 1440 and 390, motion on and off; no console errors. **Not pushed.**
+- **30 Oct 2026, can edges**: the partner cans' sides looked pixelated (the cut-out's matte is ragged). `build-partners.py` now redraws each upright can's edges: every row's left/right and every column's top/bottom are traced, smoothed and drawn back anti-aliased, pulled in 1.5 px off the backdrop's light fringe; the photo turns with the backdrop colour in its corners (no dark fringe). **Not pushed.**
+- **30 Oct 2026, partners redesign**: **Who we serve redesigned.** Hotels and Food franchises are now large panels: the partner's can standing on a soft shadow on the left; number, title, line and "Already working with" + the partner's logo on a white tile on the right. Events and Venues follow as slim cards with a plain can; the separate logo row is folded into the panels. Both cans now stand upright (`build-partners.py` finds each can's long axis from its outline and turns it vertical: Six Seasons was 10.4° off) with a cleaned edge. Checked at 1440 and 390. **Not pushed.**
+- **30 Oct 2026, partners**: **Who we serve shows real work.** The Hotels card shows the Six Seasons Hotel can and the Food franchises card the Gulf Toledo Restaurant can ("For …" in the corner); under the cards, "Already working with" and both logos on white tiles. Pictures from the user in `docs/client/partners/`, prepared by `scripts/build-partners.py`; names and alt text in `copy.ts`. TODO(client): confirm both partners are happy to be shown. Checked at 1440 and 390. **Not pushed.**
+- **30 Oct 2026, last**: **Depth pass** (the user: "it looks bad in my eye"). The olive was one flat mid-tone everywhere, the lime looked acid on green, the hero had too many layers, and the pale story film sat like a foreign block.
+  - **The page is lit:** #556B2F where a light falls from above, deepening to #33431B at the edges and foot, with a fine film grain (no lattice). Bands are translucent shades over it.
+  - **Champagne** (#E6D3A3) replaces lime for the big numerals, accents and links; deeper cards and footer.
+  - **Hero:** a studio sweep (dark above, a lit pool behind the can, a dark floor), three faint rings at the base, VERSA as a faint filled emboss; text measured at 7.2:1 or more. Larger header logo.
+  - **Story film** toned olive with a multiply layer.
+  - Typecheck and lint clean; checked at 1440 and 390, motion on and off; no console errors. **Not pushed.**
+- **30 Oct 2026, late night**: **New logo, and the hero refined.**
+  - **The LK logo pack** (from the user, based on the client's reference) replaces the Chatak logo: copied to `docs/client/logo-pack-lk/`; the header and footer use its white lockups (`client/public/brand/langlok-lk-*.svg`; the header one without the small "INT. COMPANY LTD." line); the favicon is the teal LK mark, the touch icon the white mark on olive. The old Chatak files are gone from `public/brand/` (the pack stays in `docs/client/logo-pack/`).
+  - **Hero, from the user's review:** the outlined VERSA is fainter (half the opacity) and moved low and to the left, off the can and the words; the ground darkens to the darker olive where the words sit (cream on it 7:1 or more; phones darken at the top); a soft light behind the can and faint rain rings on the floor round its base; the left and right copy sit further out; secondary text is brighter site-wide (`--slate` #F2F3E4, 5.3:1 on the page).
+  - **Header:** quieter links; "Request samples" is a solid cream pill (all buttons are pills now).
+  - **Ground shadow** under the can and bottle: darker and softer, olive-black instead of navy.
+  - Typecheck and lint clean; checked at 1440 and 390, motion on and off; no console errors. **Not pushed.**
+- **30 Oct 2026, night**: **Olive, and a shorter film stretch.** The light green made the white can look washed out; the user gave an olive palette (#556B2F page, #6B8E23 accent, #3B4D20 depth) and a list of things to aim for.
+  - **The whole site in olive** (`tokens.css`): cream text, lime accents, the darker olive for cards, bands, the leadership band and the footer. The loading screen, theme colour, film mist and saved preview match. Every text colour is 4.5:1 or more on its ground.
+  - **Texture:** a faint diamond lattice (the cap's knurl) over the page.
+  - **The opening screen, layered:** an olive light behind the can, a stronger lattice, VERSA huge in outline behind the can, and the headline in Bodoni (high-contrast serif) lying over its edge.
+  - **Header:** the pack's white lockup (`langlok-logo-header-white.svg`, cut like the header logo); links draw a fine underline on hover and under the current one; "Request samples" is a solid cream button.
+  - **Film stretch:** `HERO_SCROLL_VH` 400 → 280, so the video holds the screen for about one scroll, not two.
+  - **Open:** the Chatak story's drawn film is still pale misty grey, a bright block on olive; it could be tinted to match.
+  - Typecheck and lint clean; checked at 1440 and 390, motion on and off; no console errors. **Not pushed.**
+- **30 Oct 2026, evening**: **The client's green theme**. The client sent the theme gradient **#A8C970 → #378201**; the user chose a light page with full green bands.
+  - **Page:** a light tint of the green (`--mist #DAE7C3`), green-black text, deep green accents (`tokens.css`; new `--grass-*` tokens and `bg-grass-*` colours). The loading screen, theme colour, film mist and saved preview match.
+  - **Green bands:** the opening screen's backdrop (the can in a soft white light; its words now in ink), the CTA band (light green at the words, deepening downwards) running on into the footer, which is deep green with the logo pack's white lockup (`Logo variant="light"`) and white text (4.8:1; cream would be 4.5:1).
+  - The footer has room under its last line for the Motion switch. Leadership keeps its olive band.
+  - Typecheck and lint clean; checked at 1440 and 390, motion on and off; no console errors. **Not pushed.**
+- **30 Oct 2026, later**:
+  - **The hero video.** The user's film (`main product info/final english2.0.mp4`, 75.6 s, 180 MB; not the final cut) replaces the drawn film after the can opens.
+    - **Web versions** in `client/public/video/`: 24.8 MB at 1080p, 10.5 MB at 720p for phones, both with sound, plus a poster. Made with `ffmpeg -i master.mp4 -c:v libx264 -preset slow -crf 26 -vf scale=1920:-2 -c:a aac -b:a 128k -movflags +faststart hero-1080.mp4` (720p: `crf 28`, `scale=1280:-2`, `96k`).
+    - **How it plays.** It opens out of the can's mouth, plays muted while on screen, pauses when you scroll away, and has a sound switch, a progress line and "watch again". The wait / monsoon / first drop / river captions are gone. The hero is shorter (`HERO_SCROLL_VH` 500 → 400: about two screens of film), then "Meet VERSA".
+    - **For the next cut:** its end card shows a "K" LANGLOK logo, not the logo pack; a vertical (9:16) version would stop phones cropping the on-screen text.
+  - **The whole site in the user's green palette**: sage-mist page `#DCDDC5`, cream cards, olive-black text, deep olive accents, lime highlights. The loading screen, the theme colour, the film's mist and the saved preview match; the configurator's swatches keep the label's real colours.
+  - Initial JS 192 KB gz. Checked at 1440 and 390, motion on and off. **Not pushed.**
+- **30 Oct 2026**: **Leadership in colour, on the user's palette**:
+  - **Portraits.** Colour cut-outs on a transparent background, with a new, sharper CEO photo, brightness matched (`scripts/build-portraits.py`).
+  - **Cards.** They stand on olive with a soft lime light and rain rings, in a cream band with large sage ripples.
+  - **Colours.** New tokens: cream, sage, olive, deep olive, lime. Text is deep olive (8.9:1 on cream); olive and sage are for graphics only (too pale for small text).
+  - **Not pushed.**
+- **21 Oct 2026, later**: **full site check** on the production build: every route at 1440 and 390, with motion on and off.
+  - **Clean:** no console errors, no failed requests or broken images; the accessibility audit (axe) is clean; the dev pages show "not found" in production. Layout shift is 0.003 on desktop and 0.02 on phones; the largest paint is 0.6 s on desktop.
+  - **Fixed:**
+    - Every page carried the same old LANGLOK description first (a second, correct one was added below it). Now there is one description per page plus link-preview tags, and `index.html` has the VERSA wording.
+    - The footer's Facebook, X and Instagram placeholders went nowhere; the column waits for real links.
+    - The mission stages' sideways row on phones is reachable by keyboard.
+    - The home page fetches the can's still with the scripts.
+  - **Open:**
+    - On a slow phone (4× CPU, ~2 Mbit/s) the largest paint is ~2.7 s against 2.5: React builds all 11 home sections at once. Fix: build the sections below the first screen a moment later.
+    - The 2.7 MB of placeholder hero frames (`client/public/frames/`) ship with every deploy unused.
+  - **Not pushed** (the user's call).
 - **21 Oct 2026**: **the navbar, smarter and working properly**:
   - **Behaviour.** It is clear over the opening can, slides away while you scroll down (the films and pinned sections get the whole window) and comes back the moment you scroll up. It lights the section you are in (Products, Your brand, The Chatak, ReCan), on phones too.
   - **Fixed.** Products from another page landed short; Products clicked again did nothing; the logo didn't go back to the top; a fresh `/#products` landed in the wrong place; pages opened partway down if a scroll was still gliding, or where you last left them. Back now returns where you were.

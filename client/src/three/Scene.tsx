@@ -46,7 +46,7 @@ export default function Scene() {
 }
 
 /** Page colour under saved previews (the canvas itself is transparent). */
-const PREVIEW_GROUND = '#dfe4e8';
+const PREVIEW_GROUND = '#485b27';
 
 /**
  * The configurator's "Save preview": renders the current frame again at a higher pixel

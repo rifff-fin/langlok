@@ -95,6 +95,8 @@ export const hero = {
     sub: 'Every drop of VERSA begins as monsoon rain over the north of Bangladesh.',
     aside: '*A vessel for the rain.*',
     asideLines: ['Aluminium can · 500 ml', 'Aluminium bottle · 990 ml'],
+    /** set huge in outline behind the opening can (decorative) */
+    backWord: 'VERSA',
     canAlt: 'The white VERSA 500 ml can, with the Chatak catching a raindrop',
   },
   dive: {
@@ -103,45 +105,20 @@ export const hero = {
   },
   fogHint: 'Wipe the glass',
   scrollHint: 'Scroll',
-  filmAlt:
-    'Film: the Chatak waits on an acacia branch in a misty forest; monsoon clouds roll in, rain falls and he catches the first drop; the rain becomes a river in the mist.',
   /**
-   * Captions over the film, one at a time, after the client's story of the Chatak
-   * (docs/client/story-behind-the-logo.txt). Timing: film/timeline.ts.
+   * The hero film after the can opens: a video (30 Oct 2026; not the final cut). It plays
+   * muted, with a sound switch. TODO(client): the end card shows a different LANGLOK logo
+   * than the logo pack; the next cut should end on the real logo.
    */
-  captions: [
-    {
-      id: 'wait',
-      label: '01 · The wait',
-      title: 'He waited *for the sky.*',
-      sub: 'Other birds drank from the pond and the river. Not the Chatak.',
-    },
-    {
-      id: 'monsoon',
-      label: '01 · The monsoon',
-      title: 'The wind turned. *The clouds came.*',
-      sub: 'Heavy clouds gathered over the fields.',
-    },
-    {
-      id: 'flight',
-      label: '01 · The flight',
-      title: 'He flew *into the storm.*',
-      sub: 'He opened his wings and flew straight up — not away from the storm, but into it.',
-    },
-    {
-      id: 'drop',
-      label: '01 · The first drop',
-      title: 'Only what *the sky gives.*',
-      sub: 'Beak open to the heavens, he caught the rain mid-air — cold, clean, falling.',
-    },
-    {
-      id: 'river',
-      label: '01 · The river',
-      title: 'The rain *has returned.*',
-      sub: 'Monsoon rain finds its way through forest and stone to the rivers of the north.',
-    },
-  ],
-  /** Where the film ends and the can comes back (`at`: fraction of the hero's scroll). */
+  video: {
+    description:
+      'Film: why VERSA comes in a can. Microplastics in bottled water; the Chatak in the rain; a VERSA can by a forest stream; the water filtered and filled into white cans; the can rising from a splash.',
+    soundOn: 'Sound on',
+    soundOff: 'Sound off',
+    play: 'Play the film',
+    replay: 'Watch again',
+  },
+  /** Where the video ends and the can comes back (`at`: fraction of the hero's scroll). */
   vessel: {
     at: 0.9,
     label: '01 · The vessel',
@@ -329,6 +306,7 @@ export const mission = {
     { id: 'storage', title: 'Storage', line: 'We hold stock so you never run dry.' },
     { id: 'recycling', title: 'Recycling', line: 'Every empty can collected through ReCan.' },
   ], // TODO(client): confirm each stage line describes the actual service
+  stagesLabel: 'Every stage we manage, from design to recycling',
   closing: 'You focus on your guests. We handle the rest.',
 } as const;
 
@@ -381,11 +359,36 @@ export const whoWeServe = {
   eyebrow: 'Who we serve',
   title: 'Made for places that *host people.*',
   segments: [
-    { id: 'hotel', title: 'Hotels', line: 'In-room water that carries your name.' },
-    { id: 'franchise', title: 'Food franchises', line: 'A branded can on every tray.' },
+    {
+      id: 'hotel',
+      title: 'Hotels',
+      line: 'In-room water that carries your name.',
+      partner: 'six-seasons',
+    },
+    {
+      id: 'franchise',
+      title: 'Food franchises',
+      line: 'A branded can on every tray.',
+      partner: 'gulf-toledo',
+    },
     { id: 'event', title: 'Events', line: 'Plastic-free hydration for every guest.' },
     { id: 'venue', title: 'Venues', line: 'Stadiums, halls and clubs, sealed in aluminium.' },
   ],
+  /** Partners we already make cans for (the user, 30 Oct 2026). Pictures: docs/client/partners/,
+   *  prepared by scripts/build-partners.py. TODO(client): confirm both are happy to be shown. */
+  partnersLabel: 'Already working with',
+  partners: {
+    'six-seasons': {
+      name: 'Six Seasons Hotel',
+      canAlt: 'A Six Seasons Hotel can of natural drinking water, pH 7.0',
+      logoAlt: 'Six Seasons Hotel, Luxury Redefined',
+    },
+    'gulf-toledo': {
+      name: 'Gulf Toledo Restaurant',
+      canAlt: 'A Gulf Toledo Restaurant can of natural drinking water, 500 ml',
+      logoAlt: 'Gulf Toledo Restaurant',
+    },
+  },
 } as const;
 
 /** 11 CTA + footer */

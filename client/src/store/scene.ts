@@ -13,6 +13,7 @@ export type AnchorId =
   | 'stage-bottle'
   | 'hero-intro'
   | 'hero-can'
+  | 'hero-bottle'
   | 'products-can'
   | 'products-bottle'
   | 'logo-can'

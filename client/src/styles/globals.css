@@ -17,6 +17,15 @@
   --color-leaf: var(--leaf);
   --color-sun: var(--sun);
   --color-monsoon: var(--monsoon);
+  --color-olive-deep: var(--olive-deep);
+  --color-olive: var(--olive);
+  --color-sage: var(--sage);
+  --color-cream: var(--cream);
+  --color-lime: var(--lime);
+  --color-grass-top: var(--grass-top);
+  --color-grass-mid: var(--grass-mid);
+  --color-grass-deep: var(--grass-deep);
+  --color-grass-night: var(--grass-night);
 
   --font-display: var(--ff-display);
   --font-sans: var(--ff-sans);
@@ -29,7 +38,12 @@
 
 @layer base {
   html {
-    background: var(--mist);
+    /* the page: olive lit from above (the user's #556B2F where the light falls), deepening to
+       the edges and the foot, under a fine film grain; all fixed, so every screen is lit alike */
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 .95 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E") fixed,
+      radial-gradient(120% 80% at 50% 0%, #5a7232 0%, #556b2f 28%, #455826 62%, var(--deep) 100%) fixed,
+      var(--mist);
     color: var(--ink);
     /* keep the scrollbar's room while the preloader holds the page still (no reflow after) */
     scrollbar-gutter: stable;
@@ -126,6 +140,56 @@
           transparent 72%
         );
     }
+  }
+
+  /*
+   * The opening screen's ground (Hero.tsx): a studio sweep in olive. Dark above, a lit pool
+   * behind the can's lower half (kept off the words), a dark floor; a soft light behind the can and a vignette, so
+   * the words at the sides sit on deep olive (cream on it 7:1 or more). Phones stack the words
+   * above the can, so there the dark part is the top.
+   */
+  .hero-ground {
+    background:
+      radial-gradient(34% 50% at 50% 46%, rgb(247 246 234 / 0.13) 0%, transparent 70%),
+      radial-gradient(30% 26% at 50% 66%, #5c7533 0%, rgb(92 117 51 / 0) 100%),
+      radial-gradient(120% 100% at 50% 50%, transparent 38%, rgb(12 17 5 / 0.6) 100%),
+      linear-gradient(180deg, #2b3816 0%, #3f5123 45%, #3d4e20 70%, #2b3816 100%);
+  }
+  @media (width < 48rem) {
+    .hero-ground {
+      background:
+        radial-gradient(70% 34% at 50% 66%, rgb(247 246 234 / 0.12) 0%, transparent 70%),
+        radial-gradient(130% 100% at 50% 60%, transparent 40%, rgb(12 17 5 / 0.55) 100%),
+        linear-gradient(180deg, #2b3816 0%, #34441c 34%, #556b2f 70%, #3d4e20 88%, #2b3816 100%);
+    }
+  }
+  /* rain rings spreading on the floor round the can's base */
+  .hero-rings {
+    left: 50%;
+    top: 85%;
+    width: min(92vw, 1100px);
+    height: min(20vw, 220px);
+    translate: -50% -50%;
+    mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+  }
+  @media (width < 48rem) {
+    .hero-rings {
+      top: 89%;
+      height: 26vw;
+    }
+  }
+  /* the name, faint and low (a soft emboss): it bleeds off the bottom left, under it all */
+  .hero-word {
+    left: -0.04em;
+    bottom: -0.36em;
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: clamp(6rem, 26vw, 28rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: rgb(247 246 234 / 0.045);
+    user-select: none;
+    white-space: nowrap;
   }
 
   /* Text inputs, selects and textareas: square hairline box on paper. */

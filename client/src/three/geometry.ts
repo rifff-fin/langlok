@@ -203,10 +203,12 @@ export function shadowTexture() {
   const c = document.createElement('canvas');
   c.width = c.height = 128;
   const ctx = c.getContext('2d')!;
+  // olive-black, dense under the base and fading slowly (a soft, dark pool on the olive page)
   const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-  g.addColorStop(0, 'rgba(22,35,63,0.55)');
-  g.addColorStop(0.45, 'rgba(22,35,63,0.22)');
-  g.addColorStop(1, 'rgba(22,35,63,0)');
+  g.addColorStop(0, 'rgba(16,22,8,0.78)');
+  g.addColorStop(0.3, 'rgba(16,22,8,0.42)');
+  g.addColorStop(0.65, 'rgba(16,22,8,0.12)');
+  g.addColorStop(1, 'rgba(16,22,8,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 128, 128);
   const tex = new CanvasTexture(c);

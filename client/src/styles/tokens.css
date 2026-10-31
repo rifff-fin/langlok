@@ -1,29 +1,51 @@
 /*
- * LANGLOK design tokens — "Monsoon Light".
+ * LANGLOK design tokens — "Monsoon Light", in olive (30 Oct 2026, the user's call): a deep olive
+ * page (#556B2F) with a muted olive accent (#6B8E23) and a darker olive for depth (#3B4D20), so
+ * the white VERSA can and bottle stand out as the brightest thing on screen. Cream text, lime
+ * accents. The page carries a faint diamond lattice (globals.css), like the cap's knurl.
  * Source of truth for colour, type and spacing. See docs/LANGLOK_Website_Master_Plan.md §3.
  * Rules: --mist ≈ 70% of every screen; --rain only in small doses (large text/graphics);
  * --rain-deep for links and small accent text; --sun and --monsoon only in the Chatak story.
- * The page is a light cool grey, not near-white, so the white VERSA can and bottle stand out
- * (19 Oct 2026); --slate and --aluminium deepened with it to keep their contrast.
+ * The names are the original ones (mist = the page, ink = text, paper = cards); the values are
+ * olive's, so the light/dark roles are swapped: paper is darker than the page, ink is cream.
+ * Contrast on the lightest page tone (#556B2F): ink 5.5:1, slate 5.3:1, rain-deep 4.7:1, rain
+ * 4.0:1 (large only); everywhere darker is higher (ink 9.9:1 on paper). The opening screen
+ * darkens where its words sit (7:1+). The accent olive carries no text (cream on it is 3.3:1).
  */
 :root {
   /* surfaces */
-  --mist: #dfe4e8; /* page background (film.ts MIST, index.html preloader and theme colour) */
-  --cloud: #d8dee2; /* secondary surface, bands (footer, ReCan) */
-  --paper: #fbfcfc; /* raised surface */
-  --aluminium: #bec5cb; /* hairlines, borders, chrome */
+  --mist: #485b27; /* the page's mean tone (veils, the header, the menu; film.ts MIST, index.html);
+                      the page itself is lit: #556B2F under a light from above, deepening to
+                      --deep at the edges and foot (html in globals.css) */
+  --deep: #33431b; /* the page's shadowed edges */
+  --cloud: rgb(20 28 8 / 0.28); /* bands (ReCan): a shade laid over the page, not a flat block */
+  --paper: #33431b; /* raised surface: deep olive (cards, fields, the text on cream buttons) */
+  --aluminium: #7f9158; /* hairlines, borders, chrome (3:1 on paper) */
 
   /* text */
-  --ink: #16233f; /* headlines, body (logo navy) */
-  --slate: #505c68; /* secondary text (≥ 4.5:1 on mist and cloud) */
+  --ink: #f7f6ea; /* headlines, body, solid buttons: cream */
+  --slate: #f2f3e4; /* secondary text (5.3:1 on mist, 8.3:1 on paper) */
 
   /* accents */
-  --rain: #2f7fc1; /* large text/graphics only */
-  --rain-deep: #1f64a0; /* links, small accent text */
-  --rain-light: #8fc3ea; /* highlights, droplets */
-  --leaf: #6e8b5e; /* nature accent, sparing */
+  --rain: #e6d3a3; /* large text/graphics only: champagne (olive and gold, not acid lime) */
+  --rain-deep: #efe3c2; /* links, small accent text: pale champagne */
+  --rain-light: #6b8e23; /* highlights, glows: the muted olive accent */
+  --leaf: #6b8e23; /* nature accent, sparing */
+
+  /* the brand bands (the CTA, the footer): olive deepening downwards */
+  --grass-top: #6b8e23;
+  --grass-mid: #485b27;
+  --grass-deep: #2b3816;
+  --grass-night: #222d11; /* the footer's foot */
   --sun: #e9b872; /* story only */
-  --monsoon: #646c7c; /* story only: the monsoon's slate (the film's storm, darker for text) */
+  --monsoon: #646c7c; /* story only: the monsoon's slate (the film's storm) */
+
+  /* the leadership palette (the user's): olive portrait cards */
+  --olive-deep: #3a462e;
+  --olive: #768e52;
+  --sage: #bbbd95;
+  --cream: #f2f2e5;
+  --lime: #d4da7b;
 
   /* type families */
   --ff-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;

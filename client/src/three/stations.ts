@@ -44,11 +44,14 @@ const ROUTES: Record<VesselId, Route> = {
   bottle: {
     stations: [
       { anchor: 'stage-bottle' },
+      // "Meet VERSA": the bottle stands beside the can there, and stays while the can glides
+      // on to its panel; it comes back at its own panel (cut while unseen)
+      { anchor: 'hero-bottle' },
       { anchor: 'products-bottle' },
       { anchor: 'logo-bottle' },
       { anchor: 'config-bottle' },
     ],
-    links: ['cut', 'travel', 'travel-wide'],
+    links: ['cut', 'cut', 'travel', 'travel-wide'],
     spins: ['productsBottle', 'logo'],
   },
 };

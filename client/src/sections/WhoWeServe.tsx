@@ -4,22 +4,32 @@ import { ChapterHead } from '../components/ui/ChapterHead';
 import { Container } from '../components/ui/Container';
 import { Emph } from '../components/ui/Emph';
 
-/** Tint per segment; photography arrives with the client assets. TODO(client): photos. */
-const TINTS: Record<(typeof whoWeServe.segments)[number]['id'], string> = {
-  hotel: 'linear-gradient(180deg, var(--paper), var(--cloud))',
-  franchise:
-    'linear-gradient(180deg, var(--cloud), color-mix(in oklab, var(--rain-light) 30%, var(--cloud)))',
-  event:
-    'linear-gradient(180deg, var(--paper), color-mix(in oklab, var(--leaf) 16%, var(--cloud)))',
-  venue:
-    'linear-gradient(180deg, var(--cloud), color-mix(in oklab, var(--aluminium) 70%, var(--cloud)))',
+type Segment = (typeof whoWeServe.segments)[number];
+type PartnerId = keyof typeof whoWeServe.partners;
+
+/** The partners' pictures (scripts/build-partners.py) and their intrinsic sizes. */
+const PARTNER_IMG: Record<PartnerId, { can: [number, number]; logo: [number, number] }> = {
+  'six-seasons': { can: [339, 900], logo: [640, 588] },
+  'gulf-toledo': { can: [325, 900], logo: [640, 502] },
 };
+const src = (id: PartnerId, kind: 'can' | 'logo') => `/img/partners/${id}-${kind}.webp`;
+
+/** The feature panels' ground: deep olive, with a soft light behind the can. */
+const FEATURE_GROUND =
+  'radial-gradient(42% 60% at 24% 58%, rgb(247 246 234 / 0.12) 0%, transparent 72%),' +
+  'linear-gradient(160deg, color-mix(in oklab, var(--paper) 55%, transparent), color-mix(in oklab, var(--paper) 92%, transparent))';
+
+const number = (seg: Segment) => String(whoWeServe.segments.indexOf(seg) + 1).padStart(2, '0');
 
 /**
- * 10 Who we serve. Four tall cards; each shows a plain can with a placeholder partner
- * logo slot. Phase 5 renders branded cans from the 3D scene and adds hover tilt.
+ * 10 Who we serve. The segments where we already make a partner's cans (hotels: Six Seasons;
+ * food franchises: Gulf Toledo) are large panels: the partner's can standing on the left, the
+ * segment and the partner's logo ("Already working with", on a white tile) on the right. The
+ * other segments follow as slim cards with a plain can and a logo slot.
  */
 export function WhoWeServe() {
+  const featured = whoWeServe.segments.filter((s) => 'partner' in s);
+  const others = whoWeServe.segments.filter((s) => !('partner' in s));
   return (
     <section aria-labelledby="serve-title" className="pb-[var(--section-y)]">
       <Container>
@@ -28,23 +38,27 @@ export function WhoWeServe() {
           <Emph text={whoWeServe.title} />
         </h2>
 
+        <ul data-reveal="stagger" className="mt-16 grid gap-[var(--grid-gap)] lg:grid-cols-2">
+          {featured.map(
+            (seg) =>
+              'partner' in seg && <FeatureCard key={seg.id} seg={seg} partner={seg.partner} />,
+          )}
+        </ul>
+
         <ul
           data-reveal="stagger"
-          className="mt-16 grid grid-cols-1 gap-[var(--grid-gap)] sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-[var(--grid-gap)] grid gap-[var(--grid-gap)] sm:grid-cols-2"
         >
-          {whoWeServe.segments.map((seg, i) => (
+          {others.map((seg) => (
             <li
               key={seg.id}
-              className="flex aspect-[3/4] flex-col justify-between border border-aluminium p-7"
-              style={{ background: TINTS[seg.id] }}
+              className="flex items-center gap-6 border border-aluminium p-6 md:gap-8 md:p-8"
             >
-              <span className="eyebrow tabular-nums text-slate">
-                {String(i + 1).padStart(2, '0')}
-              </span>
               <CanSilhouette />
-              <div className="min-h-[7.5rem]">
-                <h3 className="text-[length:var(--text-h3)]">{seg.title}</h3>
-                <p className="mt-2 text-slate">{seg.line}</p>
+              <div>
+                <span className="eyebrow tabular-nums text-slate">{number(seg)}</span>
+                <h3 className="mt-2 text-[length:var(--text-h3)]">{seg.title}</h3>
+                <p className="mt-1 text-slate">{seg.line}</p>
               </div>
             </li>
           ))}
@@ -54,10 +68,60 @@ export function WhoWeServe() {
   );
 }
 
+function FeatureCard({ seg, partner }: { seg: Segment; partner: PartnerId }) {
+  const p = whoWeServe.partners[partner];
+  const img = PARTNER_IMG[partner];
+  return (
+    <li
+      className="grid grid-cols-[minmax(0,5fr)_minmax(0,7fr)] overflow-hidden border border-aluminium"
+      style={{ background: FEATURE_GROUND }}
+    >
+      {/* the can, standing on a soft pool of shadow */}
+      <div className="relative flex items-end justify-center px-3 pt-10 pb-8 md:pt-12 md:pb-10">
+        <span
+          aria-hidden="true"
+          className="absolute bottom-6 left-1/2 h-5 w-[62%] -translate-x-1/2 rounded-[50%] bg-black/40 blur-md md:bottom-8"
+        />
+        <img
+          src={src(partner, 'can')}
+          alt={p.canAlt}
+          width={img.can[0]}
+          height={img.can[1]}
+          loading="lazy"
+          decoding="async"
+          className="relative h-[clamp(14rem,24vw,22rem)] w-auto max-w-full object-contain"
+        />
+      </div>
+
+      <div className="flex flex-col justify-between gap-8 py-8 pr-6 pl-2 md:py-10 md:pr-10">
+        <div>
+          <span className="eyebrow tabular-nums text-slate">{number(seg)}</span>
+          <h3 className="mt-3 text-[length:var(--text-h3)]">{seg.title}</h3>
+          <p className="mt-2 max-w-[26ch] text-slate">{seg.line}</p>
+        </div>
+        <div>
+          <p className="eyebrow text-rain-deep">{whoWeServe.partnersLabel}</p>
+          <div className="mt-3 inline-flex h-20 max-w-full items-center rounded-xl bg-white px-4 py-2 md:h-24 md:px-5">
+            <img
+              src={src(partner, 'logo')}
+              alt={p.logoAlt}
+              width={img.logo[0]}
+              height={img.logo[1]}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-auto max-w-full object-contain"
+            />
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+}
+
 function CanSilhouette() {
   const gradientId = useId();
   return (
-    <svg viewBox="0 0 60 120" className="mx-auto h-[38%] w-auto" aria-hidden="true">
+    <svg viewBox="0 0 60 120" className="h-24 w-auto shrink-0 md:h-28" aria-hidden="true">
       <defs>
         <linearGradient id={gradientId} x1="0" x2="1">
           <stop offset="0" stopColor="#b9c0c6" />

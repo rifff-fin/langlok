@@ -308,7 +308,7 @@ Title treatment: **চাতক** in Noto Serif Bengali beside *Chatak* in Bodon
 | State | **zustand** | Transient scroll state read inside `useFrame`, no React re-renders |
 | Damping | **maath** (`easing.damp`) | Smooth 3D motion from scroll targets |
 | Styling | **Tailwind CSS v4** (tokens in CSS) or CSS Modules | Pick one; tokens live in `styles/tokens.css` either way |
-| Routing / meta | React Router, `react-helmet-async` | |
+| Routing / meta | React Router; a small `PageMeta` sets the title and description (react-helmet-async dropped 21 Oct 2026: with React 19 it added a second description) | |
 | Forms | react-hook-form + zod | Same zod schemas reused on the server |
 | Backend | **Node.js LTS**, **Express 5**, **Mongoose**, zod, multer, sharp, helmet, cors, express-rate-limit | |
 | Data / files | MongoDB Atlas; Cloudinary or Cloudflare R2 for uploads | |
@@ -366,7 +366,7 @@ langlok/
 │  │  ├─ hdri/studio-soft.hdr (or use drei Lightformers only)
 │  │  └─ img/  stills/ (studio stills of the 3D vessels), bird-layers/, og-image.jpg
 │  └─ src/
-│     ├─ app/          App.tsx, routes.tsx, providers (Lenis, Helmet)
+│     ├─ app/          App.tsx, routes.tsx, providers (Lenis)
 │     ├─ sections/     Preloader, Hero, Handoff, Products, YourLogo,
 │     │                Configurator, ChatakStory, Mission, ReCanLoop,
 │     │                WhyAluminium, WhoWeServe, CtaFooter

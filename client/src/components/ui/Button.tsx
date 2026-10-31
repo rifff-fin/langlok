@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 type Variant = 'primary' | 'secondary' | 'quiet';
 
 const base =
-  'eyebrow inline-flex min-h-12 items-center justify-center gap-3 px-7 py-3 no-underline transition-colors duration-[var(--dur-ui)] ease-liquid disabled:cursor-not-allowed disabled:opacity-50';
+  'eyebrow inline-flex min-h-12 items-center justify-center gap-3 rounded-full px-7 py-3 no-underline transition-colors duration-[var(--dur-ui)] ease-liquid disabled:cursor-not-allowed disabled:opacity-50';
 
 const variants: Record<Variant, string> = {
   primary: 'bg-ink text-paper hover:bg-rain-deep',

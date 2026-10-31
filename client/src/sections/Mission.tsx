@@ -45,8 +45,11 @@ export function Mission() {
       </Container>
 
       <Container className="mt-20">
+        {/* a row that scrolls sideways on phones: focusable, so the keyboard can scroll it */}
         <ol
           data-reveal="stagger"
+          tabIndex={0}
+          aria-label={mission.stagesLabel}
           className="-mx-[var(--gutter)] flex snap-x snap-mandatory gap-[var(--grid-gap)] overflow-x-auto px-[var(--gutter)] pb-4 md:mx-0 md:grid md:grid-cols-5 md:overflow-visible md:px-0"
         >
           {mission.stages.map((stage, i) => {
